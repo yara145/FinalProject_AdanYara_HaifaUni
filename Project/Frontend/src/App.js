@@ -17,7 +17,7 @@ const App = () => {
       <MainNavigation />
       <main>
         <Switch>
-          <Route path="/" exact>
+          <Route path="/hi" exact>
             <Users />
           </Route>
           <Route path="/:userId/places" exact>
