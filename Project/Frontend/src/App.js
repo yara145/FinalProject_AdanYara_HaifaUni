@@ -1,29 +1,17 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch
-} from 'react-router-dom';
-
-import Users from './user/pages/Users';
-import MainNavigation from './shared/components/Navigation/MainNavigation';
-
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './components/LogIn';
+import Signup from './components/SignIn';
 const App = () => {
-  return (
-    <Router>
-      <MainNavigation />
-      <main>
-        <Switch>
-          <Route path="/" exact>
-            <Users />
-          </Route>
-        
-          <Redirect to="/" />
-        </Switch>
-      </main>
-    </Router>
-  );
+    return (
+        <Router>
+            <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/signup" component={Signup} />
+                <Route path="/" exact component={Login} />
+            </Switch>
+        </Router>
+    );
 };
 
 export default App;
