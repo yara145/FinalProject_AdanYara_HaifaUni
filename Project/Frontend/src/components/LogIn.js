@@ -44,7 +44,7 @@ const Login = () => {
 
     const handleAdam = () => {
         // Logic for Adam button
-        navigate('/adam');
+        navigate('../user/pages/ChooseAvatar.js');
     };
 
     return (
