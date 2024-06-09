@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lottie from 'lottie-web';
-import loginAnimationData from '../assets/login-animation.json';
+import loginAnimationData from '../assets/animation/login-animation.json';
 import './LogIn.css';
 
 const Login = () => {
