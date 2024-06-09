@@ -1,11 +1,12 @@
+// src/components/LogIn.js
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; // Updated import
+import { useNavigate } from 'react-router-dom';
 import lottie from 'lottie-web';
 import loginAnimationData from '../assets/login-animation.json';
 import './LogIn.css';
 
 const Login = () => {
-    const navigate = useNavigate(); // Updated initialization
+    const navigate = useNavigate();
     const animationContainer = useRef(null);
 
     useEffect(() => {
@@ -17,33 +18,20 @@ const Login = () => {
             animationData: loginAnimationData,
         });
 
-        anim.addEventListener('DOMLoaded', () => {
-            console.log('DOM Loaded for animation:', anim);
-        });
-
-        anim.addEventListener('complete', () => {
-            console.log('Animation complete:', anim);
-        });
-
-        console.log('Animation loaded:', anim);
-        console.log('Animation container:', animationContainer.current);
-
         return () => anim.destroy(); // Cleanup on unmount
     }, []);
 
     const handleLogin = (e) => {
         e.preventDefault();
         // Authentication logic here
-        navigate('/dashboard'); // Updated navigation
+        navigate('/dashboard');
     };
 
     const handleYara = () => {
-        // Logic for Yara button
-        navigate('/yara');
+        navigate('/activity'); // Navigate to LetterActivity
     };
 
     const handleAdam = () => {
-        // Logic for Adam button
         navigate('../user/pages/ChooseAvatar.js');
     };
 
