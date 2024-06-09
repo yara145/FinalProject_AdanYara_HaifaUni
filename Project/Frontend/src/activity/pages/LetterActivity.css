@@ -1,0 +1,103 @@
+/* src/activity/pages/LetterActivity.css */
+.letter-activity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #dbe9ff; /* Light blue background */
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+}
+
+.lion-icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+.back-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #38af4c; /* Vibrant color */
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #5465a2;
+}
+
+.letter-card {
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  padding: 100px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin: 20px 0;
+  text-align: center;
+  font-size: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter {
+  font-size: 5rem;
+  color: #333;
+}
+
+.results {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.control-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.control-button:hover {
+  background-color: #45a049;
+}
+
+/* ProgressBar.css */
+.progress-bar {
+  width: 80%;
+  background-color: #ddd;
+  border-radius: 25px;
+  overflow: hidden;
+  height: 20px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #4caf50;
+  width: 0;
+  transition: width 0.5s;
+}

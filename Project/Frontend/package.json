@@ -1,24 +1,32 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "your-project",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "framer-motion": "^11.2.10",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
+    "lottie-web": "^5.12.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-lottie": "^1.2.4",
-    "react-router-dom": "^5.3.4",
-    "react-scripts": "3.2.0",
-    "react-transition-group": "^4.3.0"
+    "react-router-dom": "^6.0.2",
+    "react-scripts": "5.0.0",
+    "react-transition-group": "^4.4.5",
+    "react-icons": "^4.2.0",
+    "ajv": "^8.6.2",
+    "ajv-keywords": "^5.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-legacy": "react-scripts --openssl-legacy-provider start"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -31,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3"
   }
 }

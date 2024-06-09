@@ -1,0 +1,99 @@
+/* src/LettersCheck.css */
+.App {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  h1 {
+    color: #4caf50;
+  }
+  
+  /* LetterActivity.css */
+  .activity-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .result {
+    text-align: center;
+  }
+  
+  .result ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .result li {
+    margin: 5px 0;
+    font-size: 1.2rem;
+  }
+  
+  /* LetterCard.css */
+  .card {
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .letter {
+    font-size: 3rem;
+    margin: 20px 0;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .correct {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .incorrect {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .button:hover {
+    opacity: 0.8;
+  }
+  
+  /* ProgressBar.css */
+  .progress-bar {
+    width: 80%;
+    background-color: #ddd;
+    border-radius: 25px;
+    margin: 20px 0;
+  }
+  
+  .progress {
+    height: 20px;
+    background-color: #4caf50;
+    border-radius: 25px;
+    width: 0;
+    transition: width 0.5s;
+  }
+  

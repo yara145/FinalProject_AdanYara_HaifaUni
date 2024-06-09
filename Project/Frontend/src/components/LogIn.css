@@ -1,75 +1,78 @@
-.login-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f0f8ff;
-    animation: fadeIn 1s ease-in-out;
-}
+/* src/LogIn.css */
 
-.login-card {
+.login-page { /* Add styles for the page container */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background: white;
+    min-height: 100vh;
+    background: #f0f0f0;
+  }
+  
+  .login-header { /* Add styles for the header */
+    width: 100%;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    animation: slideIn 1s ease-in-out;
-}
-
-.login-container h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-}
-
-.login-container form {
+    background: #4caf50;
     display: flex;
-    flex-direction: column;
-    width: 300px;
-}
-
-.login-container input {
-    margin-bottom: 10px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.login-container button {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #4caf50;
+    justify-content: flex-end;
+  }
+  
+  .activity-button { /* Add styles for the activity button */
+    padding: 10px 20px;
+    margin-right: 20px;
+    background: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.login-container button:hover {
-    background-color: #45a049;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
+    transition: background-color 0.3s;
+  }
+  
+  .activity-button:hover { /* Add hover effect for the button */
+    background: #0056b3;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .login-card input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .login-card button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-card button[type="submit"]:hover {
+    background: #45a049;
+  }
+  
+  .login-card p {
+    margin-top: 10px;
+  }
+  
