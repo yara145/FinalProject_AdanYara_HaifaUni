@@ -32,7 +32,7 @@ const Login = () => {
     };
 
     const handleAdam = () => {
-        navigate('../user/pages/ChooseAvatar.js');
+        navigate('/choose-avatar');
     };
 
     return (
