@@ -17,7 +17,8 @@ const LetterActivity = () => {
 
     useEffect(() => {
         generateRandomLetters();
-    }, [round]);
+      }, [generateRandomLetters]);
+      
 
     const generateRandomLetters = () => {
         const letterCount = round === 1 ? 10 : 8;
