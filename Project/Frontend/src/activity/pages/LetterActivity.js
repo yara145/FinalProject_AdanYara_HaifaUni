@@ -59,7 +59,7 @@ const LetterActivity = () => {
             <div className="header">
                 <img src={lionImage} alt="Lion Icon" className="lion-icon" />
                 <ProgressBar progress={(currentIndex + 1) / currentLetters.length * 100} />
-                <button className="back-button" onClick={handleBackToLogin}>Back to Login</button>
+                <button className="back-button" onClick={handleBackToLogin}>رجوع</button>
             </div>
             {!isRoundComplete ? (
                 <div className="letter-card" onClick={handleCardClick}>
@@ -67,14 +67,16 @@ const LetterActivity = () => {
                 </div>
             ) : (
                 <div className="results">
-                    <h2>Round Complete!</h2>
-                    <p>Correct: {correctCount}</p>
-                    <button className="control-button" onClick={handleRestart}>Next Round</button>
+                    <h2>!جولة مكتملة</h2>
+                    <p>صحيح: {correctCount}</p>
+                    <button className="control-button" onClick={handleRestart}>الجولة التالية</button>
                 </div>
             )}
             {!isRoundComplete && (
                 <div className="controls">
-                    <button className="control-button" onClick={handleSkip}>Skip</button>
+                    <button className="control-button skip-button" onClick={handleSkip}>
+                     تخطي 
+                    </button>
                 </div>
             )}
         </div>
