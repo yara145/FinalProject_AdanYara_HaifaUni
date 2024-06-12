@@ -3,101 +3,125 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background-color: #dbe9ff; /* Light blue background */
+  justify-content: center;
   height: 100vh;
+  background-color: #cae3fb;
   font-family: 'Arial', sans-serif;
 }
 
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
-  padding: 20px;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 
 .lion-icon {
-  width: 80px;
-  height: 80px;
-  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.progress-bar-container {
+  flex-grow: 1;
+  margin: 0 20px;
 }
 
 .back-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #38af4c; /* Vibrant color */
+  background-color: #5aa8a0;
   color: white;
+  font-size: 1.2em; /* Increase the font size */
+  font-weight: bold; /* Make the font bold */
+  font-family: 'Arial', sans-serif; /* Use a clear, sans-serif font */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .back-button:hover {
-  background-color: #5465a2;
+  background-color: #3d8572;
 }
-
 .letter-card {
-  background-color: #ffffff;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  padding: 100px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  margin: 20px 0;
-  text-align: center;
-  font-size: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #fff;
+  width: 400px;
+  height: 400px;
+  margin: 20px 0;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19);
+  border: 2px solid #76c7c0;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s;
+}
+
+.letter-card:hover {
+  transform: scale(1.05);
+  background-color: #f9f9f9;
 }
 
 .letter {
-  font-size: 5rem;
+  font-size: 8rem;
   color: #333;
 }
 
 .results {
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 50px;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.controls {
-  display: flex;
-  gap: 10px;
+.results h2 {
+  font-size: 2rem;
+  color: #333;
 }
 
+.results p {
+  font-size: 1.5rem;
+  color: #666;
+}
 .control-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #4caf50;
+  background-color: #76c7bc;
   color: white;
+  font-size: 1.2em; /* Increase the font size */
+  font-weight: bold; /* Make the font bold */
+  font-family: 'Arial', sans-serif; /* Use a clear, sans-serif font */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 20px;
 }
 
 .control-button:hover {
-  background-color: #45a049;
+  background-color: #5aa8a0;
 }
 
-/* ProgressBar.css */
-.progress-bar {
-  width: 80%;
-  background-color: #ddd;
-  border-radius: 25px;
-  overflow: hidden;
-  height: 20px;
+.controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-.progress {
-  height: 100%;
-  background-color: #4caf50;
-  width: 0;
-  transition: width 0.5s;
+.skip-button {
+  position: relative;
+  padding-right: 40px; /* Add space for the arrow */
+  margin-top: 20px;
+}
+
+.skip-button::after {
+  content: '→';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  transition: right 0.3s;
+}
+
+.skip-button:hover::after {
+  right: -45px; /* Move the arrow a bit when hovered */
 }
