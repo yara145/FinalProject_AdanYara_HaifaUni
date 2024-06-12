@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/LogIn';
 import Signup from './components/SignIn';
-import ChooseAvatar from './user/pages/ChooseAvatar.js';
+import ChooseAvatar from './user/pages/ChooseAvatar';
 import LetterActivity from './activity/pages/LetterActivity';
 import './LetterCheck.css';
 
