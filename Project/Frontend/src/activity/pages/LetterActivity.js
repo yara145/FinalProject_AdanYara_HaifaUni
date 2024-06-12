@@ -10,9 +10,11 @@ const arabicLetters = ['ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر
 const LetterActivity = () => {
     const [currentLetters, setCurrentLetters] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [skippedLetters, setSkippedLetters] = useState([]);
     const [correctCount, setCorrectCount] = useState(0);
     const [round, setRound] = useState(1);
     const [isRoundComplete, setIsRoundComplete] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
 
     const navigate = useNavigate();
 
@@ -25,8 +27,10 @@ const LetterActivity = () => {
         const shuffledLetters = [...arabicLetters].sort(() => 0.5 - Math.random());
         setCurrentLetters(shuffledLetters.slice(0, letterCount));
         setCurrentIndex(0);
+        setSkippedLetters([]);
         setCorrectCount(0);
         setIsRoundComplete(false);
+        setShowMessage(false);
     };
 
     const handleCardClick = () => {
@@ -35,6 +39,7 @@ const LetterActivity = () => {
     };
 
     const handleSkip = () => {
+        setSkippedLetters([...skippedLetters, currentLetters[currentIndex]]);
         moveToNextLetter();
     };
 
@@ -45,6 +50,11 @@ const LetterActivity = () => {
     const moveToNextLetter = () => {
         if (currentIndex < currentLetters.length - 1) {
             setCurrentIndex(currentIndex + 1);
+        } else if (skippedLetters.length > 0) {
+            setCurrentLetters(skippedLetters);
+            setSkippedLetters([]);
+            setCurrentIndex(0);
+            setShowMessage(true);
         } else {
             setIsRoundComplete(true);
         }
@@ -62,9 +72,14 @@ const LetterActivity = () => {
                 <button className="back-button" onClick={handleBackToLogin}>رجوع</button>
             </div>
             {!isRoundComplete ? (
-                <div className="letter-card" onClick={handleCardClick}>
-                    <div className="letter">{currentLetters[currentIndex]}</div>
-                </div>
+                <>
+                    <div className="letter-card" onClick={handleCardClick}>
+                        <div className="letter">{currentLetters[currentIndex]}</div>
+                    </div>
+                    {showMessage && (
+                        <p className="message">الرجاء النقر على الأحرف التي تخطيتها قبل الانتقال إلى الجولة التالية.</p>
+                    )}
+                </>
             ) : (
                 <div className="results">
                     <h2>!جولة مكتملة</h2>
