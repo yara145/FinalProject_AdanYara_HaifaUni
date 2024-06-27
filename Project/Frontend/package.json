@@ -8,6 +8,7 @@
     "ajv-keywords": "^5.1.0",
     "framer-motion": "^11.2.10",
     "gsap": "^3.12.5",
+    "lottie-react": "^2.4.0",
     "lottie-web": "^5.12.2",
     "pixi-spine": "^4.0.4",
     "pixi.js": "^6.5.10",
@@ -15,9 +16,11 @@
     "react-dom": "^18.3.1",
     "react-icons": "^4.2.0",
     "react-lottie": "^1.2.4",
+    "react-rewards": "^2.0.4",
     "react-router-dom": "^6.0.2",
     "react-scripts": "5.0.0",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "styled-components": "^6.1.11"
   },
   "scripts": {
     "start": "react-scripts start",

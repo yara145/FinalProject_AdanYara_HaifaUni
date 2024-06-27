@@ -1,0 +1,21 @@
+.badge {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    margin: 5px;
+    animation: bounce 0.5s;
+    transition: transform 0.3s;
+}
+
+.badge.star { background-image: url('../../assets/star-icon.png'); }
+.badge.shield { background-image: url('../../assets/shield-icon.png'); }
+
+.badge:hover {
+    transform: scale(1.1);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-30px); }
+    60% { transform: translateY(-15px); }
+}

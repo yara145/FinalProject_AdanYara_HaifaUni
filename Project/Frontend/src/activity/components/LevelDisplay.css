@@ -1,0 +1,24 @@
+.level-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6f7ff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  transition: transform 0.3s;
+  height: 34px; /* Fixed height */
+  width: 70px; /* Fixed width */
+}
+
+.level-container:hover {
+  transform: scale(1.2);
+}
+
+.level-text {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+  margin-left: 10px; /* Adjust margin as needed */
+}

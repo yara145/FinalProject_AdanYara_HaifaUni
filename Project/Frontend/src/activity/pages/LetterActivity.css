@@ -1,38 +1,45 @@
-/* src/activity/pages/LetterActivity.css */
+@import './ActivityCommonStyle.css'; /* Import the common styles */
+
+body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Prevent scrolling */
+}
+
 .letter-activity {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  justify-content: flex-start; /* Align content to the top */
+  height: 100vh; /* Use full viewport height */
+  width: 100vw; /* Use full viewport width */
   background-color: #cae3fb;
   font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow: hidden; /* Prevent both horizontal and vertical overflow */
 }
 
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Distribute space between elements */
   width: 100%;
-  justify-content: space-between;
-  padding: 0 20px;
+  padding: 10px 20px; /* Reduce padding to move it up */
+  position: relative;
 }
 
-.lion-icon {
-  width: 50px;
-  height: 50px;
-}
-
-.progress-bar-container {
-  flex-grow: 1;
-  margin: 0 20px;
+.back-button-container {
+  display: flex;
+  justify-content: flex-start;
+  width: auto;
 }
 
 .back-button {
   background-color: #5aa8a0;
   color: white;
-  font-size: 1.2em; /* Increase the font size */
-  font-weight: bold; /* Make the font bold */
-  font-family: 'Arial', sans-serif; /* Use a clear, sans-serif font */
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -47,12 +54,31 @@
   transform: translateX(-5px);
 }
 
+.score-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start; /* Align to the left */
+  align-items: center;
+  height: auto;
+}
+
+.coins-container, .level-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 80px;
+  max-height: 80px;
+  margin: 0 10px; /* Add margin to separate them */
+}
+
 .letter-card {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   height: 400px;
   margin: 20px 0;
   border-radius: 15px;
@@ -68,7 +94,7 @@
 }
 
 .letter {
-  font-size: 16rem; /* Increase the font size */
+  font-size: 16vw;
   color: #333;
 }
 
@@ -89,9 +115,9 @@
 .control-button {
   background-color: #76c7bc;
   color: white;
-  font-size: 1.2em; /* Increase the font size */
-  font-weight: bold; /* Make the font bold */
-  font-family: 'Arial', sans-serif; /* Use a clear, sans-serif font */
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -104,36 +130,38 @@
   background-color: #5aa8a0;
 }
 
-.controls {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.skip-button {
-  position: relative;
-  padding-right: 40px; /* Add space for the arrow */
-  margin-top: 20px;
-}
-
-.skip-button::after {
-  content: '→';
-  position: absolute;
-  right: -40px;
+.popup-message {
+  position: fixed;
   top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-  transition: right 0.3s;
-}
-
-.skip-button:hover::after {
-  right: -45px; /* Move the arrow a bit when hovered */
-}
-
-.message {
-  color: #ff0000;
-  font-size: 1.2em;
-  margin-top: 10px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgb(107, 161, 136);
+  padding: 20px;
+  border-radius: 10px;
   text-align: center;
+  z-index: 1000; /* Ensure it appears above other content */
+  width: 80%;
+  max-width: 300px;
+  font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+  .header, .score-display {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .letter-card {
+    width: 80%;
+  }
+
+  .coins-container, .level-container {
+    max-width: 80px;
+    max-height: 80px;
+  }
+
+  .coins-text, .level-text {
+    font-size: 1rem;
+  }
 }

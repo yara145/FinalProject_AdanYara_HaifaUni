@@ -1,0 +1,92 @@
+.clip-activity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #cae3fb;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* Ensure the parent container is relatively positioned */
+}
+
+.car-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    margin: 0;
+}
+
+.car-animation {
+    position: relative;
+    width: 680px; /* Adjusted width */
+    height: 450px; /* Adjusted height */
+    transition: transform 1s;
+}
+
+.speech-bubble {
+    position: absolute;
+    top: 184%; /* Adjust as needed to position on car */
+    left: 51%;
+    height: 63px;
+    width: 65px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-size: 6em;
+    cursor: pointer;
+    transition: transform 0.3s;
+    text-align: center;
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+.speech-bubble:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.skip-button {
+    position: absolute; /* Ensure the button is absolutely positioned */
+    top: 93%; /* Adjust to move the button further down */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #76c7c0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.skip-button:hover {
+    background-color: #5aa8a0;
+}
+
+@media (max-width: 768px) {
+    .car-animation {
+        width: 300px; /* Adjusted for smaller screens */
+        height: 150px; /* Adjusted for smaller screens */
+    }
+
+    .speech-bubble {
+        font-size: 2.5em;
+        top: 120%; /* Adjust as needed for smaller screens */
+        left: 50%;
+        padding: 20px;
+    }
+
+    .skip-button {
+        font-size: 1.2em;
+        padding: 8px 16px;
+    }
+}
