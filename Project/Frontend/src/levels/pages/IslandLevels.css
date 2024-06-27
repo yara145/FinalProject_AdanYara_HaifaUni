@@ -1,0 +1,86 @@
+body {
+  font-family: 'Arial, sans-serif';
+}
+
+.island-levels {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: url('../../assets/island.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.water {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  animation: moveWater 5s linear infinite;
+}
+
+@keyframes moveWater {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+.levels-container {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.level {
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+  background-color: transparent; /* Transparent background */
+}
+
+.level img {
+  width: 100%;
+  height: auto;
+}
+
+.level.brown img {
+  filter: sepia(100%) saturate(300%) hue-rotate(-20deg);
+}
+
+.level.gray img {
+  filter: grayscale(100%);
+}
+
+.level-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: #fff; /* Text color */
+  pointer-events: none; /* Disable click events */
+}
+
+.level.brown .level-title {
+  color: brown;
+}
+
+.level.gray .level-title {
+  color: gray;
+}
+
+.level:hover {
+  transform: scale(1.1);
+}

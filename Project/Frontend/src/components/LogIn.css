@@ -1,3 +1,11 @@
+body {
+  font-family: 'Arial, sans-serif';
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Ensure no scroll bars are shown */
+  direction: rtl;
+}
+
 .login-container {
   display: flex;
   align-items: center;
@@ -18,6 +26,21 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   animation: slideIn 1s ease-in-out;
+  position: relative;
+}
+
+.coconut-tree {
+  position: absolute;
+  left: -200px; /* Adjust as needed */
+  bottom: 20px;
+  height: 400px; /* Adjust as needed */
+}
+
+.monkey {
+  position: absolute;
+  top: 20px; /* Adjust as needed */
+  right: 200px; /* Adjust as needed */
+  height: 100px; /* Adjust as needed */
 }
 
 .login-container h2 {
@@ -55,6 +78,21 @@
   background-color: #45a049;
 }
 
+.login-container p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.login-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container p a:hover {
+  text-decoration: underline;
+}
+
 @keyframes fadeIn {
   from {
       opacity: 0;
@@ -75,7 +113,7 @@
   }
 }
 
-/* New styles for Adam and Yara buttons */
+/* Styles for Adam and Yara buttons */
 .button-left, .button-right {
   position: absolute;
   top: 20px;
@@ -96,4 +134,24 @@
   right: 20px;
   background-color: #28a745;
   color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    box-shadow: none;
+  }
+
+  .coconut-tree {
+    left: -50px;
+    height: 200px;
+  }
 }

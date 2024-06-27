@@ -1,28 +1,36 @@
 // src/components/SignIn.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import './SignIn.css';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    // Signup logic here
-    navigate('/login');
+    try {
+      await axios.post('http://localhost:5000/api/signup', { username, password });
+      navigate('/choose-avatar');
+    } catch (err) {
+      setError(err.response ? err.response.data.message : 'Error connecting to the server');
+    }
   };
 
   return (
     <div className="signup-container">
       <div className="signup-card">
-        <h2>Sign Up</h2>
+        <h2>التسجيل</h2>
+        {error && <p className="error">{error}</p>}
         <form onSubmit={handleSignup}>
-          <input type="text" placeholder="Username" required />
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <button type="submit">Sign Up</button>
+          <input type="text" placeholder="اسم المستخدم" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <input type="password" placeholder="كلمة السر" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <button type="submit">تسجيل</button>
         </form>
-        <p>Already have an account? <Link to="/login">Login</Link></p>
+        <p>لديك حساب؟ <Link to="/login">تسجيل الدخول</Link></p>
       </div>
     </div>
   );

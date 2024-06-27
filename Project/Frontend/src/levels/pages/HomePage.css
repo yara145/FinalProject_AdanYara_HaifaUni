@@ -1,0 +1,146 @@
+/* src/levels/pages/HomePage.css */
+body {
+  font-family: 'Arial, sans-serif';
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Ensure no scroll bars are shown */
+}
+
+.home-page {
+  width: 100%;
+  height: 100vh;
+  background-color: lightblue;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clouds {
+  position: absolute;
+  top: -200px; /* Move the clouds 200px above the top of the viewport */
+  width: 100%;
+  overflow: hidden; /* Hide the excess part of the animation */
+  z-index: 1;
+  clip-path: inset(200px 0 0 0); /* Clip the top 200px of the clouds */
+}
+
+.land {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+.item {
+  text-align: center;
+  width: 300px; /* Adjust the width to make items smaller */
+  transition: transform 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.item img {
+  max-width: 100%; /* Ensure images are responsive */
+}
+
+.island {
+  position: absolute;
+  left: 10%;
+  bottom: 10%;
+}
+
+.mountain {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.park {
+  position: absolute;
+  right: 10%;
+  bottom: 5%;
+}
+
+.title {
+  position: absolute;
+  width: 100%;
+  top: 100%; /* Position title below the image */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem; /* Smaller font size */
+  font-weight: bold;
+  color: #333; /* Adjust font color if needed */
+  text-align: center;
+}
+
+.welcome-message {
+  text-align: center;
+  position: absolute;
+  top: 10%;
+  right: 10%; /* Move to the right side */
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balloon {
+  position: relative;
+  animation: balloon-move 5s ease-out forwards;
+}
+
+.balloon-image {
+  width: 200px; /* Adjust the size of the balloon */
+  height: auto;
+}
+
+.avatar {
+  position: absolute;
+  
+  bottom: 25px; /* Position avatar at the bottom of the balloon */
+  left: 50%;
+  transform: translateX(-50%);
+  height: 50px; /* Adjust the size of the avatar */
+  width: 50px;
+  z-index: -1;
+}
+
+.message {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: show-message 1s forwards;
+  animation-delay: 5s; /* Ensure message shows after balloon moves */
+}
+
+.message-icon {
+  font-size: 24px;
+}
+
+.message-text {
+  font-size: 24px;
+  color: #333;
+}
+
+@keyframes balloon-move {
+  from {
+    transform: translateY(-200px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes show-message {
+  to {
+    opacity: 1;
+  }
+}
