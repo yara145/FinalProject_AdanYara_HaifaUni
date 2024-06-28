@@ -38,6 +38,7 @@ const ClipPhotoMatch = () => {
     const [shipPosition, setShipPosition] = useState(0); // Add state for ship position
     const [feedbackMessage, setFeedbackMessage] = useState(''); // Add state for feedback message
     const [laserColor, setLaserColor] = useState(''); // Add state for laser color
+    const [clickedIndex, setClickedIndex] = useState(null); // Add state for clicked index
 
     const currentWord = sidebarWords[currentWordIndex]?.word;
 
@@ -52,18 +53,20 @@ const ClipPhotoMatch = () => {
     };
 
     const handleImageClick = (image, alt, index) => {
+        setClickedIndex(index); // Set the clicked index
         if (alt === currentWord) {
             setPoints(points + 1);
             setSelectedImage(image);
             setCoins(coins + 1); // Increase coins for a correct answer
             setAnimateImage(true); // Trigger animation
-            setShipPosition(prev => prev + 55); // Move ship to the right by 10px
+            setShipPosition(prev => prev + 55); // Move ship to the right by 55px
             setFeedbackMessage(''); // Clear feedback message on correct answer
             setLaserColor('green');
 
             setTimeout(() => {
                 setAnimateImage(false); // Reset animation state
                 setLaserColor(''); // Clear laser color
+                setClickedIndex(null); // Clear clicked index
 
                 // Remove the correct word from the sidebar
                 const updatedWords = sidebarWords.filter(word => word.word !== alt);
@@ -89,6 +92,7 @@ const ClipPhotoMatch = () => {
             setTimeout(() => {
                 setLaserColor('');
                 setFeedbackMessage('');
+                setClickedIndex(null); // Clear clicked index after timeout
             }, 2000); // Clear laser color and feedback message after 2 seconds
         }
     };
@@ -126,7 +130,7 @@ const ClipPhotoMatch = () => {
                         {sidebarWords.map((item, index) => (
                             <div
                                 key={index}
-                                className={`image-button ${laserColor && currentWord === item.word ? `laser-${laserColor}` : ''}`}
+                                className={`image-button ${laserColor && clickedIndex === index ? `laser-${laserColor}` : ''}`}
                                 onClick={() => handleImageClick(item.image, item.word, index)}
                             >
                                 <img src={item.image} alt={item.word} />

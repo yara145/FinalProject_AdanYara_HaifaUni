@@ -68,7 +68,8 @@ const LetterActivity = () => {
             setBadges([...badges, 'star']);
         }
 
-        setProgress(prevProgress => Math.max(prevProgress, ((currentIndex + 1) / currentLetters.length) * 100)); // Update progress only on correct click
+        const progressIncrement = 100 / (currentLetters.length + skippedLetters.length); // Calculate progress increment
+        setProgress(prevProgress => Math.min(prevProgress + progressIncrement, 100)); // Increment progress by a calculated step
         moveToNextLetter(newSkippedLetters, isLastLetter);
     };
 

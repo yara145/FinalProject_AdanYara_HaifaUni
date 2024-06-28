@@ -7,6 +7,7 @@
     "ajv": "^8.6.2",
     "ajv-keywords": "^5.1.0",
     "axios": "^1.7.2",
+    "cors": "^2.8.5",
     "framer-motion": "^11.2.10",
     "gsap": "^3.12.5",
     "lottie-react": "^2.4.0",

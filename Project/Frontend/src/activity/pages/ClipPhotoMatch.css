@@ -33,7 +33,7 @@ body, html {
 
 .back-button-container {
     flex: 1;
-    margin-left: auto;
+    margin-left: 20px; /* Adjusted value to move the button to the right */
     height: 50px;
     width: 70px;
 }
