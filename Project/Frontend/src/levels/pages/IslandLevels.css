@@ -6,7 +6,7 @@ body {
   position: relative;
   height: 100vh;
   overflow: hidden;
-  background: url('../../assets/island.jpg') no-repeat center center;
+  background-color: rgb(182, 255, 255);
   background-size: cover;
 }
 
@@ -27,13 +27,23 @@ body {
   }
 }
 
-.levels-container {
+.levels-wrapper {
   position: absolute;
-  top: 30%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 246, 246, 0.8); /* Transparent white background */
+  padding: 40px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.levels-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
   grid-gap: 20px;
   justify-content: center;
   align-items: center;
@@ -47,6 +57,7 @@ body {
   padding: 10px;
   border-radius: 10px;
   width: 150px;
+  height: 150px;
   background-color: transparent; /* Transparent background */
 }
 
@@ -65,11 +76,11 @@ body {
 
 .level-title {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.5rem;
-  color: #fff; /* Text color */
+  font-size: 1rem;
+  color: rgb(11, 11, 11); /* Text color */
   pointer-events: none; /* Disable click events */
 }
 
@@ -77,10 +88,59 @@ body {
   color: brown;
 }
 
-.level.gray .level-title {
+.level.gray  {
+  color: rgb(27, 27, 27);
+}
+.level-title {
   color: gray;
 }
 
 .level:hover {
   transform: scale(1.1);
+}
+
+.locked {
+  color: rgb(52, 52, 52); /* Set text color to black */
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.tree-left, .tree-right {
+  position: absolute;
+  height: 100%; /* Make the tree cover the full height of the screen */
+  bottom: -40px; /* Adjust this value to move the trees more towards the bottom */
+}
+
+.tree-left {
+  left: -8%;
+  transform: scaleX(-1); /* Flip the left tree */
+}
+
+.tree-right {
+  right: -8%;
+}
+
+.boat {
+  position: absolute;
+  top: calc(10% - 50px); /* Adjust as needed to position the boat above the levels wrapper */
+  left: 60%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: auto;
+  z-index: 10; /* Ensure the boat is above other elements */
+}
+
+.boat img {
+  width: 100%;
+  height: auto;
+}
+
+.avatar {
+  position: absolute;
+  bottom: 40px; /* Adjust to position the avatar inside the boat */
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 100px; /* Adjust the size as needed */
+  height: auto;
+  z-index: 20; /* Ensure the avatar is above the boat */
 }
