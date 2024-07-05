@@ -57,7 +57,7 @@ body, html {
     align-items: center;
     position: relative;
     z-index: 2; /* Ensure it appears above the waves */
-    transition: transform 0.3s ease-in-out;
+    transition: transform 3s ease-in-out; /* Slow transition for the ship */
 }
 
 .photo-container-wrapper {
@@ -175,12 +175,19 @@ body, html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 20px;
     border-radius: 10px;
     z-index: 5;
     animation: fadeInOut 2s ease-in-out; /* Add fade in and out animation */
+}
+
+.feedback-error {
+    background-color: rgba(196, 88, 88, 0.8); /* Light red background for error */
+}
+
+.feedback-success {
+    background-color: rgba(76, 175, 80, 0.8); /* Light green background for success */
 }
 
 .feedback-content {
@@ -203,6 +210,17 @@ body, html {
     position: absolute;
     bottom: -360px; /* Adjust this value as needed */
     z-index: 1;
+}
+
+/* Game Ended Animation */
+.game-ended-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 80%;
+    height: auto;
 }
 
 /* Media Queries */
