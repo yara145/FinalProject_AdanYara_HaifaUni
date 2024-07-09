@@ -11,10 +11,21 @@ const arabicLetters = ['ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر
 
 const levelThresholds = [0, 50, 100, 200, 400]; // Example level thresholds
 
+const divideLettersIntoRounds = (letters) => {
+    const shuffledLetters = [...letters].sort(() => 0.5 - Math.random());
+    const roundSize = Math.ceil(shuffledLetters.length / 3);
+    return [
+        shuffledLetters.slice(0, roundSize),
+        shuffledLetters.slice(roundSize, roundSize * 2),
+        shuffledLetters.slice(roundSize * 2)
+    ];
+};
+
+const [round1Letters, round2Letters, round3Letters] = divideLettersIntoRounds(arabicLetters);
+
 const LetterActivity = () => {
     const [currentLetters, setCurrentLetters] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [skippedLetters, setSkippedLetters] = useState([]);
     const [correctCount, setCorrectCount] = useState(0);
     const [round, setRound] = useState(1);
     const [isRoundComplete, setIsRoundComplete] = useState(false);
@@ -25,12 +36,13 @@ const LetterActivity = () => {
     const [badges, setBadges] = useState([]);
     const [progress, setProgress] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
+    const [attemptsLeft, setAttemptsLeft] = useState(1); // Track the number of attempts left
 
     const navigate = useNavigate();
     const { reward: rewardConfetti } = useReward('rewardId', 'confetti');
 
     useEffect(() => {
-        generateRandomLetters();
+        generateRoundLetters();
     }, [round]);
 
     useEffect(() => {
@@ -42,60 +54,69 @@ const LetterActivity = () => {
         }
     }, [showPopup]);
 
-    const generateRandomLetters = () => {
-        const letterCount = round === 1 ? 10 : 8;
-        const shuffledLetters = [...arabicLetters].sort(() => 0.5 - Math.random());
-        setCurrentLetters(shuffledLetters.slice(0, letterCount));
+    const generateRoundLetters = () => {
+        let roundLetters;
+        switch(round) {
+            case 1:
+                roundLetters = round1Letters;
+                break;
+            case 2:
+                roundLetters = round2Letters;
+                break;
+            case 3:
+                roundLetters = round3Letters;
+                break;
+            default:
+                roundLetters = [];
+        }
+        setCurrentLetters(roundLetters);
         setCurrentIndex(0);
-        setSkippedLetters([]);
         setCorrectCount(0);
         setIsRoundComplete(false);
         setShowMessage(false);
         setProgress(0); // Reset progress
+        setAttemptsLeft(1); // Reset attempts for the next round
     };
 
     const handleCardClick = () => {
-        const clickedLetter = currentLetters[currentIndex];
-        const newSkippedLetters = skippedLetters.filter(letter => letter !== clickedLetter);
-        setSkippedLetters(newSkippedLetters);
         setCorrectCount(correctCount + 1);
         updatePoints(points + 10);
         updateCoins(coins + 5); // Update coins
-
-        const isLastLetter = currentIndex === currentLetters.length - 1;
 
         if (correctCount + 1 === 5 && !badges.includes('star')) {
             setBadges([...badges, 'star']);
         }
 
-        const progressIncrement = 100 / (currentLetters.length + skippedLetters.length); // Calculate progress increment
+        const progressIncrement = 100 / currentLetters.length; // Calculate progress increment
         setProgress(prevProgress => Math.min(prevProgress + progressIncrement, 100)); // Increment progress by a calculated step
-        moveToNextLetter(newSkippedLetters, isLastLetter);
+        moveToNextLetter();
     };
 
     const handleSkip = () => {
-        const skippedLetter = currentLetters[currentIndex];
-        if (!skippedLetters.includes(skippedLetter)) {
-            setSkippedLetters([...skippedLetters, skippedLetter]);
+        if (attemptsLeft > 0) {
+            setShowPopup(true);
+            setShowMessage(true);
+            setAttemptsLeft(attemptsLeft - 1);
+        } else {
+            moveToNextLetter();
         }
-        moveToNextLetter(skippedLetters, false);
     };
 
     const handleRestart = () => {
-        setRound(round + 1);
+        if (round < 3) {
+            setRound(round + 1);
+        } else {
+            setRound(1); // Reset to the first round if it's the end of the third round
+        }
+        setAttemptsLeft(1); // Reset attempts for the next round
     };
 
-    const moveToNextLetter = (updatedSkippedLetters, isLastLetter) => {
+    const moveToNextLetter = () => {
         if (currentIndex < currentLetters.length - 1) {
             setCurrentIndex(currentIndex + 1);
-        } else if (updatedSkippedLetters.length > 0) {
-            setCurrentLetters(updatedSkippedLetters);
-            setCurrentIndex(0);
-            setShowPopup(true); // Show popup message
+            setAttemptsLeft(1); // Reset attempts for the next letter
         } else {
-            if (isLastLetter) {
-                rewardConfetti();
-            }
+            rewardConfetti();
             setIsRoundComplete(true);
         }
     };
@@ -147,7 +168,7 @@ const LetterActivity = () => {
                     </div>
                     {showPopup && (
                         <div className="popup-message">
-                            <p>الرجاء قراءة الأحرف التي تخطيتها قبل الانتقال إلى الجولة التالية.</p>
+                            <p>لقد تجاوزت المحاولة. لديك محاولة أخرى.</p>
                         </div>
                     )}
                 </>
@@ -155,7 +176,9 @@ const LetterActivity = () => {
                 <div className="results">
                     <h2>!جولة مكتملة</h2>
                     <p>صحيح: {correctCount}</p>
-                    <button className="control-button" onClick={handleRestart}>الجولة التالية</button>
+                    {round < 3 && (
+                        <button className="control-button" onClick={handleRestart}>الجولة التالية</button>
+                    )}
                 </div>
             )}
             {!isRoundComplete && (

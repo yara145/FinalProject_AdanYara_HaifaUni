@@ -203,6 +203,23 @@ body, html {
     50% { opacity: 1; }
 }
 
+/* Summary Modal */
+.summary-modal {
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for summary */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeInOutSummary 4s; /* Fade in and out animation */
+    animation-fill-mode: forwards;
+    z-index: 6; /* Ensure it's above other content */
+}
+
+@keyframes fadeInOutSummary {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
 /* Lottie Container */
 .lottie-container {
     width: 3000px;
@@ -210,17 +227,6 @@ body, html {
     position: absolute;
     bottom: -360px; /* Adjust this value as needed */
     z-index: 1;
-}
-
-/* Game Ended Animation */
-.game-ended-animation {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    width: 80%;
-    height: auto;
 }
 
 /* Media Queries */

@@ -1,28 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './ClipPhotoMatch.css';
 import CoinsDisplay from '../components/CoinsDisplay';
 import LevelDisplay from '../components/LevelDisplay';
 import { useNavigate } from 'react-router-dom';
 import boatImage from '../../assets/boat.png'; // Adjust the path as needed
-import Lottie from 'lottie-react'; // Import the Lottie component from lottie-react
-import wavesAnimation from '../../assets/waves-animation.json'; // Import the animation JSON file
-import fishAnimation from '../../assets/fish-animation.json'; // Import the fish animation JSON file
+import Lottie from 'lottie-react';
+import wavesAnimation from '../../assets/animation/waves-animation.json';
+
 
 // Import images
 import garlicImage from '../../assets/toom.png';
 import monkeyImage from '../../assets/monkey.jpg';
 import wellImage from '../../assets/p.png';
 import sandcastleImage from '../../assets/sand.jpg';
-import cryImage from '../../assets/cry.jpg'; // Example for new images
-import shopImage from '../../assets/shop.jpg'; // Example for new images
+import cryImage from '../../assets/cry.jpg';
+import shopImage from '../../assets/shop.jpg';
+
+// Import sounds
+import correctSound from '../../assets/sound/correct.wav';
+import tryAgainSound from '../../assets/sound/tryAgain.wav';
+import incorrectSound from '../../assets/sound/incorrect.wav';
 
 const allWords = [
-    { word: "قرد", image: monkeyImage }, // Arabic for Monkey
-    { word: "ثوم", image: garlicImage }, // Arabic for Garlic
-    { word: "بئر", image: wellImage }, // Arabic for Well
-    { word: "رمل", image: sandcastleImage }, // Arabic for Sandcastle
-    { word: "دمع", image: cryImage }, // Arabic for Cry
-    { word: "سوق", image: shopImage } // Arabic for Market
+    { word: "قرد", image: monkeyImage },
+    { word: "ثوم", image: garlicImage },
+    { word: "بئر", image: wellImage },
+    { word: "رمل", image: sandcastleImage },
+    { word: "دمع", image: cryImage },
+    { word: "سوق", image: shopImage }
 ];
 
 const initialWords = allWords.slice(0, 4);
@@ -36,38 +41,34 @@ const ClipPhotoMatch = () => {
     const [animateImage, setAnimateImage] = useState(false);
     const [sidebarWords, setSidebarWords] = useState(initialWords);
     const [remainingWords, setRemainingWords] = useState(allWords.slice(4));
-    const [shipPosition, setShipPosition] = useState(0); // Add state for ship position
-    const [feedbackMessage, setFeedbackMessage] = useState(''); // Add state for feedback message
-    const [positiveMessage, setPositiveMessage] = useState(''); // Add state for positive feedback message
-    const [laserColor, setLaserColor] = useState(''); // Add state for laser color
-    const [clickedIndex, setClickedIndex] = useState(null); // Add state for clicked index
-    const [attempts, setAttempts] = useState(0); // Add state for tracking attempts
-    const [boatFinished, setBoatFinished] = useState(false); // Add state for boat movement completion
-    const [gameEnded, setGameEnded] = useState(false); // Add state to manage game end
-    const [showFish, setShowFish] = useState(false); // Add state to manage fish animation visibility
+    const [shipPosition, setShipPosition] = useState(0);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [positiveMessage, setPositiveMessage] = useState('');
+    const [laserColor, setLaserColor] = useState('');
+    const [clickedIndex, setClickedIndex] = useState(null);
+    const [attempts, setAttempts] = useState(0);
+    const [gameEnded, setGameEnded] = useState(false);
+    const [isFinalMove, setIsFinalMove] = useState(false);
+    const [summaryMessage, setSummaryMessage] = useState(''); // New state for summary message
 
     const currentWord = sidebarWords[currentWordIndex]?.word;
 
     const navigate = useNavigate();
 
+    // Create refs for the audio elements
+    const correctAudioRef = useRef(null);
+    const tryAgainAudioRef = useRef(null);
+    const incorrectAudioRef = useRef(null);
+
     useEffect(() => {
         // Reset state or load initial game state if necessary
     }, []);
 
-    useEffect(() => {
-        if (boatFinished) {
-            // Move the ship out of view slowly before playing the animation
-            setShipPosition(2000); // Move the ship far right (off the screen) slowly
-        }
-    }, [boatFinished]);
-
     const handleTransitionEnd = () => {
-        if (boatFinished) {
-            setGameEnded(true); // Trigger the fish animation immediately after the ship transition ends
-            setShowFish(true); // Show the fish animation
+        if (gameEnded) {
             setTimeout(() => {
-                setShowFish(false); // Hide the fish animation after it completes
-            }, 5000); // Adjust the delay to match the fish animation duration
+                // Additional actions when the game ends, if necessary
+            }, 5000);
         }
     };
 
@@ -76,87 +77,78 @@ const ClipPhotoMatch = () => {
     };
 
     const handleImageClick = (image, alt, index) => {
-        setClickedIndex(index); // Set the clicked index
+        setClickedIndex(index);
         if (alt === currentWord) {
+            correctAudioRef.current.play(); // Play correct answer sound
             setPoints(points + 1);
             setSelectedImage(image);
-            setCoins(coins + 1); // Increase coins for a correct answer
-            setAnimateImage(true); // Trigger animation
-            setShipPosition(prev => prev + 55); // Move ship to the right by 55px
-            setFeedbackMessage(''); // Clear feedback message on correct answer
-            setPositiveMessage('أحسنت! إجابة صحيحة'); // Set positive feedback message
+            setCoins(coins + 1);
+            setAnimateImage(true);
+            setFeedbackMessage('');
+            setPositiveMessage('أحسنت! إجابة صحيحة');
             setLaserColor('green');
-            setAttempts(0); // Reset attempts on correct answer
+            setAttempts(0);
 
             setTimeout(() => {
-                setAnimateImage(false); // Reset animation state
-                setLaserColor(''); // Clear laser color
-                setClickedIndex(null); // Clear clicked index
-                setPositiveMessage(''); // Clear positive feedback message
+                setAnimateImage(false);
+                setLaserColor('');
+                setClickedIndex(null);
+                setPositiveMessage('');
 
-                // Remove the correct word from the sidebar
                 const updatedWords = sidebarWords.filter(word => word.word !== alt);
-
-                // Get a new word from the remaining words
                 const newWord = remainingWords.shift();
-
-                // Add the new word if available
                 if (newWord) {
                     updatedWords.push(newWord);
                 }
-
-                // Update the words in the sidebar
                 setSidebarWords(updatedWords);
-
-                // Move to the next word after a short delay
                 setSelectedImage(null);
                 setCurrentWordIndex((prevIndex) => (prevIndex + 1) % updatedWords.length);
 
-                // Check if all words have been answered
                 if (updatedWords.length === 0 && remainingWords.length === 0) {
-                    setBoatFinished(true); // Set boatFinished to true if all words are answered
+                    setGameEnded(true);
+                    setIsFinalMove(true);
+                    setShipPosition(1500); // Ensure the ship moves off-screen
+                    setSummaryMessage(`لقد أجبت على جميع الأسئلة! نقاطك: ${points} عملات: ${coins}`); // Set the summary message
+                } else {
+                    setShipPosition(prev => prev + 55); // Move the ship forward after each correct answer
                 }
             }, 1000);
         } else {
             setAttempts(prev => prev + 1);
-            if (attempts === 1) { // Second incorrect attempt
-                setFeedbackMessage('لقد حاولت مرتين! سننتقل إلى الكلمة التالية.'); // Set feedback message on second incorrect attempt
+            if (attempts >= 1) { // Corrected condition to handle two attempts
+                incorrectAudioRef.current.play(); // Play incorrect answer sound
+                setFeedbackMessage('لقد حاولت مرتين! سننتقل إلى الكلمة التالية.');
                 setTimeout(() => {
                     setLaserColor('');
                     setFeedbackMessage('');
-                    setClickedIndex(null); // Clear clicked index after timeout
+                    setClickedIndex(null);
 
-                    // Move to the next word without moving the ship
                     const updatedWords = sidebarWords.filter(word => word.word !== currentWord);
-
-                    // Get a new word from the remaining words
                     const newWord = remainingWords.shift();
-
-                    // Add the new word if available
                     if (newWord) {
                         updatedWords.push(newWord);
                     }
-
-                    // Update the words in the sidebar
                     setSidebarWords(updatedWords);
-
                     setSelectedImage(null);
                     setCurrentWordIndex((prevIndex) => (prevIndex + 1) % updatedWords.length);
-                    setAttempts(0); // Reset attempts
+                    setAttempts(0);
 
-                    // Check if all words have been answered
                     if (updatedWords.length === 0 && remainingWords.length === 0) {
-                        setBoatFinished(true); // Set boatFinished to true if all words are answered
+                        setGameEnded(true);
+                        setIsFinalMove(true);
+                        setShipPosition(1500); // Ensure the ship moves off-screen
+                        setSummaryMessage(`لقد أجبت على جميع الأسئلة! نقاطك: ${points} عملات: ${coins}`); // Set the summary message
                     }
-                }, 2000); // Clear feedback message after 2 seconds
+                }, 2000);
             } else {
-                setFeedbackMessage('حاول مرة أخرى 😊'); // Set feedback message on first incorrect answer
+                tryAgainAudioRef.current.play(); // Play try again sound
+                setFeedbackMessage('حاول مرة أخرى 😊');
                 setLaserColor('red');
                 setTimeout(() => {
                     setLaserColor('');
                     setFeedbackMessage('');
-                    setClickedIndex(null); // Clear clicked index after timeout
-                }, 2000); // Clear laser color and feedback message after 2 seconds
+                    setClickedIndex(null);
+                }, 2000);
             }
         }
     };
@@ -174,8 +166,11 @@ const ClipPhotoMatch = () => {
             </div>
             <div
                 className="photo-container"
-                style={{ transform: `translateX(${shipPosition}px)`, transition: 'transform 3s ease' }}
-                onTransitionEnd={handleTransitionEnd} // Add this to trigger the fish animation
+                style={{
+                    transform: `translateX(${shipPosition}px)`,
+                    transition: isFinalMove ? 'transform 2s ease' : 'transform 3s ease'
+                }}
+                onTransitionEnd={handleTransitionEnd}
             >
                 <img src={boatImage} alt="Ship" className="ship-photo" />
                 <div className="word-on-sail">{currentWord}</div>
@@ -190,7 +185,7 @@ const ClipPhotoMatch = () => {
                 </div>
             </div>
             <div className="lottie-container">
-                <Lottie animationData={wavesAnimation} /> {/* Use Lottie component to render the animation */}
+                <Lottie animationData={wavesAnimation} />
             </div>
             {sidebarWords.length > 0 && !gameEnded && (
                 <div className="photo-container-wrapper">
@@ -221,14 +216,20 @@ const ClipPhotoMatch = () => {
                     </div>
                 </div>
             )}
-            {gameEnded && showFish && (
-                <div className="game-ended-animation">
-                    <Lottie animationData={fishAnimation} loop={false} /> {/* Play the fish animation */}
+            {gameEnded && summaryMessage && ( // Display the summary message when the game ends
+                <div className="feedback-modal summary-modal">
+                    <div className="feedback-content">
+                        {summaryMessage}
+                    </div>
                 </div>
             )}
             <div className="controls">
                 {/* Add controls and game logic here */}
             </div>
+            {/* Audio elements */}
+            <audio ref={correctAudioRef} src={correctSound} />
+            <audio ref={tryAgainAudioRef} src={tryAgainSound} />
+            <audio ref={incorrectAudioRef} src={incorrectSound} />
         </div>
     );
 };

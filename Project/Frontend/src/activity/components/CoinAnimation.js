@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import lottie from 'lottie-web';
-import animationData from '../../assets/coin-animation.json'; // Ensure this path is correct
+import animationData from '../../assets/animation/coin-animation.json'; // Ensure this path is correct
 
 const CoinAnimation = ({ isAnimating }) => {
   const animationContainer = useRef(null);

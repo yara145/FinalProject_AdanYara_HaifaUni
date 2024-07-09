@@ -1,0 +1,129 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'; /* Import Animate.css for animations */
+
+.identify-image-activity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center the content vertically */
+  height: 100vh;
+  width: 100vw;
+  background-color: #a1cdfa; /* Sky blue background */
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.identify-image-activity .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+  position: absolute;
+  top: 0;
+}
+
+.identify-image-activity .back-button {
+  background-color: #5aa8a0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  position: relative;
+  left: 20px; /* Move the back button a bit to the right */
+}
+
+.identify-image-activity .back-button:hover {
+  background-color: #3d8572;
+  transform: translateX(-5px);
+}
+
+.identify-image-activity .score-display {
+  display: flex;
+  align-items: center;
+}
+
+.identify-image-activity .images-display img {
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(158, 248, 229, 0.1);
+}
+
+.identify-image-activity .images-display img:hover {
+  transform: scale(1.1);
+  background-color: #f0f0f0;
+}
+
+.cloud {
+  position: absolute;
+}
+
+.cloud1 {
+  top: 50px;
+  left: 20px;
+  width: 150px; /* Adjust size as needed */
+}
+
+.cloud2 {
+  top: 50px;
+  right: 200px;
+  width: 150px; /* Adjust size as needed */
+}
+
+.cloud3 {
+  bottom: -60px;
+  left: calc(50% - 75px); /* Center the cloud horizontally */
+  width: 150px; /* Adjust size as needed */
+}
+
+.airplane-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 30%; /* Position the airplane a bit lower */
+  animation: flyAcross 35s linear infinite; /* Animate the airplane */
+}
+
+@keyframes flyAcross {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(calc(100vw + 100%)); /* Move completely out of the screen */
+  }
+}
+
+.airplane-image {
+  width: 900px; /* Adjust size as needed */
+  height: auto;
+}
+
+.banner-text {
+  position: absolute;
+  left: 234px; /* Center the text horizontally */
+  top: 50%;
+  transform: translate(-50%, -50%); /* Center the text on the banner */
+  font-size: 5em;
+  color: #000; /* Adjust text color as needed */
+}
+
+.feedback-message {
+  font-size: 2em;
+  margin-top: 20px;
+}
+
+.feedback-message.correct {
+  color: #28a745;
+}
+
+.feedback-message.incorrect {
+  color: #dc3545;
+}
