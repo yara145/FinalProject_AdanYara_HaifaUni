@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -10,6 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 let users = [];
+let students = [];
 
 // Signup endpoint
 app.post('/api/signup', (req, res) => {
@@ -41,6 +41,18 @@ app.post('/api/set-avatar', (req, res) => {
   } else {
     res.status(404).json({ message: 'User not found' });
   }
+});
+
+// Fetch Students endpoint
+app.get('/api/students', (req, res) => {
+  res.status(200).json(students);
+});
+
+// Add Student endpoint
+app.post('/api/add-student', (req, res) => {
+  const student = req.body;
+  students.push(student);
+  res.status(201).json(student);
 });
 
 app.listen(port, () => {

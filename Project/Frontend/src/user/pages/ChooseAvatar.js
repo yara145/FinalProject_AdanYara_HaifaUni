@@ -13,7 +13,6 @@ const animals = [
 
 const ChooseAvatar = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [selectedAnimal, setSelectedAnimal] = useState(null);
     const navigate = useNavigate();
 
     const handleNext = () => {
@@ -25,8 +24,8 @@ const ChooseAvatar = () => {
     };
 
     const handleSubmit = () => {
-        setSelectedAnimal(animals[currentIndex]);
-        localStorage.setItem('avatar', JSON.stringify(animals[currentIndex]));
+        const selectedAnimal = animals[currentIndex];
+        localStorage.setItem('avatar', JSON.stringify(selectedAnimal));
         navigate('/home');
     };
 

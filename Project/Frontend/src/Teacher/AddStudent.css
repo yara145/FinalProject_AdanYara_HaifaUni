@@ -1,0 +1,91 @@
+/* src/Teacher/AddStudent.css */
+.add-student-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  
+  .add-student-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .add-student-container form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .add-student-container input[type="text"] {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .checkbox-container {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .checkbox-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4caf50;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .checkbox-label input[type="checkbox"]:checked::after {
+    content: '✔';
+    position: absolute;
+    top: 0;
+    left: 4px;
+    font-size: 16px;
+    color: #4caf50;
+  }
+  
+  .checkbox-label input[type="checkbox"]:hover {
+    background-color: #f0f8ff;
+  }
+  
+  .add-student-container button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-student-container button:hover {
+    background-color: #45a049;
+  }
+  /* src/Teacher/AddStudent.css */
+.error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  

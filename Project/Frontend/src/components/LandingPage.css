@@ -1,0 +1,111 @@
+body {
+    font-family: 'Arial, sans-serif';
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Ensure no scroll bars are shown */
+    direction: rtl;
+  }
+  
+  .landing-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f8ff;
+    animation: fadeIn 1s ease-in-out;
+    position: relative; /* Add relative positioning for the container */
+  }
+  
+  .landing-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideIn 1s ease-in-out;
+    position: relative;
+  }
+  
+  .landing-logo {
+    width: 200px; /* Adjust as needed */
+    margin-bottom: 40px;
+  }
+  
+  .landing-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .landing-button-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .landing-button {
+    padding: 20px 40px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #87cefa; /* Light blue color */
+    color: white;
+    transition: background-color 0.3s ease;
+    width: 250px; /* Adjust button width */
+    text-align: center; /* Center the text */
+  }
+  
+  .button-icon {
+    width: 40px; /* Adjust icon size */
+    height: 40px; /* Adjust icon size */
+    margin-left: 10px; /* Space between icon and text */
+  }
+  
+  .landing-button:hover {
+    background-color: #66b2e8;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .landing-container {
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 20px;
+    }
+  
+    .landing-card {
+      width: 100%;
+      max-width: 400px;
+      box-shadow: none;
+    }
+  
+    .landing-button {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+  

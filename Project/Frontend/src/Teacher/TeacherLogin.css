@@ -1,3 +1,4 @@
+/* src/components/TeacherLogin.css */
 body {
   font-family: 'Arial, sans-serif';
   margin: 0;
@@ -27,23 +28,22 @@ body {
   padding: 10px 20px;
   background-color: #f0f8ff; /* Match the background color of the page */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  direction: ltr; /* Add this to ensure flexbox direction is left to right */
+  direction: ltr; /* Ensure flexbox direction is left to right */
 }
 
-.login-header .back-button {
+.back-button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border: none;
   border-radius: 5px;
-  background-color: #4caf50 !important;
+  background-color: #4caf50;
   color: white;
   transition: background-color 0.3s ease;
-  margin-left: 20px; /* Add margin to push the button to the right */
 }
 
-.login-header .back-button:hover {
-  background-color: #3a813e;
+.back-button:hover {
+  background-color: #45a049;
 }
 
 .login-logo {
@@ -96,22 +96,7 @@ body {
 }
 
 .login-container button:hover {
-  background-color: #418f45;
-}
-
-.login-container p {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-}
-
-.login-container p a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.login-container p a:hover {
-  text-decoration: underline;
+  background-color: #45a049;
 }
 
 .error {
@@ -142,23 +127,23 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .login-container {
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 20px;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 20px;
   }
 
   .login-card {
-    width: 100%;
-    max-width: 400px;
-    box-shadow: none;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: none;
   }
 
   .login-header {
-    flex-direction: column;
-    align-items: center;
+      flex-direction: column;
+      align-items: center;
   }
 
   .login-logo {
-    margin-top: 10px;
+      margin-top: 10px;
   }
 }

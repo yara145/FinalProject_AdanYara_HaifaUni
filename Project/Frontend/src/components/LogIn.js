@@ -1,9 +1,9 @@
-// src/components/LogIn.js
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import lottie from 'lottie-web';
 import loginAnimationData from '../assets/animation/login-animation.json';
+import logo from '../assets/logo.png'; // Ensure the path to the logo is correct
 import './LogIn.css';
 
 const Login = () => {
@@ -40,12 +40,16 @@ const Login = () => {
         }
     };
 
-    const handleYara = () => {
-        navigate('/activity'); // Navigate to LetterActivity
+    const handleBack = () => {
+        navigate('/');
     };
 
     return (
         <div className="login-container">
+            <header className="login-header">
+                <button className="back-button" onClick={handleBack}>رجوع</button>
+                <img src={logo} alt="Logo" className="login-logo" />
+            </header>
             <div className="login-card">
                 <div ref={animationContainer} style={{ height: '150px', width: '150px' }} />
                 <h2>تسجيل دخول</h2>
@@ -57,7 +61,6 @@ const Login = () => {
                 </form>
                 <p>ليس لديك حساب؟ <Link to="/signup">تسجيل</Link></p>
             </div>
-            <button className="button-right" onClick={handleYara}>Yara</button>
         </div>
     );
 };

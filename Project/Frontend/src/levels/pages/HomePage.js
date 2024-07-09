@@ -15,6 +15,7 @@ const HomePage = () => {
   const avatar = JSON.parse(localStorage.getItem('avatar'));
   const username = localStorage.getItem('username');
   const [showMessage, setShowMessage] = useState(false);
+  const [learningDifficulties, setLearningDifficulties] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,6 +23,13 @@ const HomePage = () => {
     }, 5000); // Show message after 5 seconds
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const studentData = JSON.parse(localStorage.getItem(username));
+    if (studentData && studentData.difficulties) {
+      setLearningDifficulties(studentData.difficulties);
+    }
+  }, [username]);
 
   const handleClick = (type) => {
     const target = `.${type}`;
@@ -40,18 +48,24 @@ const HomePage = () => {
         <Lottie animationData={cloudsAnimation} loop={true} />
       </div>
       <div className="land">
-        <div className="item island" onClick={() => handleClick('island')}>
-          <Island />
-          <div className="title">جزيرة الكلمات</div>
-        </div>
-        <div className="item mountain" onClick={() => handleClick('mountain')}>
-          <Mountain />
-          <div className="title">تلة الحروف</div>
-        </div>
-        <div className="item park" onClick={() => handleClick('park')}>
-          <Park />
-          <div className="title">حديقة التهجئة</div>
-        </div>
+        {learningDifficulties.includes('قراءة مقاطع وكلمات') && (
+          <div className="item island" onClick={() => handleClick('island')}>
+            <Island />
+            <div className="title">جزيرة المقاطع والكلمات</div>
+          </div>
+        )}
+        {learningDifficulties.includes('الوعي الصوتي ومعرفة صوت الحرف') && (
+          <div className="item mountain" onClick={() => handleClick('mountain')}>
+            <Mountain />
+            <div className="title">تلة الوعي الصوتي</div>
+          </div>
+        )}
+        {learningDifficulties.includes('فهم مقروء وفهم مسموع') && (
+          <div className="item park" onClick={() => handleClick('park')}>
+            <Park />
+            <div className="title">حديقة الفهم المقروء والفهم المسموع</div>
+          </div>
+        )}
       </div>
       <div className="welcome-message">
         <div className="balloon">
