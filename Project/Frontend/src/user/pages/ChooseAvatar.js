@@ -1,7 +1,8 @@
-// src/user/pages/ChooseAvatar.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './ChooseAvatar.css';
+import logo from '../../assets/logo.png'; // Ensure the path to the logo is correct
 
 const animals = [
     { name: 'Cat', image: '/cat.png' },
@@ -14,6 +15,7 @@ const animals = [
 const ChooseAvatar = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
+    const studentNumber = localStorage.getItem('studentNumber');
 
     const handleNext = () => {
         setCurrentIndex((currentIndex + 1) % animals.length);
@@ -23,14 +25,33 @@ const ChooseAvatar = () => {
         setCurrentIndex((currentIndex - 1 + animals.length) % animals.length);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const selectedAnimal = animals[currentIndex];
         localStorage.setItem('avatar', JSON.stringify(selectedAnimal));
-        navigate('/home');
+        try {
+            if (studentNumber === 'guest') {
+                localStorage.setItem('isGuest', 'true');
+                navigate('/home');
+            } else {
+                await axios.post('http://localhost:5000/api/set-avatar', { number: studentNumber, avatar: selectedAnimal });
+                localStorage.removeItem('isGuest');
+                navigate('/home');
+            }
+        } catch (error) {
+            console.error('Error setting avatar:', error);
+        }
+    };
+
+    const handleBack = () => {
+        navigate('/');
     };
 
     return (
         <div className="choose-avatar-container">
+            <header className="choose-avatar-header">
+                <button className="back-button" onClick={handleBack}>رجوع</button>
+                <img src={logo} alt="Logo" className="login-logo" />
+            </header>
             <div className="navigation-container">
                 <button className="nav-button" onClick={handlePrevious}>{'<'}</button>
                 <div className="animal-container">

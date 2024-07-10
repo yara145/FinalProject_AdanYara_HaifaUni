@@ -33,14 +33,31 @@ app.post('/api/login', (req, res) => {
 
 // Set Avatar endpoint
 app.post('/api/set-avatar', (req, res) => {
-  const { username, avatar } = req.body;
-  const user = users.find(user => user.username === username);
-  if (user) {
-    user.avatar = avatar;
+  const { number, avatar } = req.body;
+  console.log(`Setting avatar for student number: ${number}`);
+  const student = students.find(student => student.number === number);
+  if (student) {
+    student.avatar = avatar;
     res.status(200).json({ message: 'Avatar set successfully' });
   } else {
-    res.status(404).json({ message: 'User not found' });
+    res.status(404).json({ message: 'Student not found' });
   }
+});
+
+// Student Login endpoint
+app.post('/api/student-login', (req, res) => {
+  const { number } = req.body;
+  console.log(`Student login attempt with number: ${number}`);
+  let student = students.find(s => s.number === number);
+
+  if (!student) {
+    student = { number, firstLogin: true, difficulties: [], avatar: null };
+    students.push(student);
+  } else {
+    student.firstLogin = false;
+  }
+
+  res.json(student);
 });
 
 // Fetch Students endpoint
