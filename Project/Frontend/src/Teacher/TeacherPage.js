@@ -29,36 +29,35 @@ const TeacherPage = () => {
     }
   };
 
-  const addStudent = (student) => {
-    // Check for duplicate student numbers
+  const addStudent = async (student) => {
+    // Check for duplicate student names
     if (students.some(s => s.name === student.name)) {
       return 'رقم الطالب موجود بالفعل';
     }
 
-    fetch('http://localhost:5000/api/add-student', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(student),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to add student');
-        }
-        return response.json();
-      })
-      .then(newStudent => {
-        setStudents([...students, newStudent]);
-        setShowAddStudentModal(false); // Close modal after adding student
-      })
-      .catch(error => {
-        console.error('Error adding student:', error);
+    try {
+      const response = await fetch('http://localhost:5000/api/add-student', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(student),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to add student');
+      }
+
+      const newStudent = await response.json();
+      setStudents([...students, newStudent]);
+      setShowAddStudentModal(false); // Close modal after adding student
+    } catch (error) {
+      console.error('Error adding student:', error);
+    }
   };
 
   return (
-    <div className={`teacher-page ${showAddStudentModal ? 'modal-open' : ''}`}>
+    <div className={`teacher-page rtl ${showAddStudentModal ? 'modal-open' : ''}`}>
       <header className="teacher-header">
         <img src={logo} alt="Logo" className="teacher-logo" />
         <nav className="teacher-nav">
