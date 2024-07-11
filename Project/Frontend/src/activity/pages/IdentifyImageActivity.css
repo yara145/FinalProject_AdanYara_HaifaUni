@@ -1,3 +1,4 @@
+/* IdentifyImageActivity.css */
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'; /* Import Animate.css for animations */
 
 .identify-image-activity {
@@ -7,7 +8,7 @@
   justify-content: center; /* Center the content vertically */
   height: 100vh;
   width: 100vw;
-  background-color: #a1cdfa; /* Sky blue background */
+  background-color: rgb(183, 239, 255); /* Sky blue background */
   font-family: 'Arial', sans-serif;
   position: relative;
   overflow: hidden;
@@ -69,19 +70,37 @@
 .cloud1 {
   top: 50px;
   left: 20px;
-  width: 150px; /* Adjust size as needed */
+  width: 250px; /* Adjust size as needed */
 }
 
 .cloud2 {
-  top: 50px;
-  right: 200px;
-  width: 150px; /* Adjust size as needed */
+  top: 100px;
+  right: 10px;
+  width: 250px; /* Adjust size as needed */
 }
 
 .cloud3 {
-  bottom: -60px;
+  bottom: 50px;
   left: calc(50% - 75px); /* Center the cloud horizontally */
-  width: 150px; /* Adjust size as needed */
+  width: 250px; /* Adjust size as needed */
+}
+
+.cloud4 {
+  top: 200px;
+  left: 460px;
+  width: 250px; /* Adjust size as needed */
+}
+
+.cloud5 {
+  bottom: 100px;
+  right: 200px;
+  width: 250px; /* Adjust size as needed */
+}
+
+.cloud6 {
+  top: 300px;
+  left: 50px;
+  width: 250px; /* Adjust size as needed */
 }
 
 .airplane-container {

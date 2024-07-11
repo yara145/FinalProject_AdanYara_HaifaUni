@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Lottie from 'lottie-react';
 import './IdentifyImageActivity.css';
 import { useReward } from 'react-rewards';
 import CoinsDisplay from '../components/CoinsDisplay';
@@ -11,8 +12,8 @@ import dad from '../../assets/dad.jpg';
 import cry from '../../assets/cry.jpg';
 import island from '../../assets/island.jpg';
 import sand from '../../assets/sand.jpg';
-import airplaneBanner from '../../assets/images/bannerPlan.png'; // Add airplane banner image
-import cloud from '../../assets/images/cloud.png'; // Add cloud image
+import airplaneBanner from '../../assets/images/Air.png'; // Add airplane banner image
+import cloudAnimation from '../../assets/animation/cloud.json'; // Add cloud animation
 
 const words = [
   { word: 'دار', correctImage: home, images: [ court, island,home, cry] },
@@ -89,9 +90,24 @@ const IdentifyImageActivity = () => {
       <div className="content">
         {!showImages ? (
           <>
-            <div className="cloud cloud1"><img src={cloud} alt="Cloud" /></div>
-            <div className="cloud cloud2"><img src={cloud} alt="Cloud" /></div>
-            <div className="cloud cloud3"><img src={cloud} alt="Cloud" /></div>
+            <div className="cloud cloud1">
+              <Lottie animationData={cloudAnimation} loop={true} />
+            </div>
+            <div className="cloud cloud2">
+              <Lottie animationData={cloudAnimation} loop={true} />
+            </div>
+            <div className="cloud cloud3">
+              <Lottie animationData={cloudAnimation} loop={true} />
+            </div>
+            <div className="cloud cloud4">
+              <Lottie animationData={cloudAnimation} loop={true} />
+            </div>
+            <div className="cloud cloud5">
+              <Lottie animationData={cloudAnimation} loop={true} />
+            </div>
+            <div className="cloud cloud6">
+              <Lottie animationData={cloudAnimation} loop={true} />
+            </div>
             <div className="airplane-container">
               <img src={airplaneBanner} alt="Airplane Banner" className="airplane-image" />
               <div className="banner-text">{currentWord.word}</div>
