@@ -16,36 +16,43 @@ body, html {
     justify-content: space-between;
     height: 100vh;
     width: 100vw;
-    background-color: #edf2f7;
+    background-color: #daf3ff;
     font-family: 'Arial', sans-serif;
     position: relative;
     overflow: hidden; /* Prevent scrolling */
 }
 
-/* Header */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 20px;
+    position: relative; /* Ensure it's positioned correctly in relation to other elements */
+    z-index: 5; /* Ensure it stays above other content */
 }
 
-.back-button-container {
-    flex: 1;
-    margin-left: 20px; /* Adjusted value to move the button to the right */
-    height: 50px;
-    width: 70px;
-}
 
-/* Score Display */
-.score-display {
+/* Assuming you have a unique identifier for your page or activity */
+.page-specific .score-display {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 70px;
     width: auto;
+    position: relative; /* Ensure it's positioned relative or absolute */
+    left: -120px; /* Adjust the value as needed */
+}
+
+
+.back-button-container {
+    flex: 1;
+    margin-left: 20px; /* Adjusted value to move the button to the right */
+    height: 50px;
+    width: 70px;
+    position: relative; /* Ensure it's positioned relative or absolute */
+    left: 1356px; /* Adjust the value as needed to move it to the left */
 }
 
 /* Photo Container */
@@ -53,7 +60,9 @@ body, html {
     width: 100%;
     height: auto;
     display: flex;
+    left: 60px;
     justify-content: flex-start;
+    top: 178px;
     align-items: center;
     position: relative;
     z-index: 2; /* Ensure it appears above the waves */
@@ -72,37 +81,64 @@ body, html {
     background-color: #fff; /* Optional: add background color */
 }
 
-.ship-photo {
-    width: 600px !important;
-    height: 650px !important;
-    margin-top: -5px !important;
-    position: relative;
+.center-container {
+    position: absolute;
+    height: 320px;
+    width: 455px;
+    top: 224px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row; /* Change to row to align items horizontally */
+    align-items: center; /* Center vertically */
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(249, 253, 255, 0.5); /* 50% opacity */
+    border-radius: 10px; /* Optional: add border radius */
+}
+
+.umbrella-photo {
+    position: absolute;
+    top: 10px; /* Adjust the value as needed */
+    right: 10px; /* Adjust the value as needed */
+    width: 90px; /* Adjust the size as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 4; /* Ensure it appears above other content */
 }
 
 .word-on-sail {
-    position: absolute;
-    top: 280px;
-    left: 310px;
-    font-size: 3em;
+    font-size: 5em;
     color: rgb(24, 16, 16);
+    margin-right: 20px; /* Add margin to create space between word and wood-of-boat */
+    position: relative; /* Add this line */
+    right: 26px;
 }
 
 .wood-of-boat {
-    position: absolute;
-    bottom: 60px;
-    left: 21%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 100px;
-    background-color: #dac7a3;
+    width: 140px;
+    height: 150px;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
+    position: relative; /* Add this line */
     align-items: center;
+    left: 30px;
     border-radius: 10px;
+    margin-top: 0; /* Remove the top margin to align with the word */
+}
+
+.ship-photo {
+    position: absolute;
+    width: 405px !important;
+    height: 400px !important;
+    margin-top: 140px !important;
+    right: 100px;
+    top: -90px;
+    position: relative;
 }
 
 .selected-image {
-    width: 100px;
+    width: 200px;
     height: 100px;
     transition: transform 1s;
 }
@@ -224,8 +260,9 @@ body, html {
 .lottie-container {
     width: 3000px;
     height: 900px;
+    right: -493px;
     position: absolute;
-    bottom: -360px; /* Adjust this value as needed */
+    bottom: -402px; /* Adjust this value as needed */
     z-index: 1;
 }
 
@@ -270,10 +307,13 @@ body, html {
         width: 60px;
         height: 60px;
     }
+}
 
-    .ship-photo {
-        width: 100%;
-        height: auto;
-        margin-top: 0;
-    }
+.sun-photo {
+    position: absolute;
+    top: -51px; /* Adjust as needed */
+    left: 49px; /* Adjust as needed */
+    width: 287px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 4; /* Ensure it appears above other content */
 }

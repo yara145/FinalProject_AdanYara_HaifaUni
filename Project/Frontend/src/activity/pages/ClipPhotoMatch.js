@@ -3,10 +3,11 @@ import './ClipPhotoMatch.css';
 import CoinsDisplay from '../components/CoinsDisplay';
 import LevelDisplay from '../components/LevelDisplay';
 import { useNavigate } from 'react-router-dom';
-import boatImage from '../../assets/boat.png'; // Adjust the path as needed
+import boatImage from '../../assets/images/Ship.png'; 
 import Lottie from 'lottie-react';
 import wavesAnimation from '../../assets/animation/waves-animation.json';
-
+import umbrellaImage from '../../assets/images/Umbrella.png'; 
+import sunImage from '../../assets/images/sun.png'; 
 
 // Import images
 import garlicImage from '../../assets/toom.png';
@@ -49,7 +50,7 @@ const ClipPhotoMatch = () => {
     const [attempts, setAttempts] = useState(0);
     const [gameEnded, setGameEnded] = useState(false);
     const [isFinalMove, setIsFinalMove] = useState(false);
-    const [summaryMessage, setSummaryMessage] = useState(''); // New state for summary message
+    const [summaryMessage, setSummaryMessage] = useState(''); 
 
     const currentWord = sidebarWords[currentWordIndex]?.word;
 
@@ -154,53 +155,46 @@ const ClipPhotoMatch = () => {
     };
 
     return (
-        <div className="clip-photo-match">
-            <div className="header">
+        <>
+            <img src={sunImage} alt="Sun" className="sun-photo" />
+            <header className="header">
                 <div className="back-button-container">
                     <button className="back-button" onClick={handleBackToLogin}>رجوع</button>
                 </div>
+                <div class="page-specific">
+
+
                 <div className="score-display">
                     <CoinsDisplay coins={coins} />
                     <LevelDisplay level={level} />
                 </div>
-            </div>
-            <div
-                className="photo-container"
-                style={{
-                    transform: `translateX(${shipPosition}px)`,
-                    transition: isFinalMove ? 'transform 2s ease' : 'transform 3s ease'
-                }}
-                onTransitionEnd={handleTransitionEnd}
-            >
+</div>
+            </header>
+            <main className="photo-container" style={{ transform: `translateX(${shipPosition}px)`, transition: isFinalMove ? 'transform 2s ease' : 'transform 3s ease' }} onTransitionEnd={handleTransitionEnd}>
                 <img src={boatImage} alt="Ship" className="ship-photo" />
+            </main>
+            <section className="center-container">
+                <img src={umbrellaImage} alt="Umbrella" className="umbrella-photo" />
                 <div className="word-on-sail">{currentWord}</div>
                 <div className="wood-of-boat">
                     {selectedImage && (
-                        <img
-                            src={selectedImage}
-                            alt="Selected"
-                            className={`selected-image ${animateImage ? 'animate' : ''}`}
-                        />
+                        <img src={selectedImage} alt="Selected" className={`selected-image ${animateImage ? 'animate' : ''}`} />
                     )}
                 </div>
-            </div>
+            </section>
             <div className="lottie-container">
                 <Lottie animationData={wavesAnimation} />
             </div>
             {sidebarWords.length > 0 && !gameEnded && (
-                <div className="photo-container-wrapper">
+                <aside className="photo-container-wrapper">
                     <div className="photo-sidebar">
                         {sidebarWords.map((item, index) => (
-                            <div
-                                key={index}
-                                className={`image-button ${laserColor && clickedIndex === index ? `laser-${laserColor}` : ''}`}
-                                onClick={() => handleImageClick(item.image, item.word, index)}
-                            >
+                            <div key={index} className={`image-button ${laserColor && clickedIndex === index ? `laser-${laserColor}` : ''}`} onClick={() => handleImageClick(item.image, item.word, index)}>
                                 <img src={item.image} alt={item.word} />
                             </div>
                         ))}
                     </div>
-                </div>
+                </aside>
             )}
             {feedbackMessage && (
                 <div className="feedback-modal feedback-error">
@@ -216,7 +210,7 @@ const ClipPhotoMatch = () => {
                     </div>
                 </div>
             )}
-            {gameEnded && summaryMessage && ( // Display the summary message when the game ends
+            {gameEnded && summaryMessage && (
                 <div className="feedback-modal summary-modal">
                     <div className="feedback-content">
                         {summaryMessage}
@@ -226,11 +220,10 @@ const ClipPhotoMatch = () => {
             <div className="controls">
                 {/* Add controls and game logic here */}
             </div>
-            {/* Audio elements */}
             <audio ref={correctAudioRef} src={correctSound} />
             <audio ref={tryAgainAudioRef} src={tryAgainSound} />
             <audio ref={incorrectAudioRef} src={incorrectSound} />
-        </div>
+        </>
     );
 };
 
