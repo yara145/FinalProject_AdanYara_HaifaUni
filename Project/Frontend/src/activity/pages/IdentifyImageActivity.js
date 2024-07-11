@@ -31,7 +31,7 @@ const IdentifyImageActivity = () => {
   const [level, setLevel] = useState(1);
   const [coins, setCoins] = useState(0);
   const { reward: rewardEmoji } = useReward('rewardId', 'emoji', {
-    emoji: ['🌟', '👍']
+    emoji: ['🌟']
   });
   const [feedback, setFeedback] = useState(null);
 
