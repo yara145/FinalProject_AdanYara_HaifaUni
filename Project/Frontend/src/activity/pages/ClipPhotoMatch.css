@@ -1,4 +1,5 @@
-@import './ActivityCommonStyle.css'; /* Import the common styles */
+/* Import the common styles */
+@import './ActivityCommonStyle.css'; 
 
 /* Global Styles */
 body, html {
@@ -32,8 +33,6 @@ body, html {
     z-index: 5; /* Ensure it stays above other content */
 }
 
-
-/* Assuming you have a unique identifier for your page or activity */
 .page-specific .score-display {
     display: flex;
     flex-direction: row;
@@ -44,7 +43,6 @@ body, html {
     position: relative; /* Ensure it's positioned relative or absolute */
     left: -120px; /* Adjust the value as needed */
 }
-
 
 .back-button-container {
     flex: 1;
@@ -84,7 +82,7 @@ body, html {
 .center-container {
     position: absolute;
     height: 320px;
-    width: 455px;
+    width: 655px;
     top: 224px;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -97,11 +95,11 @@ body, html {
     border-radius: 10px; /* Optional: add border radius */
 }
 
-.umbrella-photo {
+.octupus-photo {
     position: absolute;
-    top: 10px; /* Adjust the value as needed */
-    right: 10px; /* Adjust the value as needed */
-    width: 90px; /* Adjust the size as needed */
+    top: -35px; /* Adjust the value as needed */
+    right: -10px; /* Adjust the value as needed */
+    width: 70px; /* Adjust the size as needed */
     height: auto; /* Maintain aspect ratio */
     z-index: 4; /* Ensure it appears above other content */
 }
@@ -112,6 +110,7 @@ body, html {
     margin-right: 20px; /* Add margin to create space between word and wood-of-boat */
     position: relative; /* Add this line */
     right: 26px;
+    top:-39px;
 }
 
 .wood-of-boat {
@@ -119,6 +118,7 @@ body, html {
     height: 150px;
     background-color: #ffffff;
     display: flex;
+    top:-39px;
     justify-content: center;
     position: relative; /* Add this line */
     align-items: center;
@@ -132,8 +132,8 @@ body, html {
     width: 405px !important;
     height: 400px !important;
     margin-top: 140px !important;
-    right: 100px;
-    top: -90px;
+    right: 90px;
+    top: -51px;
     position: relative;
 }
 
@@ -170,28 +170,49 @@ body, html {
     margin-top: 10px;
 }
 
-/* Photo Sidebar */
-.photo-sidebar {
+/* Photo Navigation */
+.photo-navigation {
     display: flex;
-    flex-direction: column; /* Vertical layout */
-    gap: 10px;
-    position: relative;
-    z-index: 3;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    top:20px;
+    gap: 20px;
+    position: absolute;
+    bottom: 20px; /* Positioned at the bottom of the viewport */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
 }
 
-.image-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    z-index: 3;
-}
-
-.image-button img {
-    width: 100px;
-    height: 100px;
+.image-wrapper {
+    width: 100px; /* Adjust image width */
+    height: 100px; /* Adjust image height */
     border-radius: 5px;
-    object-fit: cover;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional shadow for better visibility */
+    transition: transform 0.3s ease-in-out;
+}
+
+.image-wrapper.visible {
+    transform: scale(1.1); /* Slightly increase size when visible */
+}
+
+.nav-button {
+    background-color: #fff; /* Button background */
+    border: none;
+    border-radius: 50%;
+    width: 40px; /* Button width */
+    height: 40px; /* Button height */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button:hover {
+    background-color: #e0e0e0; /* Hover effect for button */
 }
 
 /* Laser Border */
@@ -282,7 +303,7 @@ body, html {
         gap: 5px;
     }
 
-    .image-button img {
+    .image-wrapper {
         width: 80px;
         height: 80px;
     }
@@ -293,17 +314,11 @@ body, html {
         bottom: -200px;
     }
 
-    .photo-sidebar {
-        flex-direction: row; /* Horizontal layout for smaller screens */
-        right: 10px;
-        top: auto;
-        bottom: 20px;
-        transform: translateY(0);
-    }
+   
 }
 
 @media (max-width: 480px) {
-    .image-button img {
+    .image-wrapper {
         width: 60px;
         height: 60px;
     }
@@ -312,7 +327,7 @@ body, html {
 .sun-photo {
     position: absolute;
     top: -51px; /* Adjust as needed */
-    left: 49px; /* Adjust as needed */
+    left: -13px; /* Adjust as needed */
     width: 287px; /* Adjust size as needed */
     height: auto; /* Maintain aspect ratio */
     z-index: 4; /* Ensure it appears above other content */

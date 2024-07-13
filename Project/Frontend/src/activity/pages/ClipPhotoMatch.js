@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import boatImage from '../../assets/images/Ship.png'; 
 import Lottie from 'lottie-react';
 import wavesAnimation from '../../assets/animation/waves-animation.json';
-import umbrellaImage from '../../assets/images/Umbrella.png'; 
+import octopusImage from '../../assets/images/Octopus.png'; 
 import sunImage from '../../assets/images/sun.png'; 
 
 // Import images
@@ -51,6 +51,7 @@ const ClipPhotoMatch = () => {
     const [gameEnded, setGameEnded] = useState(false);
     const [isFinalMove, setIsFinalMove] = useState(false);
     const [summaryMessage, setSummaryMessage] = useState(''); 
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const currentWord = sidebarWords[currentWordIndex]?.word;
 
@@ -75,6 +76,14 @@ const ClipPhotoMatch = () => {
 
     const handleBackToLogin = () => {
         navigate('/login');
+    };
+
+    const handleNext = () => {
+        setCurrentIndex((currentIndex + 1) % sidebarWords.length);
+    };
+
+    const handlePrevious = () => {
+        setCurrentIndex((currentIndex - 1 + sidebarWords.length) % sidebarWords.length);
     };
 
     const handleImageClick = (image, alt, index) => {
@@ -162,19 +171,17 @@ const ClipPhotoMatch = () => {
                     <button className="back-button" onClick={handleBackToLogin}>رجوع</button>
                 </div>
                 <div class="page-specific">
-
-
                 <div className="score-display">
                     <CoinsDisplay coins={coins} />
                     <LevelDisplay level={level} />
                 </div>
-</div>
+                </div>
             </header>
             <main className="photo-container" style={{ transform: `translateX(${shipPosition}px)`, transition: isFinalMove ? 'transform 2s ease' : 'transform 3s ease' }} onTransitionEnd={handleTransitionEnd}>
                 <img src={boatImage} alt="Ship" className="ship-photo" />
             </main>
             <section className="center-container">
-                <img src={umbrellaImage} alt="Umbrella" className="umbrella-photo" />
+                <img src={octopusImage} alt="Octupus" className="octupus-photo" />
                 <div className="word-on-sail">{currentWord}</div>
                 <div className="wood-of-boat">
                     {selectedImage && (
@@ -186,15 +193,19 @@ const ClipPhotoMatch = () => {
                 <Lottie animationData={wavesAnimation} />
             </div>
             {sidebarWords.length > 0 && !gameEnded && (
-                <aside className="photo-container-wrapper">
-                    <div className="photo-sidebar">
-                        {sidebarWords.map((item, index) => (
-                            <div key={index} className={`image-button ${laserColor && clickedIndex === index ? `laser-${laserColor}` : ''}`} onClick={() => handleImageClick(item.image, item.word, index)}>
-                                <img src={item.image} alt={item.word} />
-                            </div>
-                        ))}
-                    </div>
-                </aside>
+                <div className="photo-navigation">
+                    <button className="nav-button" onClick={handlePrevious}>{'<'}</button>
+                    {sidebarWords.map((item, index) => (
+                        <img
+                            key={index}
+                            src={item.image}
+                            alt={item.word}
+                            className={`image-wrapper ${currentIndex === index ? 'visible' : ''}`}
+                            onClick={() => handleImageClick(item.image, item.word, index)}
+                        />
+                    ))}
+                    <button className="nav-button" onClick={handleNext}>{'>'}</button>
+                </div>
             )}
             {feedbackMessage && (
                 <div className="feedback-modal feedback-error">
