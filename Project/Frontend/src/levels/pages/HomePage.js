@@ -8,11 +8,15 @@ import lottie from 'lottie-web';
 import cloudsAnimation from '../../assets/animation/cloud.json'; // Adjust path if needed
 import tigerAnimation from '../../assets/animation/login-animation.json';
 import speechBubbleImage from '../../assets/speech-bubble.png';
+import sunAnimation from '../../assets/animation/sun.json'; // Adjust path if needed
+import birdsAnimation from '../../assets/animation/birds.json'; // Adjust path if needed
 import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
   const tigerRef = useRef(null);
+  const sunRef = useRef(null);
+  const birdsRef = useRef(null);
   const cloudRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
   useEffect(() => {
@@ -22,6 +26,22 @@ const HomePage = () => {
       loop: true,
       autoplay: true,
       animationData: tigerAnimation,
+    });
+
+    lottie.loadAnimation({
+      container: sunRef.current,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: sunAnimation,
+    });
+
+    lottie.loadAnimation({
+      container: birdsRef.current,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: birdsAnimation,
     });
 
     cloudRefs.forEach((ref, index) => {
@@ -69,9 +89,11 @@ const HomePage = () => {
         <div className="cloud cloud3" ref={cloudRefs[2]}></div>
         <div className="cloud cloud4" ref={cloudRefs[3]}></div>
       </div>
+      <div className="sun-animation" ref={sunRef}></div>
+      <div className="birds-animation" ref={birdsRef}></div>
       <div className="land">
         <div className="item island" onClick={() => handleClick('island')}>
-          <div className="title">جزيرة المقاطع والكلمات</div>
+          <div className="island-title">جزيرة المقاطع والكلمات</div>
           <Island />
         </div>
         <div className="item mountain" onClick={() => handleClick('mountain')}>
@@ -79,18 +101,18 @@ const HomePage = () => {
           <Mountain />
         </div>
         <div className="item park" onClick={() => handleClick('park')}>
-          <div className="title">حديقة الفهم المقروء والفهم المسموع</div>
+          <div className="title">حديقة الفهم المقروء</div>
           <Park />
         </div>
       </div>
       <div className="welcome-message">
-        <div className="tiger-animation" ref={tigerRef}></div>
         <div className="message-bubble">
           <img src={speechBubbleImage} alt="Speech Bubble" className="bubble-image" />
           <div className="message-text">
             مرحبًا بك في مغامرتنا التعليمية, بامكانك اختيار المرحلة التي تريدها
           </div>
         </div>
+        <div className="tiger-animation" ref={tigerRef}></div>
       </div>
     </div>
   );

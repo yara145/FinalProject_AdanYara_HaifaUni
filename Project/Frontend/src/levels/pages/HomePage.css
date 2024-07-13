@@ -73,6 +73,23 @@ body {
   width: 100px;
 }
 
+.sun-animation {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+}
+
+.birds-animation {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 .land {
   position: relative;
   width: 100%;
@@ -82,14 +99,13 @@ body {
   align-items: flex-end; /* Align items to the bottom */
   z-index: 2;
 }
-
 .item {
   text-align: center;
-  width: 300px; /* Adjust the width to make items smaller */
-  transition: transform 0.2s;
+  width: 300px;
+  transition: transform 0.2s, filter 0.2s; /* Add transition to filter and transform */
   cursor: pointer;
   position: relative;
-  margin-bottom: 50px; /* Make items higher */
+  margin-bottom: 50px;
 }
 
 .item img {
@@ -120,10 +136,10 @@ body {
 .title {
   position: absolute;
   width: 100%;
-  top: -30px; /* Position title above the image */
+  top: -50px; /* Adjust this value to position the title above the image */
   left: 50%;
   transform: translateX(-50%);
-  font-size: 1rem; /* Smaller font size */
+  font-size: 1.5rem; /* Increase the font size */
   font-weight: bold;
   color: #333; /* Adjust font color if needed */
   text-align: center;
@@ -132,7 +148,7 @@ body {
 .welcome-message {
   position: absolute;
   bottom: 0; /* Position the welcome message near the bottom */
-  right: 10%; /* Align it to the right */
+  right: 15%; /* Align it to the right */
   display: flex;
   flex-direction: column; /* Stack the bubble above the tiger */
   align-items: center; /* Center align the items */
@@ -150,12 +166,13 @@ body {
   justify-content: center;
   animation: show-message 1s forwards;
   animation-delay: 1s; /* Ensure message shows immediately after page load */
-  font-size: 1.5rem;
-  margin-bottom: 20px; /* Ensure the bubble is slightly above the tiger */
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  margin-right: 150px; /* Move the bubble slightly to the left */
 }
 
 .bubble-image {
-  width: 150px; /* Adjust size as needed */
+  width: 250px; /* Adjust size as needed */
   height: auto;
 }
 
@@ -164,7 +181,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1rem; /* Adjust font size as needed */
+  font-size: 1.2rem; /* Adjust font size as needed */
   color: #333;
 }
 
@@ -175,4 +192,18 @@ body {
   to {
     opacity: 1;
   }
+}
+
+.island-title {
+  position: absolute;
+  top: -250px;
+  width: 100%;
+  bottom: 100%; /* Position title above the image */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem; /* Increase the font size */
+  font-weight: bold;
+  color: #333; /* Adjust font color if needed */
+  text-align: center;
+  margin-bottom: 10px; /* Add space between the title and image */
 }
