@@ -1,14 +1,13 @@
-/* IdentifyImageActivity.css */
-@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'; /* Import Animate.css for animations */
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 
 .identify-image-activity {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center the content vertically */
+  justify-content: center;
   height: 100vh;
   width: 100vw;
-  background-color: rgb(183, 239, 255); /* Sky blue background */
+  background-color: rgb(183, 239, 255);
   font-family: 'Arial', sans-serif;
   position: relative;
   overflow: hidden;
@@ -33,14 +32,13 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s;
   position: relative;
-  left: 20px; /* Move the back button a bit to the right */
+  left: 20px;
 }
 
 .identify-image-activity .back-button:hover {
   background-color: #3d8572;
-  transform: translateX(-5px);
 }
 
 .identify-image-activity .score-display {
@@ -70,68 +68,119 @@
 .cloud1 {
   top: 50px;
   left: 20px;
-  width: 250px; /* Adjust size as needed */
+  width: 200px;
 }
 
 .cloud2 {
   top: 100px;
   right: 10px;
-  width: 250px; /* Adjust size as needed */
+  width: 100px;
 }
 
 .cloud3 {
   bottom: 50px;
-  left: calc(50% - 75px); /* Center the cloud horizontally */
-  width: 250px; /* Adjust size as needed */
+  left: calc(50% - 75px);
+  width: 100px;
 }
 
 .cloud4 {
   top: 200px;
   left: 460px;
-  width: 250px; /* Adjust size as needed */
+  width: 200px;
 }
 
 .cloud5 {
   bottom: 100px;
   right: 200px;
-  width: 250px; /* Adjust size as needed */
+  width: 200px;
 }
 
 .cloud6 {
   top: 300px;
   left: 50px;
-  width: 250px; /* Adjust size as needed */
+  width: 200px;
 }
 
 .airplane-container {
   display: flex;
   align-items: center;
   position: absolute;
-  top: 30%; /* Position the airplane a bit lower */
-  animation: flyAcross 35s linear infinite; /* Animate the airplane */
+  top: 30%;
+  animation: flyIn 4s ease-out forwards;
 }
 
-@keyframes flyAcross {
+@keyframes flyIn {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-100vw) translateY(-100vh);
   }
   100% {
-    transform: translateX(calc(100vw + 100%)); /* Move completely out of the screen */
+    transform: translateX(50vw) translateY(50vh);
+  }
+}
+
+@keyframes flyOut {
+  0% {
+    transform: translateX(50vw) translateY(50vh);
+  }
+  100% {
+    transform: translateX(100vw) translateY(100vh);
   }
 }
 
 .airplane-image {
-  width: 900px; /* Adjust size as needed */
+  width: 500px;
   height: auto;
 }
 
-.banner-text {
+.word-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 100px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.word-container h1 {
+  margin: 0;
+  font-size: 4em;
+  font-weight: bold;
+  color: #000;
+}
+
+.skip-button {
+  margin-top: 20px;
+  background-color: #5aa8a0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.skip-button:hover {
+  background-color: #3d8572;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   position: absolute;
-  left: 234px; /* Center the text horizontally */
-  top: 50%;
-  transform: translate(-50%, -50%); /* Center the text on the banner */
-  font-size: 5em;
-  color: #000; /* Adjust text color as needed */
+  top: 10px;
+  right: 10px;
+}
+
+.sand-clock-animation {
+  width: 100px;
+  height: 100px;
 }
 
 .feedback-message {
@@ -145,4 +194,27 @@
 
 .feedback-message.incorrect {
   color: #dc3545;
+}
+
+.celebration-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* Ensures it doesn't block interactions */
+  overflow: hidden; /* Ensure overflow is hidden to contain balloons */
+}
+
+.balloon-container {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  width: 200px;
+  height: 200px;
+  transition: bottom 1s ease-out;
 }

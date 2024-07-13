@@ -24,7 +24,7 @@ const ChooseAvatar = () => {
     const handlePrevious = () => {
         setCurrentIndex((currentIndex - 1 + animals.length) % animals.length);
     };
-
+ 
     const handleSubmit = async () => {
         const selectedAnimal = animals[currentIndex];
         localStorage.setItem('avatar', JSON.stringify(selectedAnimal));

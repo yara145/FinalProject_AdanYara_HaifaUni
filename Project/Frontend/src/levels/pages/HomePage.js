@@ -1,26 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Island from '../components/Island';
 import Mountain from '../components/Mountain';
 import Park from '../components/Park';
 import { gsap } from 'gsap';
-import Lottie from 'lottie-react';
-import cloudsAnimation from '../../assets/animation/clouds.json';
-import balloonAnimation from '../../assets/balloon.png';
+import lottie from 'lottie-web';
+import cloudsAnimation from '../../assets/animation/cloud.json'; // Adjust path if needed
+import tigerAnimation from '../../assets/animation/login-animation.json';
+import speechBubbleImage from '../../assets/speech-bubble.png';
 import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const avatar = JSON.parse(localStorage.getItem('avatar'));
-  const studentNumber = localStorage.getItem('studentNumber');
-  const [showMessage, setShowMessage] = useState(false);
+  const tigerRef = useRef(null);
+  const cloudRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowMessage(true);
-    }, 5000); // Show message after 5 seconds
-    return () => clearTimeout(timer);
-  }, []);
+    lottie.loadAnimation({
+      container: tigerRef.current,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: tigerAnimation,
+    });
+
+    cloudRefs.forEach((ref, index) => {
+      lottie.loadAnimation({
+        container: ref.current,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: cloudsAnimation,
+      });
+
+      gsap.to(ref.current, {
+        x: index % 2 === 0 ? '+=200px' : '-=200px', // Move some clouds to the right and some to the left
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+        duration: 10, // Duration of one full movement (left to right and back)
+      });
+    });
+  }, [cloudRefs]);
 
   const handleClick = (type) => {
     const target = `.${type}`;
@@ -28,46 +49,48 @@ const HomePage = () => {
       duration: 0.5,
       scale: 1.5,
       onComplete: () => {
-        gsap.to(target, { duration: 0.5, scale: 1, onComplete: () => navigate(`/levels/${type}`) });
-      }
+        gsap.to(target, {
+          duration: 0.5,
+          scale: 1,
+          onComplete: () => navigate(`/levels/${type}`),
+        });
+      },
     });
-  };
-
-  const handleBack = () => {
-    navigate('/');
   };
 
   return (
     <div className="home-page">
-      
+      <button className="back-button" onClick={() => navigate('/login')}>
+        رجوع
+      </button>
       <div className="clouds">
-        <Lottie animationData={cloudsAnimation} loop={true} />
+        <div className="cloud cloud1" ref={cloudRefs[0]}></div>
+        <div className="cloud cloud2" ref={cloudRefs[1]}></div>
+        <div className="cloud cloud3" ref={cloudRefs[2]}></div>
+        <div className="cloud cloud4" ref={cloudRefs[3]}></div>
       </div>
       <div className="land">
         <div className="item island" onClick={() => handleClick('island')}>
-          <Island />
           <div className="title">جزيرة المقاطع والكلمات</div>
+          <Island />
         </div>
         <div className="item mountain" onClick={() => handleClick('mountain')}>
-          <Mountain />
           <div className="title">تلة الوعي الصوتي</div>
+          <Mountain />
         </div>
         <div className="item park" onClick={() => handleClick('park')}>
-          <Park />
           <div className="title">حديقة الفهم المقروء والفهم المسموع</div>
+          <Park />
         </div>
       </div>
       <div className="welcome-message">
-        <div className="balloon">
-          <img src={balloonAnimation} alt="Balloon" className="balloon-image" />
-          {avatar && <img src={avatar.image} alt={avatar.name} className="avatar" />}
-        </div>
-        {showMessage && (
-          <div className="message">
-            <div className="message-icon">💬</div>
-            <div className="message-text">مرحبًا {studentNumber}!</div>
+        <div className="tiger-animation" ref={tigerRef}></div>
+        <div className="message-bubble">
+          <img src={speechBubbleImage} alt="Speech Bubble" className="bubble-image" />
+          <div className="message-text">
+            مرحبًا بك في مغامرتنا التعليمية, بامكانك اختيار المرحلة التي تريدها
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
