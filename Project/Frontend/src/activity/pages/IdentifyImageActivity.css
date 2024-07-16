@@ -21,29 +21,41 @@
   padding: 10px 20px;
   position: absolute;
   top: 0;
+  margin-top: 13px;
 }
 
-.identify-image-activity .back-button {
-  background-color: #5aa8a0;
-  color: white;
-  font-size: 1.2em;
-  font-weight: bold;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+.identify-image-activity .button-container {
+  display: flex;
+  align-items: center;
+  margin-top: -10px;
+}
+
+.identify-image-activity .exit-button-wrapper {
+  margin-right: 10px; /* Add space between the exit and back buttons */
+}
+
+.identify-image-activity .exit-button-image,
+.identify-image-activity .back-button-image {
+  width: 55px; /* Adjust width to match CoinsDisplay and LevelDisplay */
+  height: 50px; /* Adjust height to match CoinsDisplay and LevelDisplay */
   cursor: pointer;
-  transition: background-color 0.3s;
-  position: relative;
-  left: 20px;
+  transition: transform 0.3s ease-in-out;
 }
 
-.identify-image-activity .back-button:hover {
-  background-color: #3d8572;
+.identify-image-activity .exit-button-image:hover,
+.identify-image-activity .back-button-image:hover {
+  transform: scale(1.1);
 }
 
 .identify-image-activity .score-display {
   display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: center;
+  height: 70px;
+  width: auto;
+  margin-top: -20px;
+  left: 60px; /* Adjust the margin-left to move it to the right */
 }
 
 .identify-image-activity .images-display img {
@@ -152,7 +164,7 @@
 }
 
 .skip-button {
-  margin-top: 20px;
+  margin-top: 55px;
   background-color: #5aa8a0;
   color: white;
   font-size: 1.2em;
@@ -217,4 +229,49 @@
   width: 200px;
   height: 200px;
   transition: bottom 1s ease-out;
+}
+
+.feedback-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 360px;
+  width: 2427px;
+  z-index: 20;
+  background-color: rgba(249, 253, 255, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0; /* Ensure no margin */
+  box-sizing: border-box; /* Ensure padding is included in the height/width */
+}
+
+.summary-content {
+  margin-top: 25px;
+  font-size: 1.5em;
+  color: rgb(24, 16, 16);
+  text-align: center;
+}
+
+.summary-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.summary-buttons img {
+  width: 50px;  /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  margin: 0 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.summary-buttons img:hover {
+  transform: scale(1.1);
 }

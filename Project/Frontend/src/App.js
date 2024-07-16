@@ -15,6 +15,7 @@ import ShowStudentsPage from './Teacher/ShowStudentsPage';
 import TeacherLogin from './Teacher/TeacherLogin';
 import TeacherPage from './Teacher/TeacherPage';
 import IdentifyImageActivity from './activity/pages/IdentifyImageActivity';
+import Shuffle from './activity/pages/WordShuffle';
 import './LetterCheck.css';
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/show-students" element={<ShowStudentsPage />} />
           <Route path="/teacher" element={<TeacherPage />} />
           <Route path="/identify-image" element={<IdentifyImageActivity />} />
+          <Route path="/shuffle" element={<Shuffle/>} />
         </Routes>
       </div>
     </Router>

@@ -18,6 +18,13 @@ import sandClockAnimation from '../../assets/animation/sand-clock.json';
 import cloudAnimation from '../../assets/animation/cloud.json';
 import balloonAnimation from '../../assets/animation/balloon.json';
 import celebrationAnimation from '../../assets/animation/celebration.json';
+import backButtonImage from '../../assets/images/back.png';
+import exitButtonImage from '../../assets/images/exit.png';
+import restartButtonImage from '../../assets/images/restart.png';
+import backButtonSound from '../../assets/sound/backBT.wav'; 
+import homeButtonSound from '../../assets/sound/backBT.wav'; 
+import correctSound from '../../assets/sound/true.mp3';
+import incorrectSound from '../../assets/sound/false.mp3';
 
 const words = [
   { word: 'دار', correctImage: home, images: [court, island, home, cry] },
@@ -42,6 +49,7 @@ const IdentifyImageActivity = () => {
   const [feedback, setFeedback] = useState(null);
   const [balloonHeight, setBalloonHeight] = useState(0);
   const [activityComplete, setActivityComplete] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
 
   const airplaneRef = useRef(null);
   const lottieRef = useRef(null);
@@ -49,18 +57,29 @@ const IdentifyImageActivity = () => {
   const wordContainerRef = useRef(null);
   const balloonRef = useRef(null);
   const celebrationRef = useRef(null);
+  const backAudioRef = useRef(null);
+  const homeAudioRef = useRef(null);
+  const correctAudioRef = useRef(null);
+  const incorrectAudioRef = useRef(null);
 
   const currentWord = words[currentWordIndex];
 
   useEffect(() => {
+    backAudioRef.current = new Audio(backButtonSound);
+    homeAudioRef.current = new Audio(homeButtonSound);
+    correctAudioRef.current = new Audio(correctSound);
+    incorrectAudioRef.current = new Audio(incorrectSound);
+    backAudioRef.current.load();
+    homeAudioRef.current.load();
+    correctAudioRef.current.load();
+    incorrectAudioRef.current.load();
+  }, []);
+
+  useEffect(() => {
     const startTimer = () => {
-      setTimeout(() => {
-        gsap.to(wordContainerRef.current, {
-          opacity: 0,
-          duration: 1,
-          onComplete: () => setShowImages(true)
-        });
-      }, 5000);
+      setShowImages(false);
+      setShowAirplane(false);
+      gsap.set(wordContainerRef.current, { opacity: 1 });
     };
 
     startTimer();
@@ -109,7 +128,7 @@ const IdentifyImageActivity = () => {
   }, []);
 
   useEffect(() => {
-    if (activityComplete && celebrationRef.current) {
+    if (activityComplete && correctAnswers === words.length && celebrationRef.current) {
       lottie.loadAnimation({
         container: celebrationRef.current,
         renderer: 'svg',
@@ -118,7 +137,7 @@ const IdentifyImageActivity = () => {
         animationData: celebrationAnimation,
       });
     }
-  }, [activityComplete]);
+  }, [activityComplete, correctAnswers]);
 
   const handleSkip = () => {
     gsap.to(wordContainerRef.current, {
@@ -130,21 +149,24 @@ const IdentifyImageActivity = () => {
 
   const handleImageClick = (image) => {
     if (image === currentWord.correctImage) {
+      correctAudioRef.current.play();
       setFeedback('correct');
       setPoints(points + 10);
       setCoins(coins + 5);
+      setCorrectAnswers(correctAnswers + 1);
       reward();
-      setBalloonHeight((prevHeight) => Math.min(prevHeight + 20, 100)); // Increase balloon height, cap at 100%
+      setBalloonHeight((prevHeight) => Math.min(prevHeight + 20, 100));
       setTimeout(() => {
         setFeedback(null);
         if (currentWordIndex < words.length - 1) {
           animateAirplane();
         } else {
-          setBalloonHeight(120); // Move the balloon off the screen
+          setBalloonHeight(120);
           setActivityComplete(true);
         }
       }, 2000);
     } else {
+      incorrectAudioRef.current.play();
       setFeedback('incorrect');
       if (attemptsLeft > 0) {
         setAttemptsLeft(attemptsLeft - 1);
@@ -179,7 +201,6 @@ const IdentifyImageActivity = () => {
                   ease: 'power3.in',
                   onComplete: () => {
                     setShowAirplane(false);
-                    setShowImages(false);
                     moveToNextWord();
                   },
                 },
@@ -189,8 +210,7 @@ const IdentifyImageActivity = () => {
         );
       }
     } else {
-      // When all questions are answered correctly, show celebration directly
-      setBalloonHeight(120); // Move the balloon off the screen
+      setBalloonHeight(120);
       setActivityComplete(true);
     }
   };
@@ -198,6 +218,7 @@ const IdentifyImageActivity = () => {
   const moveToNextWord = () => {
     setAttemptsLeft(1);
     setCurrentWordIndex((prevIndex) => (prevIndex < words.length - 1 ? prevIndex + 1 : 0));
+    gsap.set(wordContainerRef.current, { opacity: 1 });
   };
 
   useEffect(() => {
@@ -206,10 +227,47 @@ const IdentifyImageActivity = () => {
     }
   }, [currentWordIndex, isAnimating]);
 
+  const handleBackClick = () => {
+    if (backAudioRef.current) {
+      backAudioRef.current.currentTime = 0;
+      backAudioRef.current.play().catch(error => {
+        console.error('Error playing back button sound:', error);
+      });
+    }
+    navigate('/login');
+  };
+
+  const handleHomeClick = () => {
+    if (homeAudioRef.current) {
+      homeAudioRef.current.currentTime = 0;
+      homeAudioRef.current.play().catch(error => {
+        console.error('Error playing home button sound:', error);
+      });
+    }
+    navigate('/');
+  };
+
   return (
     <div className="identify-image-activity">
       <div className="header">
-        <button className="back-button" onClick={() => navigate('/login')}>رجوع</button>
+        <div className="button-container">
+          <div className="exit-button-wrapper">
+            <img 
+              src={exitButtonImage} 
+              alt="Exit" 
+              className="exit-button-image"
+              onClick={handleHomeClick}
+            />
+          </div>
+          <div className="back-button-wrapper">
+            <img 
+              src={backButtonImage} 
+              alt="Back" 
+              className="back-button-image"
+              onClick={handleBackClick}
+            />
+          </div>
+        </div>
         <div className="score-display">
           <CoinsDisplay coins={coins} />
           <LevelDisplay level={level} />
@@ -249,8 +307,29 @@ const IdentifyImageActivity = () => {
             {feedback === 'correct' ? 'صحيح!' : 'خطأ! حاول مرة أخرى'}
           </div>
         )}
-        {activityComplete && (
+        {activityComplete && correctAnswers === words.length && (
           <div className="celebration-container" ref={celebrationRef}></div>
+        )}
+        {activityComplete && (
+          <div className="feedback-modal summary-modal">
+            <div className="summary-content">
+              <div>{`لقد أجبت على جميع الأسئلة!`}</div>
+              <div>{`مجموع النقاط: ${points}`}</div>
+              <div>{`مستوى: ${level}`}</div>
+            </div>
+            <div className="summary-buttons">
+              <img 
+                src={restartButtonImage} 
+                alt="Restart" 
+                onClick={() => window.location.reload()}
+              />
+              <img 
+                src={exitButtonImage} 
+                alt="Exit" 
+                onClick={handleHomeClick}
+              />
+            </div>
+          </div>
         )}
         <div id="rewardId" style={{ position: 'relative' }}></div>
       </div>

@@ -1,0 +1,198 @@
+/* WordShuffle.css */
+
+.word-shuffle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.word-shuffle-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.word-shuffle-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.word-shuffle-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.word-shuffle-button-image {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  margin-right: 10px;
+}
+
+.word-shuffle-button-image:last-child {
+  margin-right: 0;
+}
+
+.word-shuffle-button-image:hover {
+  transform: scale(1.1);
+}
+
+.word-shuffle-score-display {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.word-shuffle-letters-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px; /* To avoid overlap with the top bar */
+  width: 100%;
+}
+
+.word-shuffle-grid {
+  display: grid;
+}
+
+.word-shuffle-grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.word-shuffle-gap-4 {
+  gap: 1rem;
+}
+
+.word-shuffle-letter-tile {
+  position: relative;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: transform 0.3s, order 0.3s;
+  padding: 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.word-shuffle-letter-tile:hover {
+  transform: scale(1.1);
+}
+
+.word-shuffle-bg-1 {
+  background-color: #fefcbf;
+}
+
+.word-shuffle-bg-2 {
+  background-color: #c6f6d5;
+}
+
+.word-shuffle-bg-3 {
+  background-color: #bee3f8;
+}
+
+.word-shuffle-bg-4 {
+  background-color: #e9d8fd;
+}
+
+.word-shuffle-bg-5 {
+  background-color: #fed7d7;
+}
+
+.word-shuffle-bg-6 {
+  background-color: #c3dafe;
+}
+
+.word-shuffle-selected-letters-container {
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  gap: 10px;
+  direction: rtl; /* For right-to-left text direction */
+}
+
+.word-shuffle-selected-letter {
+  font-size: 5rem; /* Make the letters larger */
+  font-weight: bold;
+  color: #000000;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #4caf50;
+  animation: fadeInSelected 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInSelected {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.word-shuffle-bg-selected-1 {
+  background-color: rgb(195, 225, 249);
+}
+
+.word-shuffle-bg-selected-2 {
+  background-color: rgb(195, 225, 249);
+}
+
+.word-shuffle-bg-selected-3 {
+  background-color: rgb(195, 225, 249);
+}
+
+.word-shuffle-bg-selected-4 {
+  background-color: rgb(195, 225, 249);
+}
+
+.word-shuffle-bg-selected-5 {
+  background-color: rgb(195, 225, 249);
+}
+
+.word-shuffle-bg-selected-6 {
+  background-color: rgb(195, 225, 249);
+}

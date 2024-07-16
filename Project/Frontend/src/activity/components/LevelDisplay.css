@@ -10,6 +10,7 @@
   transition: transform 0.3s;
   height: 34px; /* Fixed height */
   width: 70px; /* Fixed width */
+
 }
 
 .level-container:hover {
