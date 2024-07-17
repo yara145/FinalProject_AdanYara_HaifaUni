@@ -7,16 +7,8 @@ import backButtonImage from '../../assets/images/back.png';
 import exitButtonImage from '../../assets/images/exit.png';
 import CoinsDisplay from '../components/CoinsDisplay';
 import LevelDisplay from '../components/LevelDisplay';
+import ProgressBar from '../components/CandyProgressBar';
 import backgroundVideo from '../../assets/videos/background.mp4'; // Your video path
-
-const predefinedWords = [
-  { word: 'قرد', letters: ['ق', 'ر', 'د'] },
-  { word: 'ثوم', letters: ['ث', 'و', 'م'] },
-  { word: 'بئر', letters: ['ب', 'ئ', 'ر'] },
-  { word: 'كتاب', letters: ['ك', 'ت', 'ا', 'ب'] },
-  { word: 'مدرسة', letters: ['م', 'د', 'ر', 'س', 'ة'] },
-  { word: 'شمس', letters: ['ش', 'م', 'س'] }
-];
 
 const getShuffledLetters = (letters) => {
   let shuffledLetters = [...letters];
@@ -27,6 +19,14 @@ const getShuffledLetters = (letters) => {
   return shuffledLetters;
 };
 
+const predefinedWords = [
+  { word: 'قرد', letters: ['ق', 'ر', 'د'], photo: require('../../assets/images/monkey.png') },
+  { word: 'بئر', letters: ['ب', 'ئ', 'ر'], photo: require('../../assets/images/well.png') },
+  { word: 'كتاب', letters: ['ك', 'ت', 'ا', 'ب'], photo: require('../../assets/images/book.png') },
+  { word: 'مدرسة', letters: ['م', 'د', 'ر', 'س', 'ة'], photo: require('../../assets/images/school.png') },
+  { word: 'شمس', letters: ['ش', 'م', 'س'], photo: require('../../assets/images/Sun2.png') }
+];
+
 const WordShuffle = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [letters, setLetters] = useState(getShuffledLetters(predefinedWords[0].letters));
@@ -36,6 +36,8 @@ const WordShuffle = () => {
   const [level, setLevel] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [displayedLetters, setDisplayedLetters] = useState([]);
+  const [feedback, setFeedback] = useState(null);
+  const [attempts, setAttempts] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,6 +66,7 @@ const WordShuffle = () => {
 
       const formedWord = newSelectedLetters.join('');
       if (formedWord === predefinedWords[currentWordIndex].word) {
+        setFeedback('صحيح!');
         setTimeout(() => {
           setCoins(coins + 1);
           setLevel(level + 1);
@@ -73,7 +76,31 @@ const WordShuffle = () => {
           setDisplayedLetters([]);
           setSelectedLetters([]);
           setSelectedPositions([]);
+          setFeedback(null);
+          setAttempts(0);
         }, 2000); // Delay to allow the full word to be displayed
+      } else if (newSelectedLetters.length === predefinedWords[currentWordIndex].letters.length) {
+        setAttempts(attempts + 1);
+        if (attempts + 1 >= 2) {
+          setFeedback('غير صحيح');
+          setTimeout(() => {
+            const nextWordIndex = (currentWordIndex + 1) % predefinedWords.length;
+            setCurrentWordIndex(nextWordIndex);
+            setLetters(getShuffledLetters(predefinedWords[nextWordIndex].letters));
+            setDisplayedLetters([]);
+            setSelectedLetters([]);
+            setSelectedPositions([]);
+            setFeedback(null);
+            setAttempts(0);
+          }, 2000);
+        } else {
+          setFeedback('حاول مرة أخرى!');
+          setTimeout(() => {
+            setSelectedLetters([]);
+            setSelectedPositions([]);
+            setFeedback(null);
+          }, 2000);
+        }
       }
     }
   };
@@ -116,39 +143,58 @@ const WordShuffle = () => {
             </div>
             <div className="word-shuffle-score-display">
               <CoinsDisplay coins={coins} />
-              <LevelDisplay level={level} />
+              <LevelDisplay className="level-display" level={level} />
             </div>
           </div>
-          <div className="word-shuffle-letters-container">
-            <div className="word-shuffle-grid word-shuffle-grid-cols-3 word-shuffle-gap-4">
-              {displayedLetters.map((letter, index) => (
-                <div
-                  key={index}
-                  className={`word-shuffle-letter-tile word-shuffle-bg-${(index % 6) + 1} animated-tile`}
-                  style={
-                    selectedPositions.includes(index)
-                      ? { opacity: 0.5, pointerEvents: 'none' }
-                      : {}
-                  }
-                  onClick={() => handleLetterClick(letter, index)}
-                >
-                  {letter}
-                </div>
-              ))}
+          <div className="progress-bar-wrapper">
+            <ProgressBar progress={(currentWordIndex / predefinedWords.length) * 100} />
+          </div>
+          <div className="word-shuffle-content">
+            <div className="word-shuffle-photo-container">
+              <img
+                src={predefinedWords[currentWordIndex].photo}
+                alt="Word"
+                className="word-shuffle-photo"
+              />
             </div>
-            {selectedLetters.length > 0 && (
-              <div className="word-shuffle-selected-letters-container">
-                {selectedLetters.map((letter, index) => (
-                  <div
-                    key={index}
-                    className={`word-shuffle-selected-letter word-shuffle-bg-selected-${(index % 6) + 1} animated-tile`}
-                    style={{ animationDelay: `${index * 0.2}s` }}
-                  >
-                    {letter}
-                  </div>
-                ))}
+            <div className="word-shuffle-letters-and-word-container">
+              <div className="word-shuffle-letters-container">
+                <div className="word-shuffle-grid word-shuffle-grid-cols-3 word-shuffle-gap-4">
+                  {displayedLetters.map((letter, index) => (
+                    <div
+                      key={index}
+                      className={`word-shuffle-letter-tile word-shuffle-bg-${(index % 6) + 1} animated-tile`}
+                      style={
+                        selectedPositions.includes(index)
+                          ? { opacity: 0.5, pointerEvents: 'none' }
+                          : {}
+                      }
+                      onClick={() => handleLetterClick(letter, index)}
+                    >
+                      {letter}
+                    </div>
+                  ))}
+                </div>
               </div>
-            )}
+              {selectedLetters.length > 0 && (
+                <div className="word-shuffle-selected-letters-container">
+                  {selectedLetters.map((letter, index) => (
+                    <div
+                      key={index}
+                      className={`word-shuffle-selected-letter word-shuffle-bg-selected-${(index % 6) + 1} animated-tile`}
+                      style={{ animationDelay: `${index * 0.2}s` }}
+                    >
+                      {letter}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {feedback && (
+                <div className={`word-shuffle-feedback ${feedback === 'صحيح!' ? 'correct' : 'incorrect'}`}>
+                  {feedback}
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}

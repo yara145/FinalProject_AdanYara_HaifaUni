@@ -1,5 +1,3 @@
-/* WordShuffle.css */
-
 .word-shuffle-container {
   display: flex;
   flex-direction: column;
@@ -36,19 +34,21 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
 }
 
 .word-shuffle-button-container {
   display: flex;
   align-items: center;
+ 
 }
 
 .word-shuffle-button-image {
-  width: 40px;
-  height: 40px;
+  width: 55px;
+  height: 55px;
   cursor: pointer;
   transition: transform 0.3s;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .word-shuffle-button-image:last-child {
@@ -62,14 +62,41 @@
 .word-shuffle-score-display {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 0px;
+  margin-right: 20px; /* Add margin to the right side */
+}
+
+.word-shuffle-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px; /* To avoid overlap with the top bar */
+  width: 100%;
+}
+
+.word-shuffle-photo-container {
+  margin-bottom: 20px;
+}
+
+.word-shuffle-photo {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.word-shuffle-letters-and-word-container {
+  background-color: rgba(255, 255, 255, 0.8); /* White shade background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .word-shuffle-letters-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px; /* To avoid overlap with the top bar */
   width: 100%;
 }
 
@@ -195,4 +222,32 @@
 
 .word-shuffle-bg-selected-6 {
   background-color: rgb(195, 225, 249);
+}
+
+.word-shuffle-feedback {
+  margin-top: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  z-index: 3;
+  position: relative;
+  color: white; /* Ensuring text color is white */
+}
+
+.word-shuffle-feedback.correct {
+  background-color: #d4edda; /* Light green background */
+  color: #0c3917; /* Dark green text */
+}
+
+.word-shuffle-feedback.incorrect {
+  background-color: #f8d7da; /* Light red background */
+  color: #4d1218; /* Dark red text */
+}
+/* WordShuffle.css */
+.progress-bar-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
