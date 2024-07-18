@@ -7,8 +7,8 @@ import backButtonImage from '../../assets/images/back.png';
 import exitButtonImage from '../../assets/images/exit.png';
 import CoinsDisplay from '../components/CoinsDisplay';
 import LevelDisplay from '../components/LevelDisplay';
-import ProgressBar from '../components/CandyProgressBar';
-import backgroundVideo from '../../assets/videos/background.mp4'; // Your video path
+import CandyProgressBar from '../components/CandyProgressBar'; // Correct import
+import backgroundVideo from '../../assets/videos/background.mp4';
 
 const getShuffledLetters = (letters) => {
   let shuffledLetters = [...letters];
@@ -147,7 +147,7 @@ const WordShuffle = () => {
             </div>
           </div>
           <div className="progress-bar-wrapper">
-            <ProgressBar progress={(currentWordIndex / predefinedWords.length) * 100} />
+            <CandyProgressBar progress={(currentWordIndex / predefinedWords.length) * 100} />
           </div>
           <div className="word-shuffle-content">
             <div className="word-shuffle-photo-container">

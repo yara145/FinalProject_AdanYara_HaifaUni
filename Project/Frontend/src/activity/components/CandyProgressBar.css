@@ -1,29 +1,21 @@
-/* CandyProgressBar.css */
 .progress-bar-container {
-    width: 80%; /* Adjusted width to make it shorter */
-    max-width: 600px; /* Set a maximum width */
-    height: 20px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 20px;
-    margin-left: auto; /* Center the progress bar */
-    margin-right: auto; /* Center the progress bar */
-    position: relative;
-  }
-  
-  .progress-bar {
-    height: 100%;
-    background-color: #76c7c0;
-    transition: width 0.5s;
-    position: relative;
-  }
-  
-  .candy-icon-progress {
-    position: absolute;
-    top: -25px; /* Adjust this value to position the candy icon vertically */
-    width: 30px; /* Smaller width for the candy icon */
-    height: 30px; /* Smaller height for the candy icon */
-    transition: left 0.5s; /* Match the transition duration with the progress bar */
-    transform: translateX(-50%); /* Center the icon on the progress bar */
-  }
+  width: 80%;
+  max-width: 600px;
+  height: 20px;
+  background-color: #ebf1e6;
+  border-radius: 10px;
+  overflow: hidden; /* Hide any overflow from the progress bar */
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  border: 1px solid #d1dfd6;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #76c7c0;
+  transition: width 0.5s;
+  position: absolute;
+  left: 0;
+}
