@@ -9,6 +9,9 @@ import CoinsDisplay from '../components/CoinsDisplay';
 import LevelDisplay from '../components/LevelDisplay';
 import CandyProgressBar from '../components/CandyProgressBar'; // Correct import
 import backgroundVideo from '../../assets/videos/background.mp4';
+import correctSound from '../../assets/sound/true.mp3';
+import incorrectSound from '../../assets/sound/false.mp3';
+import buttonSound from '../../assets/sound/backBT.wav';
 
 const getShuffledLetters = (letters) => {
   let shuffledLetters = [...letters];
@@ -40,6 +43,10 @@ const WordShuffle = () => {
   const [attempts, setAttempts] = useState(0);
   const navigate = useNavigate();
 
+  const correctAudio = new Audio(correctSound);
+  const incorrectAudio = new Audio(incorrectSound);
+  const buttonAudio = new Audio(buttonSound);
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
@@ -59,6 +66,7 @@ const WordShuffle = () => {
   }, [letters]);
 
   const handleLetterClick = (letter, index) => {
+    buttonAudio.play();
     if (selectedLetters.length < predefinedWords[currentWordIndex].letters.length) {
       const newSelectedLetters = [...selectedLetters, letter];
       setSelectedLetters(newSelectedLetters);
@@ -66,6 +74,7 @@ const WordShuffle = () => {
 
       const formedWord = newSelectedLetters.join('');
       if (formedWord === predefinedWords[currentWordIndex].word) {
+        correctAudio.play();
         setFeedback('صحيح!');
         setTimeout(() => {
           setCoins(coins + 1);
@@ -82,6 +91,7 @@ const WordShuffle = () => {
       } else if (newSelectedLetters.length === predefinedWords[currentWordIndex].letters.length) {
         setAttempts(attempts + 1);
         if (attempts + 1 >= 2) {
+          incorrectAudio.play();
           setFeedback('غير صحيح');
           setTimeout(() => {
             const nextWordIndex = (currentWordIndex + 1) % predefinedWords.length;
@@ -106,10 +116,12 @@ const WordShuffle = () => {
   };
 
   const handleBackClick = () => {
+    buttonAudio.play();
     navigate('/previous-page');
   };
 
   const handleExitClick = () => {
+    buttonAudio.play();
     navigate('/');
   };
 
