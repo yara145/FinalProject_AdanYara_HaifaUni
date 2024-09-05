@@ -27,23 +27,24 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/student-login', { studentNumber });
+      const response = await axios.post('http://localhost:5000/api/student-login', { number: studentNumber });
       localStorage.setItem('studentNumber', studentNumber);
       localStorage.setItem('firstLogin', response.data.firstLogin);
-      if (response.data.firstLogin) {
-        navigate('/choose-avatar');
-      } else {
-        navigate('/home');
-      }
+      navigate('/home'); // Navigate directly to the home page
     } catch (err) {
-      setError(err.response.data.message);
+      console.error(err); // Log the full error object
+      if (err.response) {
+        setError(err.response.data.message);
+      } else {
+        setError('An error occurred. Please try again.');
+      }
     }
   };
 
   const handleGuestLogin = () => {
     localStorage.setItem('studentNumber', 'guest');
     localStorage.setItem('isGuest', 'true');
-    navigate('/choose-avatar');
+    navigate('/home'); // Navigate directly to the home page
   };
 
   const handleBack = () => {
@@ -51,10 +52,10 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container login-rtl">
       <header className="login-header">
-        <button className="back-button" onClick={handleBack}>رجوع</button>
         <img src={logo} alt="Logo" className="login-logo" />
+        <button className="back-button-login" onClick={handleBack}>رجوع</button>
       </header>
       <div className="login-card">
         <div ref={animationContainer} style={{ height: '150px', width: '150px' }} />
@@ -70,7 +71,6 @@ const Login = () => {
           />
           <button type="submit">تسجيل دخول</button>
         </form>
-       
       </div>
     </div>
   );

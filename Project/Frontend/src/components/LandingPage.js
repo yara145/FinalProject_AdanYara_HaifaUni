@@ -1,4 +1,3 @@
-// src/components/LandingPage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
@@ -19,7 +18,9 @@ const LandingPage = () => {
   };
 
   const handleGuestLogin = () => {
-    navigate('/choose-avatar');
+    localStorage.setItem('studentNumber', 'guest');
+    localStorage.setItem('isGuest', 'true');
+    navigate('/home'); // Navigate directly to the home page
   };
 
   return (

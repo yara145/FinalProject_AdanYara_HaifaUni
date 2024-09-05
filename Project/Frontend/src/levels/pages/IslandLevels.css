@@ -32,8 +32,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 246, 246, 0.8); /* Transparent white background */
-  padding: 40px;
+  background-color: rgba(255, 246, 246); /* Transparent white background */
+  padding: 50px;
   border-radius: 20px;
   display: flex;
   justify-content: center;
@@ -67,7 +67,7 @@ body {
 }
 
 .level.brown img {
-  filter: sepia(100%) saturate(300%) hue-rotate(-20deg);
+  filter: sepia(100%) saturate(300%) hue-rotate(-20deg); /* Removed the orange filter */
 }
 
 .level.gray img {
@@ -75,23 +75,16 @@ body {
 }
 
 .level-title {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 10px; /* Add some margin to separate the title from the image */
   font-size: 1rem;
   color: rgb(11, 11, 11); /* Text color */
-  pointer-events: none; /* Disable click events */
 }
 
 .level.brown .level-title {
   color: brown;
 }
 
-.level.gray  {
-  color: rgb(27, 27, 27);
-}
-.level-title {
+.level.gray .level-title {
   color: gray;
 }
 
@@ -105,42 +98,21 @@ body {
   text-align: center;
 }
 
-.tree-left, .tree-right {
+.back-button {
   position: absolute;
-  height: 100%; /* Make the tree cover the full height of the screen */
-  bottom: -40px; /* Adjust this value to move the trees more towards the bottom */
+  top: 10px;
+  left: 10px;
+  background-color: #5aa8a0;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.tree-left {
-  left: -8%;
-  transform: scaleX(-1); /* Flip the left tree */
-}
-
-.tree-right {
-  right: -8%;
-}
-
-.boat {
-  position: absolute;
-  top: calc(10% - 50px); /* Adjust as needed to position the boat above the levels wrapper */
-  left: 60%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: auto;
-  z-index: 10; /* Ensure the boat is above other elements */
-}
-
-.boat img {
-  width: 100%;
-  height: auto;
-}
-
-.avatar {
-  position: absolute;
-  bottom: 40px; /* Adjust to position the avatar inside the boat */
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 100px; /* Adjust the size as needed */
-  height: auto;
-  z-index: 20; /* Ensure the avatar is above the boat */
+.back-button:hover {
+  background-color: #3d8572;
 }

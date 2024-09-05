@@ -1,7 +1,7 @@
 // src/levels/components/Island.js
 import React from 'react';
 import { gsap } from 'gsap';
-import islandImage from '../../assets/island.png';
+import islandImage from '../../assets/images/candyhome.png';
 
 const Island = ({ onClick }) => {
   const handleMouseEnter = (e) => {

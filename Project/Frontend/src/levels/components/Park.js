@@ -1,7 +1,7 @@
 // src/levels/components/Park.js
 import React from 'react';
 import { gsap } from 'gsap';
-import parkImage from '../../assets/park.png';
+import parkImage from '../../assets/island.png';
 
 const Park = ({ onClick }) => {
   const handleMouseEnter = (e) => {

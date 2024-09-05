@@ -1,4 +1,3 @@
-// src/Teacher/AddStudent.js
 import React, { useState } from 'react';
 import './AddStudent.css';
 
@@ -9,7 +8,7 @@ const learningDifficulties = [
 ];
 
 const AddStudent = ({ onAddStudent }) => {
-  const [studentName, setStudentName] = useState('');
+  const [studentNumber, setStudentNumber] = useState('');
   const [selectedDifficulties, setSelectedDifficulties] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -21,25 +20,31 @@ const AddStudent = ({ onAddStudent }) => {
     );
   };
 
-  const handleInputChange = (e) => {
-    setStudentName(e.target.value);
+  const handleNumberChange = (e) => {
+    setStudentNumber(e.target.value);
     if (errorMessage) {
       setErrorMessage('');
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (studentName && selectedDifficulties.length > 0) {
-      const student = { name: studentName, difficulties: selectedDifficulties };
-      const error = onAddStudent(student);
+    if (studentNumber && selectedDifficulties.length > 0) {
+      const difficulties = selectedDifficulties.map(name => ({
+        name,
+        levels: []
+      }));
+      const student = { number: studentNumber, difficulties };
+      const error = await onAddStudent(student);
       if (error) {
-        setErrorMessage('رقم الطالب موجود بالفعل.');
+        setErrorMessage(error);
       } else {
         setErrorMessage('');
-        setStudentName('');
+        setStudentNumber('');
         setSelectedDifficulties([]);
       }
+    } else {
+      setErrorMessage('Please fill all fields and select at least one difficulty.');
     }
   };
 
@@ -50,8 +55,8 @@ const AddStudent = ({ onAddStudent }) => {
         <input
           type="text"
           placeholder="رقم الطالب"
-          value={studentName}
-          onChange={handleInputChange}
+          value={studentNumber}
+          onChange={handleNumberChange}
           required
         />
         <div className="checkbox-container">

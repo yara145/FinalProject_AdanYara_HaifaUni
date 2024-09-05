@@ -1,4 +1,3 @@
-// src/components/TeacherLogin.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png'; // Ensure the path to the logo is correct
@@ -29,10 +28,10 @@ const TeacherLogin = () => {
     };
 
     return (
-        <div className="login-container">
+        <div className="login-container teacher-login-rtl">
             <header className="login-header">
-                <button className="back-button" onClick={handleBack}>رجوع</button>
                 <img src={logo} alt="Logo" className="login-logo" />
+                <button className="back-button-teacher" onClick={handleBack}>رجوع</button>
             </header>
             <div className="login-card">
                 <h2>تسجيل دخول المعلم</h2>

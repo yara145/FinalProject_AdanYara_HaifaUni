@@ -1,0 +1,66 @@
+/* src/Teacher/EditExerciseModal.css */
+.edit-exercise-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+  }
+  
+  .edit-exercise-modal h3 {
+    margin-bottom: 20px;
+  }
+  
+  .edit-exercise-modal label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .edit-exercise-modal select,
+  .edit-exercise-modal input {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .edit-exercise-modal button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: white;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .edit-exercise-modal button:hover {
+    background-color: #45a049;
+  }
+  
+  .added-words {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .added-words h4 {
+    margin-bottom: 10px;
+  }
+  
+  .added-words ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .added-words li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  

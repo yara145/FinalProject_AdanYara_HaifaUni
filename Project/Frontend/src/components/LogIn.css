@@ -3,6 +3,9 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden; /* Ensure no scroll bars are shown */
+}
+
+.login-rtl {
   direction: rtl;
 }
 
@@ -27,23 +30,23 @@ body {
   padding: 10px 20px;
   background-color: #f0f8ff; /* Match the background color of the page */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  direction: ltr; /* Add this to ensure flexbox direction is left to right */
+  direction: ltr; /* Ensure flexbox direction is left to right */
 }
 
-.login-header .back-button {
+.login-header .back-button-login {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border: none;
   border-radius: 5px;
-  background-color: #4caf50 !important;
+  background-color: #4caf50;
   color: white;
   transition: background-color 0.3s ease;
   margin-left: 20px; /* Add margin to push the button to the right */
 }
 
-.login-header .back-button:hover {
-  background-color: #3a813e;
+.login-header .back-button-login:hover {
+  background-color: #418f45;
 }
 
 .login-logo {

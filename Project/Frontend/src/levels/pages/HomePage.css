@@ -116,7 +116,7 @@ body {
   position: absolute;
   left: 10%;
   bottom: 20%; /* Make the island higher */
-  transform: scale(1.2); /* Make the island larger */
+  transform: scale(1.1);
 }
 
 .mountain {
@@ -130,7 +130,7 @@ body {
   position: absolute;
   right: 10%;
   bottom: 20%; /* Make the park higher */
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .title {
@@ -196,7 +196,7 @@ body {
 
 .island-title {
   position: absolute;
-  top: -250px;
+  top: -280px;
   width: 100%;
   bottom: 100%; /* Position title above the image */
   left: 50%;

@@ -5,11 +5,11 @@ import Mountain from '../components/Mountain';
 import Park from '../components/Park';
 import { gsap } from 'gsap';
 import lottie from 'lottie-web';
-import cloudsAnimation from '../../assets/animation/cloud.json'; // Adjust path if needed
+import cloudImage from '../../assets/images/cloud1.png'; // Ensure this path is correct
 import tigerAnimation from '../../assets/animation/login-animation.json';
 import speechBubbleImage from '../../assets/speech-bubble.png';
-import sunAnimation from '../../assets/animation/sun.json'; // Adjust path if needed
-import birdsAnimation from '../../assets/animation/birds.json'; // Adjust path if needed
+import sunAnimation from '../../assets/animation/sun.json'; // Ensure this path is correct
+import birdsAnimation from '../../assets/animation/birds.json'; // Ensure this path is correct
 import './HomePage.css';
 
 const HomePage = () => {
@@ -45,14 +45,6 @@ const HomePage = () => {
     });
 
     cloudRefs.forEach((ref, index) => {
-      lottie.loadAnimation({
-        container: ref.current,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: cloudsAnimation,
-      });
-
       gsap.to(ref.current, {
         x: index % 2 === 0 ? '+=200px' : '-=200px', // Move some clouds to the right and some to the left
         repeat: -1,
@@ -84,16 +76,20 @@ const HomePage = () => {
         رجوع
       </button>
       <div className="clouds">
-        <div className="cloud cloud1" ref={cloudRefs[0]}></div>
-        <div className="cloud cloud2" ref={cloudRefs[1]}></div>
-        <div className="cloud cloud3" ref={cloudRefs[2]}></div>
-        <div className="cloud cloud4" ref={cloudRefs[3]}></div>
+        <div className="cloud cloud1" ref={cloudRefs[0]}>
+          <img src={cloudImage} alt="Cloud 1" />
+        </div>
+        <div className="cloud cloud2" ref={cloudRefs[1]}>
+          <img src={cloudImage} alt="Cloud 2" />
+        </div>
+        
+        
       </div>
       <div className="sun-animation" ref={sunRef}></div>
       <div className="birds-animation" ref={birdsRef}></div>
       <div className="land">
         <div className="item island" onClick={() => handleClick('island')}>
-          <div className="island-title">جزيرة المقاطع والكلمات</div>
+          <div className="island-title">حلوى المقاطع والكلمات</div>
           <Island />
         </div>
         <div className="item mountain" onClick={() => handleClick('mountain')}>
@@ -101,7 +97,7 @@ const HomePage = () => {
           <Mountain />
         </div>
         <div className="item park" onClick={() => handleClick('park')}>
-          <div className="title">حديقة الفهم المقروء</div>
+          <div className="title">جزيرة الفهم المقروء</div>
           <Park />
         </div>
       </div>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddStudent from './AddStudent';
+import EditExerciseModal from './EditExerciseModal';
 import Modal from './Modal';
 import logo from '../assets/logo.png';
 import './TeacherPage.css';
@@ -10,6 +11,8 @@ import './Modal.css';
 const TeacherPage = () => {
   const [students, setStudents] = useState([]);
   const [showAddStudentModal, setShowAddStudentModal] = useState(false);
+  const [showEditExerciseModal, setShowEditExerciseModal] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,9 +23,11 @@ const TeacherPage = () => {
     try {
       const response = await fetch('http://localhost:5000/api/students');
       if (!response.ok) {
+        console.log('Failed to fetch students:', response.statusText);
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
+      console.log('Fetched students:', data);
       setStudents(data);
     } catch (error) {
       console.error('Error fetching students:', error);
@@ -30,8 +35,7 @@ const TeacherPage = () => {
   };
 
   const addStudent = async (student) => {
-    // Check for duplicate student names
-    if (students.some(s => s.name === student.name)) {
+    if (students.some(s => s.number === student.number)) {
       return 'رقم الطالب موجود بالفعل';
     }
 
@@ -50,10 +54,19 @@ const TeacherPage = () => {
 
       const newStudent = await response.json();
       setStudents([...students, newStudent]);
-      setShowAddStudentModal(false); // Close modal after adding student
+      setShowAddStudentModal(false);
     } catch (error) {
       console.error('Error adding student:', error);
     }
+  };
+
+  const handleEditExerciseClick = () => {
+    setShowEditExerciseModal(true);
+  };
+
+  const saveEditedExercise = (exercise) => {
+    console.log('Saved exercise:', exercise);
+    setShowEditExerciseModal(false);
   };
 
   return (
@@ -61,7 +74,8 @@ const TeacherPage = () => {
       <header className="teacher-header">
         <img src={logo} alt="Logo" className="teacher-logo" />
         <nav className="teacher-nav">
-          <button className="nav-button" onClick={() => navigate('/')}>خروج</button>
+          <button className="nav-button" onClick={handleEditExerciseClick}>تعديل التمارين</button>
+          <button className="nav-button btn" onClick={() => navigate('/')}>خروج</button>
         </nav>
       </header>
       <main className="teacher-main">
@@ -69,23 +83,68 @@ const TeacherPage = () => {
         <p>مرحبا بك في صفحة المعلم. بإمكانك رؤية قائمة الطلاب او إضافة طالب.</p>
         <div className="students-section">
           <h3>قائمة الطلاب</h3>
-          <ul className="students-list">
-            {students.map((student, index) => (
-              <li key={index} className="student-item">
-                <span className="student-number">{student.name}</span>
-                <ul className="difficulties-list">
-                  {student.difficulties.map((difficulty, i) => (
-                    <li key={i} className="difficulty-item">{difficulty}</li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+          <table className="students-table">
+            <thead>
+              <tr>
+                <th>رقم الطالب</th>
+                <th>الصعوبة</th>
+                <th>التفاصيل</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student, index) => (
+                <tr key={index} className="student-item">
+                  <td>{student.number}</td>
+                  <td>
+                    {student.difficulties.map((difficulty, i) => (
+                      <div key={i}>
+                        <strong>{difficulty.name}</strong>
+                      </div>
+                    ))}
+                  </td>
+                  <td>
+                    <button className="details-button" onClick={() => setSelectedExercise(student)}>
+                      عرض التفاصيل
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <button className="nav-button add-student-button" onClick={() => setShowAddStudentModal(true)}>إضافة طالب</button>
         <Modal isOpen={showAddStudentModal} onClose={() => setShowAddStudentModal(false)}>
           <AddStudent onAddStudent={addStudent} />
         </Modal>
+        {showEditExerciseModal && (
+          <Modal isOpen={showEditExerciseModal} onClose={() => setShowEditExerciseModal(false)}>
+            <EditExerciseModal
+              onSave={saveEditedExercise}
+              onClose={() => setShowEditExerciseModal(false)}
+            />
+          </Modal>
+        )}
+        {selectedExercise && (
+          <Modal isOpen={!!selectedExercise} onClose={() => setSelectedExercise(null)}>
+            <div className="student-details">
+              <h3>تفاصيل الطالب رقم {selectedExercise.number}</h3>
+              {selectedExercise.difficulties.map((difficulty, i) => (
+                <div key={i}>
+                  <h4>{difficulty.name}</h4>
+                  {difficulty.levels.length > 0 ? (
+                    difficulty.levels.map((level, j) => (
+                      <div key={j}>
+                        <span>المرحلة {level.level}: {level.status}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div>لم يتم تنفيذ أي مرحلة في هذه الصعوبة</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Modal>
+        )}
       </main>
     </div>
   );

@@ -117,7 +117,7 @@ const WordShuffle = () => {
 
   const handleBackClick = () => {
     buttonAudio.play();
-    navigate('/previous-page');
+    navigate('/levels/island');
   };
 
   const handleExitClick = () => {
