@@ -17,6 +17,8 @@ import TeacherPage from './Teacher/TeacherPage';
 import IdentifyImageActivity from './activity/pages/IdentifyImageActivity';
 import Shuffle from './activity/pages/WordShuffle';
 import './LetterCheck.css';
+import LetterIdentification from './activity/pages/LetterIdentification';
+
 
 const App = () => {
   return (
@@ -38,6 +40,8 @@ const App = () => {
           <Route path="/teacher" element={<TeacherPage />} />
           <Route path="/identify-image" element={<IdentifyImageActivity />} />
           <Route path="/shuffle" element={<Shuffle/>} />
+          <Route path="/letter-identification" element={<LetterIdentification />} />
+
         </Routes>
       </div>
     </Router>

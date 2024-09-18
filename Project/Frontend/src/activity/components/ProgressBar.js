@@ -1,6 +1,7 @@
 import React from 'react';
 import './ProgressBar.css';
-import lionImage from '../../assets/lion.png'; // Ensure this path is correct
+
+import lionImage from '../../assets/images/lion.png';
 
 const ProgressBar = ({ progress }) => (
     <div className="progress-bar">
