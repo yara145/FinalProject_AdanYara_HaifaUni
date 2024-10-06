@@ -18,7 +18,7 @@ import IdentifyImageActivity from './activity/pages/IdentifyImageActivity';
 import Shuffle from './activity/pages/WordShuffle';
 import './LetterCheck.css';
 import LetterIdentification from './activity/pages/LetterIdentification';
-
+import CustomWordShffle from './activity/pages/CustomInputWordShuffle'
 
 const App = () => {
   return (
@@ -41,7 +41,7 @@ const App = () => {
           <Route path="/identify-image" element={<IdentifyImageActivity />} />
           <Route path="/shuffle" element={<Shuffle/>} />
           <Route path="/letter-identification" element={<LetterIdentification />} />
-
+          <Route path="/custom-word-shuffle" element={<CustomWordShffle />} />
         </Routes>
       </div>
     </Router>

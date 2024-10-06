@@ -1,21 +1,22 @@
 .progress-bar-container {
-  width: 80%;
+  width: 80%; /* Defines the width of the whole progress bar container */
   max-width: 600px;
   height: 20px;
-  background-color: #ebf1e6;
+  background-color: #f3c2ea; /* Background color of the bar container */
   border-radius: 10px;
-  overflow: hidden; /* Hide any overflow from the progress bar */
+  overflow: hidden; /* Hide overflow to prevent bar exceeding the boundaries */
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  border: 1px solid #d1dfd6;
+  border: 1px solid #cc31b5; /* Border around the progress bar */
 }
 
 .progress-bar {
-  height: 100%;
-  background-color: #76c7c0;
-  transition: width 0.5s;
+  height: 100%; /* Full height inside the container */
+  width: 0%; /* Start at 0% to be empty */
+  background-color: #d31ca8; /* Progress bar fill color */
+  transition: width 0.5s ease; /* Smooth width transition */
   position: absolute;
   left: 0;
 }
