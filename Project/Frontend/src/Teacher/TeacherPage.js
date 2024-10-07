@@ -27,7 +27,6 @@ const TeacherPage = () => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log('Fetched students:', data);
       setStudents(data);
     } catch (error) {
       console.error('Error fetching students:', error);
@@ -36,7 +35,8 @@ const TeacherPage = () => {
 
   const addStudent = async (student) => {
     if (students.some(s => s.number === student.number)) {
-      return 'رقم الطالب موجود بالفعل';
+      alert('رقم الطالب موجود بالفعل');
+      return;
     }
 
     try {
@@ -64,17 +64,26 @@ const TeacherPage = () => {
     setShowEditExerciseModal(true);
   };
 
+  const handleCreateActivityClick = () => {
+    navigate('/activity-selection'); // Navigate to the Activity Selection page
+  };
+
   const saveEditedExercise = (exercise) => {
     console.log('Saved exercise:', exercise);
     setShowEditExerciseModal(false);
   };
 
+  const handleCloseModal = () => {
+    setSelectedExercise(null); // Ensures modal closes by clearing selected exercise
+  };
+
   return (
-    <div className={`teacher-page rtl ${showAddStudentModal ? 'modal-open' : ''}`}>
+    <div className={`teacher-page rtl ${showAddStudentModal || showEditExerciseModal ? 'modal-open' : ''}`}>
       <header className="teacher-header">
         <img src={logo} alt="Logo" className="teacher-logo" />
         <nav className="teacher-nav">
           <button className="nav-button" onClick={handleEditExerciseClick}>تعديل التمارين</button>
+          <button className="nav-button create-activity-button" onClick={handleCreateActivityClick}>إنشاء نشاط</button>
           <button className="nav-button btn" onClick={() => navigate('/')}>خروج</button>
         </nav>
       </header>
@@ -112,7 +121,7 @@ const TeacherPage = () => {
             </tbody>
           </table>
         </div>
-        <button className="nav-button add-student-button" onClick={() => setShowAddStudentModal(true)}>إضافة طالب</button>
+        <button className="add-student-button" onClick={() => setShowAddStudentModal(true)}>إضافة طالب</button>
         <Modal isOpen={showAddStudentModal} onClose={() => setShowAddStudentModal(false)}>
           <AddStudent onAddStudent={addStudent} />
         </Modal>
@@ -125,7 +134,7 @@ const TeacherPage = () => {
           </Modal>
         )}
         {selectedExercise && (
-          <Modal isOpen={!!selectedExercise} onClose={() => setSelectedExercise(null)}>
+          <Modal isOpen={!!selectedExercise} onClose={handleCloseModal}>
             <div className="student-details">
               <h3>تفاصيل الطالب رقم {selectedExercise.number}</h3>
               {selectedExercise.difficulties.map((difficulty, i) => (

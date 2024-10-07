@@ -3,14 +3,15 @@ import './CustomWordShuffle.css';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import loadingAnimation from '../../assets/animation/loading-animation.json';
-import backButtonImage from '../../assets/images/back.png';
-import exitButtonImage from '../../assets/images/exit.png';
 import CoinsDisplay from '../components/CoinsDisplay';
 import LevelDisplay from '../components/LevelDisplay';
 import correctSound from '../../assets/sound/true.mp3';
 import incorrectSound from '../../assets/sound/false.mp3';
 import buttonSound from '../../assets/sound/backBT.wav';
-
+import CreateActivityForm from '../../Teacher/ChooseBg'; // Ensure correct path
+import BackgroundModal from '../../Teacher/Modal'; // Import the shared modal component
+import backButtonImage from '../../assets/images/back.png';
+import exitButtonImage from '../../assets/images/exit.png';
 const getShuffledLetters = (letters) => {
   let shuffledLetters = [...letters];
   for (let i = shuffledLetters.length - 1; i > 0; i--) {
@@ -21,6 +22,7 @@ const getShuffledLetters = (letters) => {
 };
 
 const CustomWordShuffle = () => {
+  const [isBgModalOpen, setIsBgModalOpen] = useState(false);
   const [wordsWithPhotos, setWordsWithPhotos] = useState([{ word: '', photo: null }]);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [letters, setLetters] = useState([]);
@@ -45,12 +47,25 @@ const CustomWordShuffle = () => {
     setWordsWithPhotos(updatedWords);
   };
 
+
+  const handleOpenBgModal = () => {
+    setIsBgModalOpen(true);
+  };
+
+  const handleCloseBgModal = () => {
+    setIsBgModalOpen(false);
+  };
   const handleImageUpload = (index, event) => {
     if (event.target.files && event.target.files[0]) {
       const updatedWords = [...wordsWithPhotos];
       updatedWords[index].photo = URL.createObjectURL(event.target.files[0]);
       setWordsWithPhotos(updatedWords);
     }
+  };
+
+  const handleRemoveWord = (index) => {
+    const updatedWords = wordsWithPhotos.filter((_, i) => i !== index);
+    setWordsWithPhotos(updatedWords);
   };
 
   const handleAddWordPhotoField = () => {
@@ -88,7 +103,7 @@ const CustomWordShuffle = () => {
     const formedWord = newSelectedLetters.join('');
     if (formedWord === wordsWithPhotos[currentWordIndex].word) {
       correctAudio.play();
-      setFeedback('Correct!');
+      setFeedback('صحيح!');
       setTimeout(() => {
         setCoins(coins + 1);
         setLevel(level + 1);
@@ -96,15 +111,15 @@ const CustomWordShuffle = () => {
         setCurrentWordIndex(nextWordIndex);
         setLetters(getShuffledLetters(wordsWithPhotos[nextWordIndex].word.split('')));
         resetGame();
-      }, 2000); // Delay for feedback
+      }, 2000);
     } else if (newSelectedLetters.length === letters.length) {
       setAttempts(attempts + 1);
       if (attempts >= 2) {
         incorrectAudio.play();
-        setFeedback('Try Again');
+        setFeedback('حاول مرة أخرى');
         setTimeout(() => resetGame(), 2000);
       } else {
-        setFeedback('Try Again');
+        setFeedback('حاول مرة أخرى');
         setTimeout(() => {
           setSelectedLetters([]);
           setSelectedPositions([]);
@@ -124,7 +139,7 @@ const CustomWordShuffle = () => {
 
   const handleBackClick = () => {
     buttonAudio.play();
-    navigate('/levels/island');
+    navigate('/activity-selection');
   };
 
   const handleExitClick = () => {
@@ -134,29 +149,49 @@ const CustomWordShuffle = () => {
 
   return (
     <div className="custom-word-shuffle-container">
+       <header className="teacher-header">
+      {!isGameStarted && (
+        <nav className="teacher-nav">
+          <button className="nav-button" onClick={handleExitClick}>خروج</button>
+          <button className="nav-button" onClick={() => navigate('/teacher')}>الصفحة الرئيسية</button>
+          <button className="nav-button" onClick={handleBackClick}>خلف</button>
+        </nav>
+      )}
+    </header>
       {!isGameStarted ? (
+        
         <div className="custom-word-input-form">
-          <h2>Enter your words and upload a photo for each:</h2>
-          <p>Upload words and photos that the user will use in the game.</p>
-          {wordsWithPhotos.map((entry, index) => (
-            <div key={index} className="custom-word-input-pair">
-              <input
-                type="text"
-                placeholder={`Enter word ${index + 1}`}
-                value={entry.word}
-                onChange={(e) => handleWordChange(index, e.target.value)}
-              />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageUpload(index, e)}
-              />
-            </div>
-          ))}
-          <button className="custom-add-word-button" onClick={handleAddWordPhotoField}>
-            + Add another word and photo
-          </button>
-          <button onClick={handleStartGame}>Start Game</button>
+          <h2>أدخل كلماتك وارفع صورة لكل منها:</h2>
+          <p>قم برفع الكلمات والصور التي سيستخدمها المستخدم في اللعبة.</p>
+          <div className="scrollable-inputs">
+            {wordsWithPhotos.map((entry, index) => (
+              <div key={index} className="custom-word-input-pair">
+                <input
+                  type="text"
+                  placeholder={`أدخل الكلمة ${index + 1}`}
+                  value={entry.word}
+                  onChange={(e) => handleWordChange(index, e.target.value)}
+                />
+                <label htmlFor={`file-upload-${index}`} className="custom-file-upload">رفع صورة</label>
+                <input
+                  id={`file-upload-${index}`}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(index, e)}
+                  className="file-input"
+                />
+                <button className="cancel-button" onClick={() => handleRemoveWord(index)}>X</button>
+              </div>
+            ))}
+          </div>
+          <div className="button-group">
+            <button className="custom-add-word-button" onClick={handleAddWordPhotoField}>+ أضف كلمة وصورة أخرى</button>
+            <button className="custom-background-button" onClick={handleOpenBgModal}>اختر خلفية</button>
+            <BackgroundModal isOpen={isBgModalOpen} onClose={handleCloseBgModal}>
+              <CreateActivityForm />
+            </BackgroundModal>
+          </div>
+          <button className="start-game-button" onClick={handleStartGame}>بدء اللعبة</button>
         </div>
       ) : isLoading ? (
         <div className="custom-word-shuffle-loading-container">
@@ -164,7 +199,7 @@ const CustomWordShuffle = () => {
         </div>
       ) : (
         <>
-          <div className="custom-word-shuffle-top-bar">
+          <div className="custom-word-shuffle-top-bar" style={{ direction: 'ltr' }}>
             <div className="custom-word-shuffle-button-container">
               <img
                 src={backButtonImage}
@@ -229,6 +264,7 @@ const CustomWordShuffle = () => {
       )}
     </div>
   );
+  
 };
 
 export default CustomWordShuffle;

@@ -1,324 +1,451 @@
 /* General container styling */
 .custom-word-shuffle-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
-    font-family: 'Poppins', sans-serif;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  direction: rtl;
 }
 
 /* Input form card styling */
 .custom-word-input-form {
-    background: #ffffff;
-    padding: 40px 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
-    width: 100%;
-    margin: auto;
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
 }
 
 .custom-word-input-form h2 {
-    margin-bottom: 20px;
-    font-size: 2rem;
-    color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #2c3e50;
 }
 
 .custom-word-input-form p {
-    font-size: 1.1rem;
-    color: #6c757d;
-    margin-bottom: 25px;
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 25px;
 }
 
 .custom-word-input-pair {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
 }
 
 .custom-word-input-pair input[type="text"],
 .custom-word-input-pair input[type="file"] {
-    padding: 12px;
-    border: 2px solid #e3e6f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s ease;
-    max-width: 250px;
+  padding: 12px;
+  border: 2px solid #e3e6f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+  max-width: 250px;
 }
 
 .custom-word-input-pair input[type="text"]:focus,
 .custom-word-input-pair input[type="file"]:focus {
-    border-color: #3498db;
+  border-color: #3498db;
 }
 
 /* Add more words button */
 .custom-add-word-button {
-    background-color: #3498db;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 30px;
-    cursor: pointer;
-    border: none;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
+  background-color: #3498db;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 .custom-add-word-button:hover {
-    background-color: #2980b9;
+  background-color: #2980b9;
 }
 
 .custom-word-input-form button {
-    padding: 15px 40px;
-    background-color: #27ae60;
-    color: white;
-    border-radius: 30px;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 15px;
+  padding: 15px 40px;
+  background-color: #27ae60;
+  color: white;
+  border-radius: 30px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
 }
 
 .custom-word-input-form button:hover {
-    background-color: #229954;
+  background-color: #229954;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .custom-word-input-pair {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .custom-word-input-pair {
+      flex-direction: column;
+      gap: 10px;
+  }
 
-    .custom-word-input-pair input[type="text"],
-    .custom-word-input-pair input[type="file"] {
-        max-width: 100%;
-    }
+  .custom-word-input-pair input[type="text"],
+  .custom-word-input-pair input[type="file"] {
+      max-width: 100%;
+  }
 }
 
 /* --- Game Styling Below --- */
 
 /* Matching Game Styles to the original */
 .custom-background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: -1;
 }
 
 .custom-word-shuffle-loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
 }
 
 .custom-word-shuffle-top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 10px 20px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+padding: 10px 20px;
+position: absolute;
+top: 0;
+left: 0;
+z-index: 2;
 }
 
 .custom-word-shuffle-button-container {
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
 }
 
 .custom-word-shuffle-button-image {
-  width: 55px;
-  height: 55px;
-  cursor: pointer;
-  transition: transform 0.3s;
-  margin-right: 15px;
+width: 55px;
+height: 55px;
+cursor: pointer;
+transition: transform 0.3s;
+margin-right: 15px;
 }
 
 .custom-word-shuffle-button-image:last-child {
-  margin-right: 0;
+margin-right: 0;
 }
 
 .custom-word-shuffle-button-image:hover {
-  transform: scale(1.1);
+transform: scale(1.1);
 }
 
 .custom-word-shuffle-score-display {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-  margin-right: 20px;
+display: flex;
+align-items: center;
+gap: 0px;
+margin-right: 20px;
 }
 
 .custom-word-shuffle-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 80px;
-  width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-top: 80px;
+width: 100%;
 }
 
 .custom-word-shuffle-photo-container {
-  margin-bottom: 20px;
+margin-bottom: 20px;
 }
 
 .custom-word-shuffle-photo {
-  width: 200px;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+width: 200px;
+height: auto;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .custom-word-shuffle-letters-and-word-container {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+background-color: rgba(255, 255, 255, 0.8);
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+z-index: 1;
 }
 
 .custom-word-shuffle-letters-container {
-  display: flex;
-  flex-direction: row; /* Ensure letters align horizontally */
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+display: flex;
+flex-direction: row; /* Ensure letters align horizontally */
+align-items: center;
+justify-content: center;
+width: 100%;
 }
 
 .custom-word-shuffle-grid {
-  display: grid;
+display: grid;
 }
 
 .custom-word-shuffle-grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .custom-word-shuffle-gap-4 {
-  gap: 1rem;
+gap: 1rem;
 }
 
 .custom-word-shuffle-letter-tile {
-  position: relative;
-  font-size: 3rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  transition: transform 0.3s, order 0.3s;
-  padding: 2rem;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: custom-fadeIn 0.5s ease-in-out forwards;
-  opacity: 0;
+position: relative;
+font-size: 3rem;
+font-weight: bold;
+text-transform: uppercase;
+transition: transform 0.3s, order 0.3s;
+padding: 2rem;
+border-radius: 10px;
+cursor: pointer;
+text-align: center;
+display: flex;
+align-items: center;
+justify-content: center;
+animation: custom-fadeIn 0.5s ease-in-out forwards;
+opacity: 0;
 }
 
 @keyframes custom-fadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+0% {
+  opacity: 0;
+  transform: scale(0.5);
+}
+100% {
+  opacity: 1;
+  transform: scale(1);
+}
 }
 
 .custom-word-shuffle-letter-tile:hover {
-  transform: scale(1.1);
+transform: scale(1.1);
 }
 
 .custom-word-shuffle-bg-1 {
-  background-color: #fefcbf;
+background-color: #fefcbf;
 }
 
 .custom-word-shuffle-bg-2 {
-  background-color: #c6f6d5;
+background-color: #c6f6d5;
 }
 
 .custom-word-shuffle-bg-3 {
-  background-color: #bee3f8;
+background-color: #bee3f8;
 }
 
 .custom-word-shuffle-bg-4 {
-  background-color: #e9d8fd;
+background-color: #e9d8fd;
 }
 
 .custom-word-shuffle-bg-5 {
-  background-color: #fed7d7;
+background-color: #fed7d7;
 }
 
 .custom-word-shuffle-bg-6 {
-  background-color: #c3dafe;
+background-color: #c3dafe;
 }
 
 .custom-word-shuffle-selected-letters-container {
-  margin-top: 20px;
-  padding: 10px;
-  border: 2px solid #fff;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  gap: 10px;
-  direction: rtl;
+margin-top: 20px;
+padding: 10px;
+border: 2px solid #fff;
+border-radius: 10px;
+background-color: rgba(0, 0, 0, 0.3);
+display: flex;
+gap: 10px;
+direction: rtl;
 }
 
 .custom-word-shuffle-selected-letter {
-  font-size: 5rem;
-  font-weight: bold;
-  color: #000000;
-  padding: 1rem;
-  border-radius: 10px;
-  background-color: #b9d7f9;
-  animation: custom-fadeInSelected 0.5s ease-in-out forwards;
+font-size: 5rem;
+font-weight: bold;
+color: #000000;
+padding: 1rem;
+border-radius: 10px;
+background-color: #b9d7f9;
+animation: custom-fadeInSelected 0.5s ease-in-out forwards;
 }
 
 @keyframes custom-fadeInSelected {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+0% {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+100% {
+  opacity: 1;
+  transform: translateY(0);
+}
 }
 
 .custom-word-shuffle-feedback {
-  margin-top: 20px;
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 10px;
-  background-color: rgba(185, 185, 185, 0.7);
-  z-index: 3;
-  position: relative;
-  color: white;
+margin-top: 20px;
+font-size: 2rem;
+font-weight: bold;
+padding: 10px 20px;
+border-radius: 10px;
+background-color: rgba(185, 185, 185, 0.7);
+z-index: 3;
+position: relative;
+color: white;
 }
 
 .custom-word-shuffle-feedback.correct {
-  background-color: #d4edda;
-  color: #25c64d;
+background-color: #d4edda;
+color: #25c64d;
 }
 
 .custom-word-shuffle-feedback.incorrect {
-  background-color: #f8d7da;
-  color: #e86673;
+background-color: #f8d7da;
+color: #e86673;
 }
 
 
+/* General container styling */
+.custom-word-shuffle-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100vh;
+background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
+font-family: 'Poppins', sans-serif;
+padding: 20px;
+}
+
+/* Header styling */
+.teacher-header {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+display: flex;
+justify-content: flex-start; /* Aligns content to the left */
+align-items: center;
+padding: 10px 20px;
+background-color: #f0f8ff;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-nav {
+display: flex;
+gap: 10px;
+margin-right: auto; /* Pushes the navigation to the left */
+}
+
+.nav-button {
+padding: 10px 20px;
+font-size: 16px;
+cursor: pointer;
+border: none;
+border-radius: 5px;
+background-color: #4caf50;
+color: white;
+transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+background-color: #45a049;
+}
+
+/* Rest of the CSS remains the same as per your game content */
+.scrollable-inputs {
+max-height: 200px;
+overflow-y: auto;
+margin-bottom: 10px;
+}
+
+.custom-file-upload {
+background-color: #4CAF50;
+color: white;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+text-align: center;
+transition: background-color 0.3s ease;
+margin-right: 10px;
+}
+
+.custom-file-upload:hover {
+background-color: #45a049;
+}
+
+.file-input {
+display: none; /* Hide the input field itself */
+}.cancel-button {
+background-color: #ffffff !important; /* Red for delete/cancel operations */
+color: rgb(0, 0, 0) !important;
+padding: 8px 16px !important;
+border: none !important;
+border-radius: 5px !important;
+cursor: pointer !important;
+transition: background-color 0.3s !important;
+}
+
+
+.custom-add-word-button {
+background-color: #3498db;
+color: white;
+padding: 12px 25px;
+border-radius: 30px;
+border: none;
+font-size: 1rem;
+margin-top: 20px;
+cursor: pointer;
+}
+
+.custom-add-word-button:hover {
+background-color: #2980b9;
+}
+
+.custom-word-input-pair {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.custom-word-input-pair input[type="text"] {
+padding: 10px;
+font-size: 1rem;
+margin-right: 10px;
+border: 2px solid #ddd;
+border-radius: 5px;
+width: 200px;
+}.button-group {
+display: flex;
+justify-content: space-between;
+gap: 20px; /* Adjust gap between buttons */
+
+}
+
+.custom-background-button, .custom-add-word-button {
+flex: 1; /* Ensures buttons share the available space evenly */
+}
+
+.start-game-button {
+width: 100%;
+margin-top: 10px; /* Space between action buttons and the start button */
+
+}

@@ -195,3 +195,23 @@ body {
 .btn{
   margin-left: 40px;
 }
+
+.create-activity-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50; /* Blue color for the create activity button */
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.create-activity-button:hover {
+  background-color: #45a049; /* Darker blue on hover */
+}
+
+/* Additional styles to ensure consistency in layout and accessibility */
+.nav-button {
+  margin-left: 10px;
+}

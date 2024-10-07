@@ -19,6 +19,7 @@ import Shuffle from './activity/pages/WordShuffle';
 import './LetterCheck.css';
 import LetterIdentification from './activity/pages/LetterIdentification';
 import CustomWordShffle from './activity/pages/CustomInputWordShuffle'
+import ActivitySelection from './Teacher/ActivitySelection';  // Import the activity selection page
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/shuffle" element={<Shuffle/>} />
           <Route path="/letter-identification" element={<LetterIdentification />} />
           <Route path="/custom-word-shuffle" element={<CustomWordShffle />} />
+          <Route path="/activity-selection" element={<ActivitySelection />} />
         </Routes>
       </div>
     </Router>
