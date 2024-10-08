@@ -7,13 +7,8 @@ const staticImageOptions = [
   { name: 'الخلفية 2', src: require('../assets/images/background2.png') }
 ];
 
-const CreateActivityForm = () => {
+const CreateActivityForm = ({ onBackgroundSelect }) => {
   const [activity, setActivity] = useState({
-    type: '',
-    level: '',
-    difficulty: '',
-    landType: '',
-    description: '',
     background: staticImageOptions[0].src // Default background to prevent blank
   });
   const [file, setFile] = useState(null);
@@ -32,10 +27,15 @@ const CreateActivityForm = () => {
       console.error('Error fetching images:', error);
     }
   };
-  
 
   const selectBackground = (imgSrc) => {
     setActivity({ ...activity, background: imgSrc });
+  };
+
+  const handleConfirmBackground = () => {
+    if (onBackgroundSelect) {
+      onBackgroundSelect(activity.background); // Pass the selected background to parent component
+    }
   };
 
   const handleFileChange = (e) => {
@@ -81,7 +81,7 @@ const CreateActivityForm = () => {
       <div className="selected-background">
         <h3>الخلفية المختارة:</h3>
         <img src={activity.background} alt="Selected Background" className="selected-image" />
-        
+        <button onClick={handleConfirmBackground} className="confirm-background-button">اختيار هذه الخلفية</button>
       </div>
     </div>
   );

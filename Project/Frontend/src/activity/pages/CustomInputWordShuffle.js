@@ -35,6 +35,13 @@ const CustomWordShuffle = () => {
   const [displayedLetters, setDisplayedLetters] = useState([]);
   const [feedback, setFeedback] = useState(null);
   const [attempts, setAttempts] = useState(0);
+  const [selectedBackground, setSelectedBackground] = useState(null);
+  const handleBackgroundSelect = (background) => {
+    setSelectedBackground(background);
+    setIsBgModalOpen(false);  // Close modal after selecting background
+  };
+  
+
   const navigate = useNavigate();
 
   const correctAudio = new Audio(correctSound);
@@ -71,7 +78,6 @@ const CustomWordShuffle = () => {
   const handleAddWordPhotoField = () => {
     setWordsWithPhotos([...wordsWithPhotos, { word: '', photo: null }]);
   };
-
   const handleStartGame = () => {
     if (wordsWithPhotos.every(entry => entry.word && entry.photo)) {
       const firstWordLetters = wordsWithPhotos[0].word.split('');
@@ -80,6 +86,7 @@ const CustomWordShuffle = () => {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
     let index = 0;
@@ -148,7 +155,9 @@ const CustomWordShuffle = () => {
   };
 
   return (
-    <div className="custom-word-shuffle-container">
+    <div className="custom-word-shuffle-container"
+    style={isGameStarted && selectedBackground ? { backgroundImage: `url(${selectedBackground})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+    >
        <header className="teacher-header">
       {!isGameStarted && (
         <nav className="teacher-nav">
@@ -188,9 +197,17 @@ const CustomWordShuffle = () => {
             <button className="custom-add-word-button" onClick={handleAddWordPhotoField}>+ أضف كلمة وصورة أخرى</button>
             <button className="custom-background-button" onClick={handleOpenBgModal}>اختر خلفية</button>
             <BackgroundModal isOpen={isBgModalOpen} onClose={handleCloseBgModal}>
-              <CreateActivityForm />
-            </BackgroundModal>
+  <CreateActivityForm onBackgroundSelect={handleBackgroundSelect} />
+</BackgroundModal>
+
+            
           </div>
+          {selectedBackground && (
+  <div className="selected-background-preview">
+    <h4>الخلفية المختارة:</h4>
+    <img src={selectedBackground} alt="Selected Background" />
+  </div>
+)}
           <button className="start-game-button" onClick={handleStartGame}>بدء اللعبة</button>
         </div>
       ) : isLoading ? (

@@ -449,3 +449,14 @@ width: 100%;
 margin-top: 10px; /* Space between action buttons and the start button */
 
 }
+.selected-background-preview {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.selected-background-preview img {
+  width: 150px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
