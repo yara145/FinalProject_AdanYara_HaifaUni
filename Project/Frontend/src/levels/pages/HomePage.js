@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Island from '../components/Island';
+//import Island from '../../user/pages/StudentIsland';
+
 import Mountain from '../components/Mountain';
 import Park from '../components/Park';
 import { gsap } from 'gsap';
@@ -56,19 +58,23 @@ const HomePage = () => {
   }, [cloudRefs]);
 
   const handleClick = (type) => {
-    const target = `.${type}`;
-    gsap.to(target, {
-      duration: 0.5,
-      scale: 1.5,
-      onComplete: () => {
-        gsap.to(target, {
-          duration: 0.5,
-          scale: 1,
-          onComplete: () => navigate(`/levels/${type}`),
-        });
-      },
-    });
+    if (type === 'island') {
+      navigate('/student-island'); // Navigate to StudentIsland page
+    } else {
+      gsap.to(`.${type}`, {
+        duration: 0.5,
+        scale: 1.5,
+        onComplete: () => {
+          gsap.to(`.${type}`, {
+            duration: 0.5,
+            scale: 1,
+            onComplete: () => navigate(`/levels/${type}`),
+          });
+        },
+      });
+    }
   };
+  
 
   return (
     <div className="home-page">

@@ -12,6 +12,8 @@ import CreateActivityForm from '../../Teacher/ChooseBg'; // Ensure correct path
 import BackgroundModal from '../../Teacher/Modal'; // Import the shared modal component
 import backButtonImage from '../../assets/images/back.png';
 import exitButtonImage from '../../assets/images/exit.png';
+import axios from 'axios';
+
 const getShuffledLetters = (letters) => {
   let shuffledLetters = [...letters];
   for (let i = shuffledLetters.length - 1; i > 0; i--) {
@@ -40,8 +42,31 @@ const CustomWordShuffle = () => {
     setSelectedBackground(background);
     setIsBgModalOpen(false);  // Close modal after selecting background
   };
-  
+  const [activityName, setActivityName] = useState('');
 
+  const handleImageUpload = async (index, event) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      try {
+        const response = await axios.post('http://localhost:5000/api/upload/activities', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        const updatedWords = [...wordsWithPhotos];
+        updatedWords[index].photo = response.data.file; // Save returned file path
+        setWordsWithPhotos(updatedWords);
+      } catch (error) {
+        console.error('Failed to upload image:', error);
+        alert('Failed to upload image');
+      }
+    }
+  };
+  
+  
   const navigate = useNavigate();
 
   const correctAudio = new Audio(correctSound);
@@ -62,13 +87,7 @@ const CustomWordShuffle = () => {
   const handleCloseBgModal = () => {
     setIsBgModalOpen(false);
   };
-  const handleImageUpload = (index, event) => {
-    if (event.target.files && event.target.files[0]) {
-      const updatedWords = [...wordsWithPhotos];
-      updatedWords[index].photo = URL.createObjectURL(event.target.files[0]);
-      setWordsWithPhotos(updatedWords);
-    }
-  };
+  
 
   const handleRemoveWord = (index) => {
     const updatedWords = wordsWithPhotos.filter((_, i) => i !== index);
@@ -153,7 +172,27 @@ const CustomWordShuffle = () => {
     buttonAudio.play();
     navigate('/');
   };
-
+  const handleCreateActivity = async () => {
+    const activityData = {
+      name: activityName, // Name of the activity
+      type: 'word-shuffle', // The type is fixed to word-shuffle
+      words: wordsWithPhotos.map(entry => ({
+        word: entry.word,
+        photo: entry.photo // Ensure this is the path returned by the server, not a blob URL
+      })),
+      background: selectedBackground, // The background selected
+      level: 1 // Default to level 1 for now
+    };
+  
+    try {
+      await axios.post('http://localhost:5000/api/activities/create-activity', activityData);
+      alert('تم حفظ النشاط بنجاح!');
+    } catch (error) {
+      console.error('Error saving activity:', error);
+      alert('فشل في حفظ النشاط');
+    }
+  };
+  
   return (
     <div className="custom-word-shuffle-container"
     style={isGameStarted && selectedBackground ? { backgroundImage: `url(${selectedBackground})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
@@ -170,12 +209,22 @@ const CustomWordShuffle = () => {
       {!isGameStarted ? (
         
         <div className="custom-word-input-form">
+            {/* Add the input for the activity name */}
+    <input
+      type="text"
+      placeholder="اسم النشاط"
+      value={activityName}
+      onChange={(e) => setActivityName(e.target.value)}
+      required
+      className="activity-name-input"
+    />
           <h2>أدخل كلماتك وارفع صورة لكل منها:</h2>
           <p>قم برفع الكلمات والصور التي سيستخدمها المستخدم في اللعبة.</p>
           <div className="scrollable-inputs">
             {wordsWithPhotos.map((entry, index) => (
               <div key={index} className="custom-word-input-pair">
                 <input
+
                   type="text"
                   placeholder={`أدخل الكلمة ${index + 1}`}
                   value={entry.word}
@@ -208,7 +257,10 @@ const CustomWordShuffle = () => {
     <img src={selectedBackground} alt="Selected Background" />
   </div>
 )}
+<div className="button-group">
+ <button className="start-game-button" onClick={handleCreateActivity}>حفظ النشاط</button> {/* New Save Button */}
           <button className="start-game-button" onClick={handleStartGame}>بدء اللعبة</button>
+          </div>  
         </div>
       ) : isLoading ? (
         <div className="custom-word-shuffle-loading-container">
