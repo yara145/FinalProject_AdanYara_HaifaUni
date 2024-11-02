@@ -8,9 +8,11 @@ const fs = require('fs');
 
 const app = express();
 const port = 5000;
+const router = express.Router();
 
 // Import activity routes
 const activityRoutes = require('./routes/api/activities'); // Ensure correct path
+const studentRoutes = require('./routes/api/students'); // Ensure the path is correct
 
 // Setup storage options for multer
 const storage = multer.diskStorage({
@@ -64,12 +66,18 @@ app.get('/api/students', async (req, res) => {
 
 // Add Student endpoint
 app.post('/api/add-student', async (req, res) => {
-  const { number, difficulties } = req.body;
+  const { number, difficulties = [] } = req.body;
   try {
-    const student = new Student({ number, difficulties });
+    const student = new Student({
+      number,
+      difficulties, // directly pass array of strings
+      activities: [] // initialize activities if needed
+    });
+    
     await student.save();
     res.status(201).json(student);
   } catch (error) {
+    console.error('Error saving student:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -87,11 +95,9 @@ app.post('/api/upload/activities', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded' });
   }
-  // Adjust the path as needed depending on how you access your server
   const filePath = `${req.protocol}://${req.get('host')}/uploads/activities/${req.file.filename}`;
   res.status(200).json({ message: 'Activity uploaded successfully', file: filePath });
 });
-
 
 // Fetch uploaded images endpoint
 app.get('/api/activities/images', async (req, res) => {
@@ -119,12 +125,15 @@ app.get('/api/activities/images', async (req, res) => {
   }
 });
 
-// Use the activity routes
-app.use('/api/activities', activityRoutes);
+// Use the student and activity routes
+app.use('/api', studentRoutes); // Registers the student routes under /api
+app.use('/api/activities', activityRoutes); // Registers the activity routes under /api/activities
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
 // Student Login endpoint
 app.post('/api/student-login', async (req, res) => {
   const { number } = req.body;
@@ -140,3 +149,42 @@ app.post('/api/student-login', async (req, res) => {
   }
 });
 
+// Fetch all word-shuffle activities for a student
+router.get('/:studentId/word-shuffle-activities', async (req, res) => {
+  const { studentId } = req.params;
+  try {
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    // Assuming "activityTypes" stores the types of activities, including word-shuffle
+    const wordShuffleActivities = student.activityTypes.find(activity => activity.type === 'word-shuffle');
+    
+    if (!wordShuffleActivities) {
+      return res.status(404).json({ message: 'No word-shuffle activities found' });
+    }
+
+    res.status(200).json(wordShuffleActivities);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+router.get('/:studentId/activities/:activityType', async (req, res) => {
+  const { studentId, activityType } = req.params;
+
+  try {
+    const student = await Student.findById(studentId);
+    if (!student) return res.status(404).json({ message: 'Student not found' });
+
+    await initializeActivity(student); // Ensure all current activities are available
+
+    const activity = student.activityTypes.find(a => a.type === activityType);
+    if (!activity) return res.status(404).json({ message: 'No activities of this type found' });
+
+    res.status(200).json(activity.levels);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});

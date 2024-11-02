@@ -29,22 +29,16 @@ const AddStudent = ({ onAddStudent }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (studentNumber && selectedDifficulties.length > 0) {
-      const difficulties = selectedDifficulties.map(name => ({
-        name,
-        levels: []
-      }));
-      const student = { number: studentNumber, difficulties };
-      const error = await onAddStudent(student);
-      if (error) {
-        setErrorMessage(error);
+    try {
+      if (studentNumber && selectedDifficulties.length > 0) {
+        const student = { number: studentNumber, difficulties: selectedDifficulties }; // Send difficulties as an array of strings
+        const error = await onAddStudent(student);
+        if (error) throw new Error(error);
       } else {
-        setErrorMessage('');
-        setStudentNumber('');
-        setSelectedDifficulties([]);
+        throw new Error("Please fill all fields and select at least one difficulty.");
       }
-    } else {
-      setErrorMessage('Please fill all fields and select at least one difficulty.');
+    } catch (error) {
+      setErrorMessage(error.message);
     }
   };
 

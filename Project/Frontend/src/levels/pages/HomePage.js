@@ -1,17 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react'; // Removed `useMemo`
 import { useNavigate } from 'react-router-dom';
 import Island from '../components/Island';
-//import Island from '../../user/pages/StudentIsland';
-
 import Mountain from '../components/Mountain';
 import Park from '../components/Park';
 import { gsap } from 'gsap';
 import lottie from 'lottie-web';
-import cloudImage from '../../assets/images/cloud1.png'; // Ensure this path is correct
+import cloudImage from '../../assets/images/cloud1.png';
 import tigerAnimation from '../../assets/animation/login-animation.json';
 import speechBubbleImage from '../../assets/speech-bubble.png';
-import sunAnimation from '../../assets/animation/sun.json'; // Ensure this path is correct
-import birdsAnimation from '../../assets/animation/birds.json'; // Ensure this path is correct
+import sunAnimation from '../../assets/animation/sun.json';
+import birdsAnimation from '../../assets/animation/birds.json';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -19,6 +17,8 @@ const HomePage = () => {
   const tigerRef = useRef(null);
   const sunRef = useRef(null);
   const birdsRef = useRef(null);
+
+  // Define cloudRefs directly without a callback
   const cloudRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
   useEffect(() => {
@@ -48,30 +48,28 @@ const HomePage = () => {
 
     cloudRefs.forEach((ref, index) => {
       gsap.to(ref.current, {
-        x: index % 2 === 0 ? '+=200px' : '-=200px', // Move some clouds to the right and some to the left
+        x: index % 2 === 0 ? '+=200px' : '-=200px',
         repeat: -1,
         yoyo: true,
         ease: 'power1.inOut',
-        duration: 10, // Duration of one full movement (left to right and back)
+        duration: 10,
       });
     });
   }, [cloudRefs]);
 
+  // Retrieve studentId from localStorage
+  const studentId = localStorage.getItem('studentId');
+
   const handleClick = (type) => {
+    const studentId = localStorage.getItem('studentId'); // Retrieve studentId from localStorage
+    console.log("Navigating from HomePage with studentId:", studentId); // Log studentId in HomePage
+  
+    if (!studentId) {
+      console.error("Student ID not found in localStorage");
+      return;
+    }
     if (type === 'island') {
-      navigate('/student-island'); // Navigate to StudentIsland page
-    } else {
-      gsap.to(`.${type}`, {
-        duration: 0.5,
-        scale: 1.5,
-        onComplete: () => {
-          gsap.to(`.${type}`, {
-            duration: 0.5,
-            scale: 1,
-            onComplete: () => navigate(`/levels/${type}`),
-          });
-        },
-      });
+      navigate(`/student-island/${studentId}`); // Include studentId in the URL
     }
   };
   
@@ -88,8 +86,6 @@ const HomePage = () => {
         <div className="cloud cloud2" ref={cloudRefs[1]}>
           <img src={cloudImage} alt="Cloud 2" />
         </div>
-        
-        
       </div>
       <div className="sun-animation" ref={sunRef}></div>
       <div className="birds-animation" ref={birdsRef}></div>

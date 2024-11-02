@@ -5,8 +5,6 @@ const Activity = require('../../Models/Activity');
 // Create an Activity
 router.post('/create-activity', async (req, res) => {
   try {
-    console.log("Incoming activity data:", req.body); // Log incoming request data
-
     const newActivity = new Activity({
       name: req.body.name,
       type: req.body.type,
@@ -16,14 +14,11 @@ router.post('/create-activity', async (req, res) => {
     });
     
     await newActivity.save();
-    console.log("Activity saved successfully:", newActivity); // Log success message
     res.status(201).json(newActivity);
   } catch (error) {
-    console.error('Error creating activity:', error); // Log error message
     res.status(400).json({ message: 'Error creating activity', error: error.message });
   }
 });
-
 
 // Fetch all Activities
 router.get('/fetch-activities', async (req, res) => {
@@ -32,6 +27,16 @@ router.get('/fetch-activities', async (req, res) => {
     res.status(200).json(activities);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching activities', error: error.message });
+  }
+});
+// In backend/routes/api/activities.js
+router.get('/:activityType', async (req, res) => {
+  const { activityType } = req.params;
+  try {
+    const activities = await Activity.find({ type: activityType });
+    res.status(200).json(activities);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 
