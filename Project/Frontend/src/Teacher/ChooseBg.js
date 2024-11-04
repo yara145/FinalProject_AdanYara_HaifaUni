@@ -22,12 +22,17 @@ const CreateActivityForm = ({ onBackgroundSelect }) => {
   const fetchImages = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/activities/images');
-      setImageOptions([...staticImageOptions, ...response.data]); // Combine static and uploaded images
+      
+      const backgroundImages = response.data.filter(img => img.src.includes('backgrounds'));
+     
+      
+      setImageOptions([...staticImageOptions, ...backgroundImages]); // for backgrounds
+      // You can handle activity images separately as needed
     } catch (error) {
       console.error('Error fetching images:', error);
     }
   };
-
+  
   const selectBackground = (imgSrc) => {
     setActivity({ ...activity, background: imgSrc });
   };
@@ -47,24 +52,22 @@ const CreateActivityForm = ({ onBackgroundSelect }) => {
     };
     reader.readAsDataURL(file);
   };
-
   const handleSave = async () => {
     const formData = new FormData();
     formData.append('file', file);
+    
     try {
-      await axios.post('http://localhost:5000/api/activities/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      const response = await axios.post('http://localhost:5000/api/upload/backgrounds', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
-      alert('تم حفظ الصورة بنجاح وإضافتها إلى الخلفيات المتاحة!');
-      fetchImages(); // Fetch updated image list after saving the new image
+      alert('تم حفظ الخلفية بنجاح!');
+      fetchImages(); // Fetch images to update the list
     } catch (error) {
-      alert('فشل في حفظ الصورة');
+      alert('فشل في حفظ الخلفية');
       console.error(error);
     }
   };
-
+  
   return (
     <div className="form-container">
       <h3>يمكنك اختيار خلفية من الخلفيات المتاحة أو رفع خلفية جديدة للمجموعة</h3>

@@ -460,3 +460,17 @@ margin-top: 10px; /* Space between action buttons and the start button */
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.activity-name-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  border: 2px solid #e3e6f0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.activity-name-input:focus {
+  border-color: #3498db;
+}

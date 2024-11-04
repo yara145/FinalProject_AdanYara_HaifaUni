@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/LogIn';
@@ -18,8 +17,10 @@ import IdentifyImageActivity from './activity/pages/IdentifyImageActivity';
 import Shuffle from './activity/pages/WordShuffle';
 import './LetterCheck.css';
 import LetterIdentification from './activity/pages/LetterIdentification';
-import CustomWordShffle from './activity/pages/CustomInputWordShuffle'
-import ActivitySelection from './Teacher/ActivitySelection';  // Import the activity selection page
+import CustomWordShuffle from './activity/pages/CustomInputWordShuffle';
+import ActivitySelection from './Teacher/ActivitySelection';
+import StudentIsland from './user/pages/StudentIsland';
+import StudentActivities from './user/pages/StudentActivities';
 
 const App = () => {
   return (
@@ -40,10 +41,13 @@ const App = () => {
           <Route path="/show-students" element={<ShowStudentsPage />} />
           <Route path="/teacher" element={<TeacherPage />} />
           <Route path="/identify-image" element={<IdentifyImageActivity />} />
-          <Route path="/shuffle" element={<Shuffle/>} />
+          <Route path="/shuffle" element={<Shuffle />} />
           <Route path="/letter-identification" element={<LetterIdentification />} />
-          <Route path="/custom-word-shuffle" element={<CustomWordShffle />} />
+          <Route path="/custom-word-shuffle" element={<CustomWordShuffle />} />
           <Route path="/activity-selection" element={<ActivitySelection />} />
+          {/* Pass studentId in the URL */}
+          <Route path="/student-island/:studentId" element={<StudentIsland />} />
+          <Route path="/student/activities/:studentId/:activityType" element={<StudentActivities />} />
         </Routes>
       </div>
     </Router>

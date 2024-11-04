@@ -38,7 +38,6 @@ const TeacherPage = () => {
       alert('رقم الطالب موجود بالفعل');
       return;
     }
-
     try {
       const response = await fetch('http://localhost:5000/api/add-student', {
         method: 'POST',
@@ -47,11 +46,11 @@ const TeacherPage = () => {
         },
         body: JSON.stringify(student),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to add student');
       }
-
+  
       const newStudent = await response.json();
       setStudents([...students, newStudent]);
       setShowAddStudentModal(false);
@@ -105,12 +104,13 @@ const TeacherPage = () => {
                 <tr key={index} className="student-item">
                   <td>{student.number}</td>
                   <td>
-                    {student.difficulties.map((difficulty, i) => (
-                      <div key={i}>
-                        <strong>{difficulty.name}</strong>
-                      </div>
-                    ))}
-                  </td>
+  {student.difficulties.map((difficulty, i) => (
+    <div key={i}>
+      <strong>{difficulty}</strong>
+    </div>
+  ))}
+</td>
+
                   <td>
                     <button className="details-button" onClick={() => setSelectedExercise(student)}>
                       عرض التفاصيل

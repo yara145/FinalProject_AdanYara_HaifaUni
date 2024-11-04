@@ -1,0 +1,42 @@
+.student-activities {
+  text-align: center;
+  padding: 20px;
+  direction: rtl;
+  font-family: Arial, sans-serif;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  justify-items: center;
+  margin-top: 20px;
+}
+
+.activity {
+  padding: 10px;
+  margin: 5px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+}
+
+.activity.completed {
+  background-color: #4caf50; /* Green for completed */
+}
+
+.activity.locked {
+  background-color: #f44336; /* Red for locked */
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}

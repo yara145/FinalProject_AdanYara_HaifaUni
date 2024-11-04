@@ -21,31 +21,30 @@ const Login = () => {
       animationData: loginAnimationData,
     });
 
-    return () => anim.destroy(); // Cleanup on unmount
+    return () => anim.destroy();
   }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/student-login', { number: studentNumber });
-      localStorage.setItem('studentNumber', studentNumber);
-      localStorage.setItem('firstLogin', response.data.firstLogin);
-      navigate('/home'); // Navigate directly to the home page
-    } catch (err) {
-      console.error(err); // Log the full error object
-      if (err.response) {
-        setError(err.response.data.message);
+      const { studentId, firstLogin } = response.data;
+  
+      if (studentId) {
+        console.log("Logged in with studentId:", studentId); // Confirm studentId is received
+        localStorage.setItem('studentId', studentId); // Store studentId in localStorage
+        localStorage.setItem('studentNumber', studentNumber);
+        localStorage.setItem('firstLogin', firstLogin);
+        navigate(`/home`);
       } else {
-        setError('An error occurred. Please try again.');
+        console.error("Student ID is missing from the login response");
       }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An error occurred. Please try again.");
     }
   };
-
-  const handleGuestLogin = () => {
-    localStorage.setItem('studentNumber', 'guest');
-    localStorage.setItem('isGuest', 'true');
-    navigate('/home'); // Navigate directly to the home page
-  };
+  
 
   const handleBack = () => {
     navigate('/');
