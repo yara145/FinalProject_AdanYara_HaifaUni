@@ -7,7 +7,7 @@ import backButtonImage from '../../assets/images/back.png';
 import exitButtonImage from '../../assets/images/exit.png';
 import CoinsDisplay from '../components/CoinsDisplay';
 import LevelDisplay from '../components/LevelDisplay';
-import CandyProgressBar from '../components/CandyProgressBar'; // Correct import
+import CandyProgressBar from '../components/ProgressBar'; // Correct import
 import backgroundVideo from '../../assets/videos/background.mp4';
 import correctSound from '../../assets/sound/true.mp3';
 import incorrectSound from '../../assets/sound/false.mp3';
