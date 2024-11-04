@@ -1,22 +1,35 @@
-.progress-bar {
-  position: relative;
-  width: 50%; /* Adjust the width to make it shorter */
-  height: 20px;
-  background-color: #ddd;
-  margin: 0 auto; /* Center align the progress bar */
-  margin-bottom: 20px; /* Added margin-bottom to create space */
-}
-
-.progress {
-  height: 100%;
-  background-color: #76c7c0;
-  transition: width 0.5s;
-}
-
-.lion-icon-progress {
+/* Progress Bar Container */
+.progress-bar-container {
+  width: 90%; /* Adjust width */
+  max-width: 600px;
+  height: 14px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
   position: absolute;
-  top: -15px; /* Adjust this value to position the lion icon vertically */
-  width: 50px;
-  height: 50px;
-  transition: left 0.5s; /* Match the transition duration with the progress bar */
+  top: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* Progress Bar Fill */
+.progress-bar-fill {
+  height: 100%;
+  background-color: #2eae6e;
+  transition: width 0.6s ease-in-out;
+  border-radius: 10px;
+  position: relative; /* Ensure child elements are positioned correctly */
+}
+
+/* Progress Icon */
+.progress-icon {
+  width: 30px; /* Adjust icon size */
+  height: 30px;
+  position: absolute;
+  top: -8px; /* Align the icon vertically */
+  transition: left 0.6s ease-in-out; /* Smooth movement with the bar */
+  pointer-events: none; /* Prevent interaction with the icon */
 }

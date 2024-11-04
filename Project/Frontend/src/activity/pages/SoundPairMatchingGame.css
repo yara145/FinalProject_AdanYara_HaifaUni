@@ -1,0 +1,382 @@
+.sound-pair-matching-game .game-container .word-box {
+    background: #e0f7e9; /* Light mint green background */
+    border: 2px solid #4caf50; /* Green border for emphasis */
+    color: #2b5d34; /* Darker green text for readability */
+    font-size: 1.4rem; /* Slightly larger font */
+    border-radius: 15px; /* Rounded corners */
+    padding: 12px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.sound-pair-matching-game .game-container .word-box:hover {
+    transform: translateY(-5px) scale(1.05); /* Slight lift on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    background: #c8e6c9; /* Slightly darker green on hover */
+}
+
+.sound-pair-matching-game .game-container .word-box.matched {
+    background: #d9f5ff; /* Light blue to signify a match */
+    border: 2px solid #03a9f4; /* Blue border */
+    color: #01579b; /* Dark blue text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sound-pair-matching-game .drop-zone {
+    background: #d6ebff; /* Light blue background */
+    border: 2px dashed #0288d1; /* Blue border for guidance */
+    border-radius: 15px;
+    width: 35%; /* Adjust as needed */
+    height: 70px; /* Increase height for visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #01579b; /* Dark blue text */
+    transition: background-color 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+.sound-pair-matching-game .drop-zone:hover {
+    background-color: #b3e5fc; /* Slightly darker blue on hover */
+    box-shadow: 0 0 15px rgba(3, 169, 244, 0.5); /* Soft blue glow */
+}
+
+.sound-pair-matching-game .drop-zone.drag-over {
+    border-color: #03a9f4; /* Bright blue during drag */
+    background-color: #81d4fa; /* Lighter blue during drag */
+}
+
+
+.sound-pair-matching-game .drop-zone .word-box {
+    font-size: 1.8rem; /* Larger font size */
+    background: #c8f4d3; /* Soft green to show placement */
+    color: #041207; /* Darker green text */
+    border: 2px solid #4caf50; /* Green border */
+    border-radius: 12px;
+    transition: font-size 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Main Container Styling */
+.sound-pair-matching-game {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
+    font-family: 'Cairo', sans-serif;
+    padding: 20px;
+    direction: rtl;
+    align-items: center;
+}
+
+/* Game Container Wrapper */
+.sound-pair-matching-game .game-container-wrapper {
+    background-color: #ffffff;
+    border-radius: 20px; /* Added rounded corners */
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Added a more prominent shadow */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 650px;
+  height: 388px;
+  
+    margin: auto;
+}
+
+
+.sound-pair-matching-game .game-container .word-grid {
+    margin-top: 88px; /* Adjust this value as needed to move the words down */
+    display: flex;
+    flex-wrap: wrap; /* Allows the words to wrap to the next line if they don't fit */
+    justify-content: space-between; /* Spreads the words evenly */
+    gap: 20px; /* Space between the words */
+    margin-bottom: 30px;
+}
+
+.sound-pair-matching-game .drop-zones {
+    display: flex;
+    justify-content: center; /* Align the drag zones to the center */
+    gap: 19px; /* Adjust the gap between the two drop zones */
+    width: 100%;
+    margin-top: 50px;
+}
+
+
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+
+
+
+.sound-pair-matching-game .drop-zone {
+    background: #f0f9ff;
+    border: 2px dashed #4caf50;
+    border-radius: 20px;
+    width: 30%; /* Reduce the width if needed */
+    height: 60px; /* Reduce the height if needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem; /* Adjust font size */
+    color: #333;
+    transition: background-color 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+
+.sound-pair-matching-game .drop-zone:hover {
+    background-color: #e0f7ff; /* Slight glow effect */
+    box-shadow: 0 0 15px rgba(0, 180, 255, 0.5); /* Glow on hover */
+}
+
+.sound-pair-matching-game .drop-zone.drag-over {
+    border-color: #3498db; /* Color change during drag */
+    background-color: #d4f1ff; /* Subtle background change */
+}
+
+
+/* Feedback Message Styling */
+.sound-pair-matching-game .feedback-message {
+   
+  position: absolute; /* Position it relative to the nearest positioned ancestor */
+  top: 533px; /* Adjust this value to control how high it appears */
+  left: 50%; /* Center it horizontally */
+  transform: translateX(-50%); /* Adjust horizontal centering */
+  width: 277px;
+  height: 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 75px;
+  padding: 15px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for emphasis */
+  transition: opacity 0.3s ease-in-out; /* Smooth appearance */
+}
+
+/* Feedback Message Styling */
+.sound-pair-matching-game .feedback-message.correct {
+    background-color: #d4edda;
+    color: #000000;
+    border: 2px solid #8ece9d; /* Green border */
+}
+
+.sound-pair-matching-game .feedback-message.incorrect {
+    background-color: #f8d7da;
+    color:#000000;
+    border: 2px solid #ed8791; /* Red border */
+}
+
+
+
+
+/* Input Phase Styling */
+.sound-pair-matching-game .input-phase {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+}
+
+/* Input Container Styling */
+.sound-pair-matching-game .input-phase .input-container {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 90%;
+    margin: auto;
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+/* Scrollbar Styling */
+.sound-pair-matching-game .input-phase .input-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sound-pair-matching-game .input-phase .input-container::-webkit-scrollbar-thumb {
+    background-color: #b0bec5;
+    border-radius: 10px;
+}
+
+/* Pair Block Styling */
+.sound-pair-matching-game .input-phase .pair-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* Modern Input Field Styling */
+.sound-pair-matching-game .input-phase .pair-block input[type="text"] {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    border: 1px solid #e3e6f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sound-pair-matching-game .input-phase .pair-block input[type="text"]:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* Cancel Button Styling */
+.sound-pair-matching-game .input-phase .cancel-button {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sound-pair-matching-game .input-phase .cancel-button:hover {
+    transform: scale(1.2);
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Button Styling */
+.sound-pair-matching-game .input-phase .custom-add-word-button,
+.sound-pair-matching-game .input-phase .custom-background-button,
+.sound-pair-matching-game .input-phase .start-game-button {
+    display: block;
+    width: 100%;
+    padding: 15px 40px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+}
+
+.sound-pair-matching-game .input-phase .custom-add-word-button:hover,
+.sound-pair-matching-game .input-phase .custom-background-button:hover,
+.sound-pair-matching-game .input-phase .start-game-button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sound-pair-matching-game .input-phase .input-container {
+        max-width: 90%;
+        max-height: 50vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .sound-pair-matching-game .input-phase .input-container {
+        max-width: 100%;
+        max-height: 40vh;
+    }
+
+    .sound-pair-matching-game .input-phase .nav-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .sound-pair-matching-game .input-phase .word-box {
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    .sound-pair-matching-game .input-phase .drop-zone {
+        width: 120px;
+        height: 45px;
+    }
+}
+
+
+.game-instruction {
+    margin-top: 4px;
+    font-size: 1.2rem;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #100202;
+    text-align: center;
+}
+
+
