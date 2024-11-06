@@ -21,7 +21,7 @@ import CustomWordShuffle from './activity/pages/CustomInputWordShuffle';
 import ActivitySelection from './Teacher/ActivitySelection';
 import StudentIsland from './user/pages/StudentIsland';
 import StudentActivities from './user/pages/StudentActivities';
-
+import WordShuffleGame from './user/pages/WordShuffleGame';
 const App = () => {
   return (
     <Router>
@@ -43,11 +43,12 @@ const App = () => {
           <Route path="/identify-image" element={<IdentifyImageActivity />} />
           <Route path="/shuffle" element={<Shuffle />} />
           <Route path="/letter-identification" element={<LetterIdentification />} />
-          <Route path="/custom-word-shuffle" element={<CustomWordShuffle />} />
           <Route path="/activity-selection" element={<ActivitySelection />} />
-          {/* Pass studentId in the URL */}
           <Route path="/student-island/:studentId" element={<StudentIsland />} />
           <Route path="/student/activities/:studentId/:activityType" element={<StudentActivities />} />
+          <Route path="/custom-word-shuffle" element={<CustomWordShuffle />} />
+          {/* Adjusted route to pass activityId, studentId, and level */}
+          <Route path="/activities/:activityId/:studentId/:level" element={<WordShuffleGame />} />
         </Routes>
       </div>
     </Router>

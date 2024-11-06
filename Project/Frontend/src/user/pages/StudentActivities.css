@@ -8,24 +8,34 @@
 .activities-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
+  gap: 20px;
   justify-items: center;
   margin-top: 20px;
 }
 
 .activity {
-  padding: 10px;
-  margin: 5px;
+  padding: 15px;
   font-size: 18px;
   border: none;
   cursor: pointer;
   width: 100%;
   max-width: 200px;
-  border-radius: 8px;
+  border-radius: 12px;
   color: white;
   text-align: center;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.activity:hover {
+  transform: scale(1.05); /* Slightly grow on hover */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Completed, Locked, and Available background colors */
 .activity.completed {
   background-color: #4caf50; /* Green for completed */
 }
@@ -35,8 +45,53 @@
   cursor: not-allowed;
 }
 
-.error-message {
-  color: red;
+.activity.available {
+  background-color: #ffeb3b; /* Yellow for available */
+  color: #000;
+}
+
+/* Icon styles */
+.icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.completed-icon {
+  color: #ffffff; /* White for readability */
+}
+
+.locked-icon {
+  color: #ffffff;
+}
+
+.available-icon {
+  color: #000000;
+}
+
+/* Text for level */
+.level-text {
+  font-size: 16px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 5px;
+}
+
+/* Status and level text inside the button */
+.activity p {
+  font-size: 14px;
+  margin-top: 4px;
+  color: inherit;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .activities-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  .activity {
+    padding: 10px;
+    font-size: 16px;
+  }
+  .icon {
+    font-size: 20px;
+  }
 }

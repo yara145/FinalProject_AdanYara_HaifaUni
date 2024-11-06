@@ -43,22 +43,25 @@ router.post('/student-login', async (req, res) => {
 // Initialize activities for the student, setting default levels based on all available activities
 // backend/routes/api/students.js
 const initializeActivity = async (student) => {
-  const allActivities = await Activity.find();  // Fetch all activities from Activity model
+  const allActivities = await Activity.find(); // Fetch all activities from the Activity model
 
-  // Ensure each activity type and name combination is added for the student
   allActivities.forEach(activity => {
-    if (!student.activities.some(a => a.name === activity.name && a.type === activity.type)) {
+    // Check if the student already has this activity by activityId
+    if (!student.activities.some(a => a.activityId && a.activityId.equals(activity._id))) {
+      // Only push new activities if they don't exist in the student's activities
       student.activities.push({
+        activityId: activity._id, // Store the true activity ID here
         type: activity.type,
         name: activity.name,
         level: activity.level || 1,
         score: 0,
         completed: false,
       });
+      console.log("Added Activity with ID:", activity._id, "and Name:", activity.name);
     }
   });
 
-  await student.save();  // Save the updated student document
+  await student.save(); // Save the updated student document
 };
 
 
@@ -109,14 +112,18 @@ router.get('/students/:studentId/activities/:activityType', async (req, res) => 
       return res.status(404).json({ message: 'No activities of this type found for this student' });
     }
 
+    // Log each activityId in the filtered activities
+    activities.forEach(activity => {
+      console.log("Activity Name:", activity.name); // Log the activity name
+      console.log("Activity ID:", activity.activityId); // Make sure 'activityId' is the correct field name
+    });
+
     res.status(200).json(activities);
   } catch (err) {
     console.error("Error fetching activities:", err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
-
-
 // Update activity status
 router.put('/:studentId/activities/:activityType/:levelId', async (req, res) => {
   const { studentId, activityType, levelId } = req.params;
@@ -167,5 +174,17 @@ router.put('/:studentId/activities/:activityType/:activityName', async (req, res
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+// Route to fetch individual activity
+router.get('/activities/activity/:activityId/:studentId/:level', async (req, res) => {
+  const { activityId, studentId, level } = req.params;
+  try {
+    const activity = await Activity.findById(activityId);
+    if (!activity) return res.status(404).json({ message: 'Activity not found' });
 
+    res.status(200).json({ ...activity.toObject(), level: parseInt(level) });
+  } catch (err) {
+    console.error("Error fetching activity:", err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
 module.exports = router;

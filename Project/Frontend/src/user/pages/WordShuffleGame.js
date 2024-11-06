@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import './CustomWordShuffle.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'lottie-react';
-import loadingAnimation from '../../assets/animation/loading-animation.json';
-import CoinsDisplay from '../components/CoinsDisplay';
-import LevelDisplay from '../components/LevelDisplay';
+import axios from 'axios';
+import CoinsDisplay from '../../activity/components/CoinsDisplay';
+import LevelDisplay from '../../activity/components/LevelDisplay';
 import correctSound from '../../assets/sound/true.mp3';
 import incorrectSound from '../../assets/sound/false.mp3';
 import buttonSound from '../../assets/sound/backBT.wav';
-import axios from 'axios';
+import loadingAnimation from '../../assets/animation/loading-animation.json';
+import backButtonImage from '../../assets/images/back.png';
+import exitButtonImage from '../../assets/images/exit.png';
+import restartButtonImage from '../../assets/images/restart.png';
+import './CustomWordShuffle.css';
 
 const getShuffledLetters = (letters) => {
   let shuffledLetters = [...letters];
@@ -19,181 +22,188 @@ const getShuffledLetters = (letters) => {
   return shuffledLetters;
 };
 
-const CustomWordShuffle = ({ studentId }) => {
+const CustomWordShuffle = () => {
+  const { activityId, studentId, level } = useParams();
+  const navigate = useNavigate();
+
   const [wordsWithPhotos, setWordsWithPhotos] = useState([]);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [letters, setLetters] = useState([]);
   const [selectedLetters, setSelectedLetters] = useState([]);
-  const [selectedPositions, setSelectedPositions] = useState([]);
   const [coins, setCoins] = useState(0);
-  const [level, setLevel] = useState(1);
-  const [isGameStarted, setIsGameStarted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [displayedLetters, setDisplayedLetters] = useState([]);
   const [feedback, setFeedback] = useState(null);
-  const [attempts, setAttempts] = useState(0);
+  const [wrongAttempts, setWrongAttempts] = useState(0);
+  const [activityComplete, setActivityComplete] = useState(false);
+  const [score, setScore] = useState(0);
 
-  const navigate = useNavigate();
   const correctAudio = new Audio(correctSound);
   const incorrectAudio = new Audio(incorrectSound);
   const buttonAudio = new Audio(buttonSound);
 
   useEffect(() => {
-    // Fetch activities for this student
-    const fetchActivities = async () => {
+    const fetchActivity = async () => {
       try {
-        const response = await axios.get(`/api/students/${studentId}/activities/word-shuffle`);
-        setWordsWithPhotos(response.data);
-        startGame(response.data[0].word); // Start with first word
+        const response = await axios.get(`http://localhost:5000/api/activities/activity/${activityId}/${studentId}/${level}`);
+        setWordsWithPhotos(response.data.wordsWithPhotos);
+        if (response.data.wordsWithPhotos.length) {
+          const firstWordLetters = response.data.wordsWithPhotos[0].word.split('');
+          setLetters(getShuffledLetters(firstWordLetters));
+        }
+        setIsLoading(false);
       } catch (error) {
-        console.error('Failed to load activities:', error);
+        console.error('Error fetching activity:', error);
       }
     };
-    fetchActivities();
-  }, [studentId]);
+    fetchActivity();
+  }, [activityId, studentId, level]);
 
-  const startGame = (firstWord) => {
-    const firstWordLetters = firstWord.split('');
-    setLetters(getShuffledLetters(firstWordLetters));
-    setIsGameStarted(true);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < letters.length) {
-        setDisplayedLetters((prev) => [...prev, letters[index]]);
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 300);
-    return () => clearInterval(interval);
-  }, [letters]);
-
-  const handleLetterClick = (letter, index) => {
+  const handleLetterClick = (letter) => {
     buttonAudio.play();
     const newSelectedLetters = [...selectedLetters, letter];
     setSelectedLetters(newSelectedLetters);
-    setSelectedPositions([...selectedPositions, index]);
 
-    const formedWord = newSelectedLetters.join('');
-    if (formedWord === wordsWithPhotos[currentWordIndex].word) {
-      correctAudio.play();
-      setFeedback('صحيح!');
-      setTimeout(() => {
-        updateScore();
-        goToNextWord();
-      }, 2000);
-    } else if (newSelectedLetters.length === letters.length) {
-      handleIncorrect();
+    const currentWord = wordsWithPhotos[currentWordIndex].word;
+
+    if (newSelectedLetters.length === currentWord.length) {
+      if (newSelectedLetters.join('') === currentWord) {
+        correctAudio.play();
+        setFeedback('صحيح!');
+        setScore((prevScore) => prevScore + 1);
+        setCoins((prevCoins) => prevCoins + 1);
+        setTimeout(() => {
+          moveToNextWord();
+        }, 2000);
+      } else {
+        incorrectAudio.play();
+        if (wrongAttempts === 0) {
+          setFeedback('خطأ! حاول مرة أخرى');
+          setWrongAttempts(1); // Allow only one retry
+          setSelectedLetters([]); // Clear selected letters for retry
+        } else {
+          setFeedback('فشلت! الانتقال إلى الكلمة التالية');
+          setTimeout(() => {
+            moveToNextWord();
+          }, 2000);
+        }
+      }
     }
   };
 
-  const handleIncorrect = () => {
-    setAttempts(attempts + 1);
-    if (attempts >= 2) {
-      incorrectAudio.play();
-      setFeedback('حاول مرة أخرى');
+  const moveToNextWord = () => {
+    if (currentWordIndex < wordsWithPhotos.length - 1) {
+      const nextWordIndex = currentWordIndex + 1;
+      setCurrentWordIndex(nextWordIndex);
+      const nextWord = wordsWithPhotos[nextWordIndex].word;
+      setLetters(getShuffledLetters(nextWord.split('')));
       resetGame();
     } else {
-      setFeedback('حاول مرة أخرى');
-      setSelectedLetters([]);
-      setSelectedPositions([]);
+      // Only save to backend when all words have been answered
+      completeActivity();
     }
   };
+  const completeActivity = async () => {
+    setActivityComplete(true);
+    console.log('Before saving activity result:');
+    console.log('Current Score:', score);
+    console.log('Words Length:', wordsWithPhotos.length);
+    console.log('Current Word Index:', currentWordIndex);
 
-  const updateScore = () => {
-    setCoins(coins + 1);
-    setLevel(level + 1);
-    // You can also save score and progress in the backend here.
-  };
+    try {
+        const response = await axios.post('http://localhost:5000/api/activities/save-result', {
+            activityId,
+            studentId,
+            level,
+            score,
+            completed: currentWordIndex >= wordsWithPhotos.length - 1, // Change condition to check if all words are attempted
+        });
 
-  const goToNextWord = () => {
-    const nextWordIndex = (currentWordIndex + 1) % wordsWithPhotos.length;
-    setCurrentWordIndex(nextWordIndex);
-    setLetters(getShuffledLetters(wordsWithPhotos[nextWordIndex].word.split('')));
-    resetGame();
-  };
+        console.log('Activity result saved successfully:', response.data);
+    } catch (error) {
+        console.error('Error saving activity result:', error);
+    }
+};
+
+
 
   const resetGame = () => {
-    setDisplayedLetters([]);
-    setSelectedLetters([]);
-    setSelectedPositions([]);
+    setSelectedLetters([]); // Clear selected letters for next attempt
     setFeedback(null);
-    setAttempts(0);
+    setWrongAttempts(0);
   };
 
-  const handleBackClick = () => {
-    buttonAudio.play();
-    navigate('/activity-selection');
-  };
-
-  const handleExitClick = () => {
-    buttonAudio.play();
-    navigate('/');
+  const handleBackToMenu = () => {
+    navigate(`/student/activities/${studentId}/word-shuffle`);
   };
 
   return (
     <div className="custom-word-shuffle-container">
-      <header className="teacher-header">
-        {isGameStarted && (
-          <nav className="teacher-nav">
-            <button className="nav-button" onClick={handleExitClick}>خروج</button>
-            <button className="nav-button" onClick={handleBackClick}>خلف</button>
-          </nav>
-        )}
+      <header className="top-bar">
+        <div className="left-buttons">
+          <button className="icon-button" onClick={() => navigate('/')}>
+            <img src={exitButtonImage} alt="Exit" />
+          </button>
+          <button className="icon-button" onClick={handleBackToMenu}>
+            <img src={backButtonImage} alt="Back" />
+          </button>
+        </div>
+        <div className="right-display">
+          <CoinsDisplay coins={coins} />
+          <LevelDisplay level={parseInt(level)} />
+        </div>
       </header>
 
-      {!isGameStarted ? (
-        isLoading ? (
-          <div className="custom-word-shuffle-loading-container">
-            <Lottie animationData={loadingAnimation} />
+      {isLoading ? (
+        <div className="custom-word-shuffle-loading-container">
+          <Lottie animationData={loadingAnimation} />
+        </div>
+      ) : activityComplete ? (
+        <div className="feedback-modal summary-modal">
+          <div className="summary-content">
+            <div>{`لقد أجبت على جميع الأسئلة!`}</div>
+            <div>{`مجموع النقاط: ${score}/${wordsWithPhotos.length}`}</div>
+            <div>{`مستوى: ${level}`}</div>
           </div>
-        ) : (
-          <div className="start-game-message">
-            <button className="start-game-button" onClick={() => startGame(wordsWithPhotos[0].word)}>بدء اللعبة</button>
+          <div className="summary-buttons">
+            <img 
+              src={restartButtonImage} 
+              alt="Restart" 
+              onClick={() => window.location.reload()} 
+            />
+            <img 
+              src={exitButtonImage} 
+              alt="Exit" 
+              onClick={handleBackToMenu} 
+            />
           </div>
-        )
+        </div>
       ) : (
-        <>
-          <div className="custom-word-shuffle-top-bar">
-            <div className="custom-word-shuffle-score-display">
-              <CoinsDisplay coins={coins} />
-              <LevelDisplay level={level} />
+        <div className="custom-word-shuffle-content">
+          <img src={wordsWithPhotos[currentWordIndex].photo} alt="Word" className="custom-word-shuffle-photo" />
+          {feedback && (
+            <div className={`custom-word-shuffle-feedback ${feedback.includes('صحيح') ? 'correct' : 'incorrect'}`}>
+              {feedback}
             </div>
-          </div>
-          <div className="custom-word-shuffle-content">
-            <div className="custom-word-shuffle-photo-container">
-              <img src={wordsWithPhotos[currentWordIndex].photo} alt="Word" className="custom-word-shuffle-photo" />
-            </div>
-            <div className="custom-word-shuffle-letters-container">
-              <div className="custom-word-shuffle-grid custom-word-shuffle-grid-cols-3 custom-word-shuffle-gap-4">
-                {displayedLetters.map((letter, index) => (
-                  <div
-                    key={index}
-                    className={`custom-word-shuffle-letter-tile custom-word-shuffle-bg-${(index % 6) + 1} animated-tile`}
-                    style={selectedPositions.includes(index) ? { opacity: 0.5, pointerEvents: 'none' } : {}}
-                    onClick={() => handleLetterClick(letter, index)}
-                  >
-                    {letter}
-                  </div>
-                ))}
+          )}
+          <div className="letter-grid">
+            {letters.map((letter, index) => (
+              <div
+                key={index}
+                onClick={() => handleLetterClick(letter)}
+                className={`custom-word-shuffle-letter-tile`}
+              >
+                {letter}
               </div>
-            </div>
-            {selectedLetters.length > 0 && (
-              <div className="custom-word-shuffle-selected-letters-container">
-                {selectedLetters.map((letter, index) => (
-                  <div key={index} className={`custom-word-shuffle-selected-letter custom-word-shuffle-bg-selected-${(index % 6) + 1}`}>
-                    {letter}
-                  </div>
-                ))}
-              </div>
-            )}
-            {feedback && <div className={`custom-word-shuffle-feedback ${feedback === 'صحيح!' ? 'correct' : 'incorrect'}`}>{feedback}</div>}
+            ))}
           </div>
-        </>
+          <div className="selected-letters-container">
+            {selectedLetters.map((letter, index) => (
+              <span key={index} className="selected-letter" style={{ fontSize: '20px' }}>
+                {letter}
+              </span>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

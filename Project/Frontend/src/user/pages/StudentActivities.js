@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FaCheckCircle, FaLock, FaPlayCircle } from 'react-icons/fa';
 import './StudentActivities.css';
 
 const StudentActivities = () => {
-  const { studentId, activityType } = useParams(); // Retrieve studentId and activityType from URL
+  const { studentId, activityType } = useParams();
+  const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
   const [error, setError] = useState(null);
-
-  console.log("StudentActivities - studentId:", studentId, "activityType:", activityType);
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -24,6 +24,24 @@ const StudentActivities = () => {
     fetchActivities();
   }, [studentId, activityType]);
 
+  const handleActivityClick = (activity) => {
+    console.log("Full activity data:", activity);
+
+    if (activity.locked) {
+      alert('يرجى إكمال النشاط السابق للوصول إلى هذا المستوى.');
+    } else {
+      const activityId = activity.activityId;
+
+      if (!activityId) {
+        console.error("No valid activityId found for activity:", activity);
+        return;
+      }
+
+      navigate(`/activities/${activityId}/${studentId}/${activity.level}`);
+      console.log("Navigating with Activity ID:", activityId);
+    }
+  };
+
   return (
     <div className="student-activities">
       <h2>أنشطة من النوع: {activityType}</h2>
@@ -32,16 +50,18 @@ const StudentActivities = () => {
         {activities.map((activity, index) => (
           <button
             key={index}
-            className={`activity ${activity.completed ? 'completed' : 'locked'}`}
-            onClick={() => {
-              if (activity.completed || activity.level === 1) {
-                alert(`الانتقال إلى ${activity.name} - المستوى ${activity.level}`);
-              } else {
-                alert('يرجى إكمال النشاط السابق للوصول إلى هذا المستوى.');
-              }
-            }}
+            className={`activity ${activity.completed ? 'completed' : activity.locked ? 'locked' : 'available'}`}
+            onClick={() => handleActivityClick(activity)}
           >
-            {activity.completed ? `${activity.name} - مكتمل` : `${activity.name} - مقفل`}
+            {activity.completed ? (
+              <FaCheckCircle className="icon completed-icon" />
+            ) : activity.locked ? (
+              <FaLock className="icon locked-icon" />
+            ) : (
+              <FaPlayCircle className="icon available-icon" />
+            )}
+            <span className="level-text">المستوى {activity.level}</span>
+            <p>{activity.name}</p>
           </button>
         ))}
       </div>
