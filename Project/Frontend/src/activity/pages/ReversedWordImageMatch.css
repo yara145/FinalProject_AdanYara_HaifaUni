@@ -1,0 +1,432 @@
+
+
+
+
+.teacher-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #f0f8ff;
+    padding: 15px 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100; /* Ensure it stays above other content */
+  }
+  
+
+
+/* Main Container Styling */
+.reversed-word-image-match {
+    display: flex;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    min-height: 100vh;
+  background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    direction: rtl; /* Arabic alignment */
+    overflow: hidden; /* Prevent unnecessary scrollbars */
+    position: relative; /* Required for absolute positioning of header */
+}
+
+/* Score Header with Coins and Level in the Top-Right Corner */
+.reversed-game-header {
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    align-items: center;
+    z-index: 10;
+}
+
+
+
+/* Bounce Animation for Game Image */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+
+
+/* Input Form Styling */
+.reversed-input-form {
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 600px;
+    min-height: 200px;
+    height: auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    overflow-y: auto;
+    transition: height 0.3s ease;
+}
+
+/* Shrink the form when it's empty */
+.reversed-input-form:empty {
+    min-height: 100px;
+}
+
+/* Adjust the size when there are entries */
+.reversed-input-form:not(:empty) {
+    min-height: 300px;
+    max-height: 600px;
+    height: auto;
+}
+
+/* Smooth Scrollbar Styling */
+.reversed-input-form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.reversed-input-form::-webkit-scrollbar-thumb {
+    background-color: #b0bec5;
+    border-radius: 10px;
+}
+
+/* Entry Block Styling */
+.reversed-entry-block {
+    background: #f0f8ff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .reversed-entry-block {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reversed-input-form {
+        height: 70vh; /* Adjust height for smaller screens */
+    }
+    .reversed-entry-block {
+        width: 95%; /* Ensure it fits small screens */
+    }
+}
+
+/* Header with Cancel Button */
+.reversed-entry-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.reversed-cancel-button {
+    background-color: transparent;
+    color: #f21c1c;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.reversed-cancel-button:hover {
+    transform: scale(1.2);
+}
+
+/* Upload Input Styling */
+.reversed-upload-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #424242;
+}
+
+.reversed-upload-input {
+    cursor: pointer;
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Organized Grid Layout for Answers */
+.reversed-answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Individual Answer Block */
+.reversed-answer-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Label Styling */
+.reversed-answer-label {
+    font-weight: bold;
+    color: #424242;
+    text-align: center;
+}
+
+/* Input Field Styling */
+.reversed-answer-input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    width: 130px;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.inline-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+}
+
+.inline-buttons button {
+    flex: 1;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #4caf50;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.inline-buttons button:hover {
+    background-color: #388e3c;
+    transform: scale(1.05);
+}
+
+.start-game-button {
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #388e3c;
+    transition: background-color 0.3s ease;
+}
+
+.start-game-button:hover {
+    background-color: #2e7d32;
+}
+
+
+.reversed-game-content {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    gap: 20px; /* Space between the image and the options */
+    height: 444px; /* Height for game content */
+    width: 755px; 
+    max-width: 600px; /* Optional: Max width for content */
+    margin: auto; /* Center the entire game content */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9); /* Transparent background */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+    position: relative; /* Add this to make 'top' work */
+    top: 20px; /* Adjusts vertical positioning */
+}
+
+/* Game Image Styling */
+.reversed-game-image {
+    position: relative; /* Allow top to work */
+    top: -20px; /* Move it up */
+    width: 240px;
+    height: 240px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 3px solid #5eb4f8;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  
+}
+
+/* Answer Options Layout */
+.reversed-answer-options {
+    position: relative; /* Allow top to work */
+    top: -20px; /* Move it up */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two options per row */
+    gap: 15px; /* Space between buttons */
+    width: 100%; /* Full width */
+    max-width: 400px; /* Optional: Restrict maximum width */
+    justify-content: center; /* Center the grid horizontally */
+    margin-bottom: 4; /* Space below the image */
+}
+
+/* Answer Button Styling */
+.reversed-answer-button {
+
+    padding: 15px;
+    font-size: 1.7rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    background-color: #10a46b;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.reversed-answer-button:hover {
+    background-color: #388e3c;
+    transform: translateY(-3px); /* Slight hover lift */
+}
+.game-instruction {
+
+    color: #333;
+    
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    top: -60px; 
+    font-size: 1.7rem;
+    font-weight: bold;
+} 
+
+
+
+
+
+
+
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 15px;
+    left: 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 10;
+  }
+  .button-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: flex-start; /* Align buttons to the left */
+  }
+  
+  .nav-icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    object-fit: contain;
+    background: none;
+    padding: 0;
+    transition: transform 0.2s ease;
+  }
+  
+  .nav-icon:hover {
+    transform: scale(1.1);
+  }
+  .score-display {
+    display: flex;
+    gap: 0px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+
+  /* .feedback-message {
+    position: absolute;
+    top: -210px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 277px;
+    height: 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 75px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease-in-out;
+  } */
+  .feedback-message {
+    position: absolute;
+    top: 620px; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center alignment */
+    width: 300px;
+    height: auto;
+    padding: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000; /* Ensure it stays above other elements */
+  }
+  
+  .feedback-message.correct {
+    background-color: #d4edda;
+    color: #000000;
+    border: 2px solid #8ece9d;
+  }
+  
+  .feedback-message.try-again {
+    background-color: #fff3cd;
+    color: #000000;
+    border: 2px solid #e1ce94;
+  }
+  
+  .feedback-message.incorrect {
+    background-color: #f8d7da;
+    color: #000000;
+    border: 2px solid #ed8791;
+  }
+  

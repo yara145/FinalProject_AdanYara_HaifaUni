@@ -1,0 +1,356 @@
+.custom-letters-card-container {
+    /* display: flex; */
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    direction: rtl; /* This is fine for overall direction */
+    width: 100%;
+    position: relative;
+}
+
+/* Input form card styling */
+.custom-letters-card-input-form {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
+}
+
+.custom-letters-card-input-form h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+.custom-letters-card-input-form p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 25px;
+}
+
+/* Input pairs for letters */
+.custom-letters-card-input-pair {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-letters-card-input-pair input[type="text"] {
+    padding: 12px;
+    border: 2px solid #e3e6f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+    max-width: 250px;
+}
+
+.custom-letters-card-input-pair input[type="text"]:focus {
+    border-color: #3498db;
+}
+
+/* Cancel button for removing letters */
+.custom-letters-card-cancel-button {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-letters-card-cancel-button:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Button group styling */
+.custom-letters-card-button-group {
+    display: flex;
+    justify-content: center;
+    gap: -100px;
+    flex-wrap: wrap;
+}
+
+/* Button styling */
+.custom-letters-card-add-letter-button, 
+.custom-letters-card-background-button, 
+.custom-letters-card-start-game-button {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    max-width: 200px;
+    text-align: center;
+    margin: 10px;
+}
+
+.custom-letters-card-add-letter-button:hover, 
+.custom-letters-card-background-button:hover, 
+.custom-letters-card-start-game-button:hover {
+    background-color:  #229954;
+}
+
+/* Selected background preview */
+.custom-letters-card-selected-background-preview {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.custom-letters-card-selected-background-preview img {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* .custom-letters-card-top-bar {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    direction: ltr; 
+*/
+/* Top bar for the Back and Exit buttons */
+.custom-letters-card-top-bar {
+    display: flex;
+    
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    direction: ltr; /* Ensure buttons are aligned left to right */
+}
+
+/* Container for Back and Exit buttons */
+/* Container for Back and Exit buttons */
+.custom-letters-card-button-container {
+    display: flex;
+    align-items: center;
+    gap: 0px; /* Adds space between buttons */
+    padding-left: 20px; /* Adds space from the left side */
+}
+
+
+/* Back and Exit button styles */
+.nav-button-image {
+    width: 55px;
+    height: 55px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    margin-right: 15px;
+}
+
+.nav-button-image:last-child {
+    margin-right: 0;
+}
+
+/* Hover effect for buttons */
+.nav-button-image:hover {
+    transform: scale(1.1); /* Slight hover effect for interactivity */
+}
+
+
+.custom-letters-card-score-display {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    margin-right: 44px;
+}
+
+
+
+.custom-letters-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.letter-card {
+    background-color: #fefcbf;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.letter-card h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Updated True/False button styling */
+.custom-letters-card-correct-button,
+.custom-letters-card-incorrect-button {
+    padding: 15px 30px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.custom-letters-card-correct-button {
+    background-color: #27ae60;
+    color: white;
+}
+
+.custom-letters-card-correct-button:hover {
+    background-color: #229954;
+    transform: translateY(-3px);
+}
+
+.custom-letters-card-incorrect-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.custom-letters-card-incorrect-button:hover {
+    background-color: #c0392b;
+    transform: translateY(-3px);
+}
+
+/* Feedback styling */
+.custom-letters-card-feedback {
+    margin-top: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: rgba(185, 185, 185, 0.7);
+    color: white;
+}
+
+.custom-letters-card-feedback.correct {
+    background-color: #d4edda;
+    color: #25c64d;
+}
+
+.custom-letters-card-feedback.incorrect {
+    background-color: #f8d7da;
+    color: #e86673;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .custom-letters-card-input-pair {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .custom-letters-card-add-letter-button, 
+    .custom-letters-card-background-button, 
+    .custom-letters-card-start-game-button {
+        max-width: 100%;
+        
+    }
+}
+/* Add consistent button styling */
+.nav-button-image {
+   width: 55px;
+    height: 55px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    margin-right: 15px;
+  
+}
+
+.nav-button-image:hover {
+  transform: scale(1.1);
+}
+
+/* Reuse existing styles for the container and form */
+
+.custom-letters-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  direction: rtl;
+  width: 100%;
+  position: relative;
+}
+
+.confirm-background-button {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    max-width: 200px;
+    text-align: center;
+    margin: 10px;
+}
+
+.confirm-background-button:hover {
+    background-color: #229954;
+}
+.custom-letters-card-feedback-message {
+    position: absolute;
+    top: 630px !important;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Ensure it stays above other elements */
+    width: 300px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.custom-letters-card-feedback-message.correct {
+    background-color: #d4edda;
+    color: #155724;
+    border: 2px solid #8ece9d;
+}
+
+.custom-letters-card-feedback-message.try-again {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 2px solid #e1ce94;
+}
+
+.custom-letters-card-feedback-message.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 2px solid #ed8791;
+}

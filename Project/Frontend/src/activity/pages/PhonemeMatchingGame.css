@@ -1,0 +1,173 @@
+.phoneme-matching-game {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f8ff, #d6e4ff);
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  direction: rtl;
+}
+
+/* Input Phase */
+.custom-word-image-match-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+  padding: 20px;
+}
+
+.scrollable-container {
+  max-height: 70vh;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.word-block {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f0f8ff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.word-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: #dc3545;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.cancel-button:hover {
+  transform: scale(1.2);
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-label {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.upload-input {
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.start-game-button {
+  width: 100%;
+  padding: 15px 40px;
+  background-color: #28a745;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  border: none;
+  font-size: 1.2rem;
+}
+
+.start-game-button:hover {
+  background-color: #218838;
+}
+
+/* Game Content Container */
+.game-content-container {
+  margin-top: 122px;
+  width: 100%;
+  max-width: 900px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.draggable-phoneme {
+  font-size: 1.3rem;
+  padding: 12px;
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+  border: none;
+  border-radius: 12px;
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.draggable-phoneme:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.drop-zone {
+  border: 2px dashed #4caf50;
+  border-radius: 12px;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.drop-zone:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.drop-image {
+  max-width: 120px;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.drop-image:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments for the containers */
+.phoneme-draggable-container,
+.phoneme-drop-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  justify-items: center;
+  margin-top: 30px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .phoneme-drop-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .phoneme-draggable-container,
+  .phoneme-drop-container {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .phoneme-draggable-container,
+  .phoneme-drop-container {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  }
+}
