@@ -22,6 +22,13 @@ import ActivitySelection from './Teacher/ActivitySelection';
 import StudentIsland from './user/pages/StudentIsland';
 import StudentActivities from './user/pages/StudentActivities';
 import WordShuffleGame from './user/pages/WordShuffleGame';
+
+import CustomWordImageMatch from './activity/pages/CustomWordImageMatch';
+import CustomLettersCard from './activity/pages/CustomLettersCard';
+import ReversedWordImageMatch from './activity/pages/ReversedWordImageMatch';
+import PhonemeMatchingGame from './activity/pages/PhonemeMatchingGame';
+import SoundPairMatchingGame from './activity/pages/SoundPairMatchingGame';
+
 const App = () => {
   return (
     <Router>
@@ -49,6 +56,13 @@ const App = () => {
           <Route path="/custom-word-shuffle" element={<CustomWordShuffle />} />
           {/* Adjusted route to pass activityId, studentId, and level */}
           <Route path="/activities/:activityId/:studentId/:level" element={<WordShuffleGame />} />
+          <Route path="/custom-word-image-match" element={<CustomWordImageMatch />} />
+          <Route path="/custom-letters-card" element={<CustomLettersCard />} />
+          <Route path="/reversed-word-image-match" element={<ReversedWordImageMatch />} />
+          <Route path="/phoneme-matching-game" element={<PhonemeMatchingGame />} />
+          <Route path="/sound-pair-matching-game" element={<SoundPairMatchingGame />} />
+     
+
         </Routes>
       </div>
     </Router>
