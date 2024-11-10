@@ -22,7 +22,7 @@ import ActivitySelection from './Teacher/ActivitySelection';
 import StudentIsland from './user/pages/StudentIsland';
 import StudentActivities from './user/pages/StudentActivities';
 import WordShuffleGame from './user/pages/WordShuffleGame';
-
+import WordImageMatch from './user/pages/WordImageMatch';
 import CustomWordImageMatch from './activity/pages/CustomWordImageMatch';
 import CustomLettersCard from './activity/pages/CustomLettersCard';
 import ReversedWordImageMatch from './activity/pages/ReversedWordImageMatch';
@@ -61,7 +61,8 @@ const App = () => {
           <Route path="/reversed-word-image-match" element={<ReversedWordImageMatch />} />
           <Route path="/phoneme-matching-game" element={<PhonemeMatchingGame />} />
           <Route path="/sound-pair-matching-game" element={<SoundPairMatchingGame />} />
-     
+          <Route path="/custom-activity/:activityId/:studentId/:level" element={<WordImageMatch />} />
+
 
         </Routes>
       </div>

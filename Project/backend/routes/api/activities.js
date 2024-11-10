@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Activity = require('../../Models/Activity');
 const Student = require('../../Models/Student'); // Make sure the path is correct
-
+const CustomActivity = require('../../Models/CustomActivity'); // For custom activities
 // Create an Activity
 router.post('/create-activity', async (req, res) => {
   try {
@@ -47,6 +47,21 @@ router.get('/activity/:id/:studentId/:level', async (req, res) => {
       res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+router.get('/custom-activity/:activityId/:studentId/:level', async (req, res) => {
+  const { activityId, studentId, level } = req.params;
+  
+  try {
+    const activity = await CustomActivity.findById(activityId); // Fetch the CustomActivity by ID
+    if (!activity) {
+      return res.status(404).json({ message: 'Custom activity not found' });
+    }
+
+    res.status(200).json({ ...activity.toObject(), level: parseInt(level) });
+  } catch (err) {
+    console.error('Error fetching custom activity:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
 // Endpoint to save activity result
 router.post('/save-result', async (req, res) => {
   const { activityId, studentId, level, score, completed } = req.body;
@@ -79,7 +94,47 @@ router.post('/save-result', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
   }
 });
+// Create a Custom Activity
+// routes/api/activities.js
 
+router.post('/create-custom-activity', async (req, res) => {
+  try {
+    // Log the received data for debugging
+    console.log("Received data:", req.body);
+
+    const { name, type, words, background, level } = req.body;
+
+    // Create a new custom activity using the data from the request body
+    const newCustomActivity = new CustomActivity({
+      name,
+      type,
+      level,
+      wordsWithPhotos: words.map(entry => ({
+        word: entry.word,
+        correctImage: entry.correctImage,
+        otherImages: entry.otherImages
+      })),
+      background,
+    });
+
+    // Save the activity and send a response
+    await newCustomActivity.save();
+    res.status(201).json(newCustomActivity);
+  } catch (error) {
+    console.error('Error creating custom activity:', error);
+    res.status(400).json({ message: 'Error creating custom activity', error: error.message });
+  }
+});
+
+// Fetch all Custom Activities
+router.get('/fetch-custom-activities', async (req, res) => {
+  try {
+    const customActivities = await CustomActivity.find();
+    res.status(200).json(customActivities);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching custom activities', error: error.message });
+  }
+});
 
 module.exports = router;
 

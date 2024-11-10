@@ -2,20 +2,19 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../Teacher/ActivitySelection.css';
 import wordShuffleImage from '../../assets/images/letter-arrange.png';
+import wordImageMatchImage from '../../assets/images/word-image-match.png'; // Add an image for this new activity type
 
 const activities = [
   { name: 'ترتيب الحروف', type: 'word-shuffle', image: wordShuffleImage },
+  { name: 'مطابقة الكلمة بالصورة', type: 'word-image-match', image: wordImageMatchImage }, // New activity type
 ];
 
 const StudentIsland = () => {
   const { studentId } = useParams(); // Retrieve studentId from URL params
   const navigate = useNavigate();
 
-  console.log("StudentIsland - Received studentId:", studentId);
-
   const handleActivityClick = (type) => {
     if (studentId) {
-      console.log(`Navigating with studentId: ${studentId} and activityType: ${type}`);
       navigate(`/student/activities/${studentId}/${type}`);
     } else {
       console.error("Student ID not found. Please log in.");

@@ -1,8 +1,10 @@
 // backend/routes/api/students.js
 const express = require('express');
 const router = express.Router();
-const Student = require('../../Models/Student')
+const Student = require('../../Models/Student');
 const Activity = require('../../Models/Activity');
+const CustomActivity = require('../../Models/CustomActivity');
+
 // Set Avatar endpoint
 router.post('/set-avatar', async (req, res) => {
   const { number, avatar } = req.body;
@@ -18,7 +20,8 @@ router.post('/set-avatar', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-// Student Login endpoint// Student Login endpoint
+
+// Student Login endpoint
 router.post('/student-login', async (req, res) => {
   const { number } = req.body;
   try {
@@ -40,12 +43,14 @@ router.post('/student-login', async (req, res) => {
   }
 });
 
-// Initialize activities for the student, setting default levels based on all available activities
-// backend/routes/api/students.js
+// Initialize activities for the student
 const initializeActivity = async (student) => {
-  const allActivities = await Activity.find(); // Fetch all activities from the Activity model
+  const allActivities = await Activity.find(); // Fetch all regular activities
+  const customActivities = await CustomActivity.find(); // Fetch all custom activities
 
-  allActivities.forEach(activity => {
+  const activitiesToAdd = [...allActivities, ...customActivities];
+
+  activitiesToAdd.forEach(activity => {
     // Check if the student already has this activity by activityId
     if (!student.activities.some(a => a.activityId && a.activityId.equals(activity._id))) {
       // Only push new activities if they don't exist in the student's activities
@@ -64,7 +69,6 @@ const initializeActivity = async (student) => {
   await student.save(); // Save the updated student document
 };
 
-
 // Fetch Students endpoint
 router.get('/students', async (req, res) => {
   try {
@@ -73,7 +77,9 @@ router.get('/students', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
-});// backend/routes/api/students.js
+});
+
+// Add Student endpoint
 router.post('/add-student', async (req, res) => {
   const { number, difficulties = [] } = req.body;
 
@@ -96,27 +102,26 @@ router.post('/add-student', async (req, res) => {
 });
 
 // Route to fetch activities by type for a student
-// Add 'students' to the route path
 router.get('/students/:studentId/activities/:activityType', async (req, res) => {
   const { studentId, activityType } = req.params;
-
-  console.log("Received studentId:", studentId, "activityType:", activityType);
 
   try {
     const student = await Student.findById(studentId);
     if (!student) return res.status(404).json({ message: 'Student not found' });
 
-    const activities = student.activities.filter(a => a.type === activityType);
+    let activities = [];
 
-    if (activities.length === 0) {
-      return res.status(404).json({ message: 'No activities of this type found for this student' });
+    if (activityType === 'word-image-match') {
+      // Fetch custom activities for word-image-match
+      activities = await CustomActivity.find(); // Fetch all custom activities from the database
+    } else {
+      // Fetch regular activities for other types (like word-shuffle)
+      activities = student.activities.filter(a => a.type === activityType);
     }
 
-    // Log each activityId in the filtered activities
-    activities.forEach(activity => {
-      console.log("Activity Name:", activity.name); // Log the activity name
-      console.log("Activity ID:", activity.activityId); // Make sure 'activityId' is the correct field name
-    });
+    if (activities.length === 0) {
+      return res.status(404).json({ message: `No activities of type ${activityType} found for this student.` });
+    }
 
     res.status(200).json(activities);
   } catch (err) {
@@ -124,36 +129,32 @@ router.get('/students/:studentId/activities/:activityType', async (req, res) => 
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
-// Update activity status
-router.put('/:studentId/activities/:activityType/:levelId', async (req, res) => {
-  const { studentId, activityType, levelId } = req.params;
-  const { score, completed } = req.body;
+
+// Fetch individual custom activity for the student
+// Fetch individual custom activity for the student
+// backend/routes/api/activities.js
+router.get('/activities/activity/:activityId/:studentId/:level', async (req, res) => {
+  const { activityId, studentId, level } = req.params;
 
   try {
-    const student = await Student.findById(studentId);
-    if (!student) {
-      return res.status(404).json({ message: 'Student not found' });
-    }
-
-    const activity = student.activityTypes.find(a => a.type === activityType);
+    // Check if activity exists
+    let activity = await CustomActivity.findById(activityId);  // Check for custom activity
     if (!activity) {
-      return res.status(404).json({ message: 'Activity type not found' });
+      activity = await Activity.findById(activityId); // Fallback to regular activity
     }
 
-    const level = activity.levels.find(l => l.level === parseInt(levelId));
-    if (!level) {
-      return res.status(404).json({ message: 'Level not found' });
+    if (!activity) {
+      return res.status(404).json({ message: 'Activity not found' });
     }
 
-    level.score = score;
-    level.completed = completed;
-    await student.save();
-
-    res.status(200).json({ message: 'Activity updated successfully', activity });
+    res.status(200).json({ ...activity.toObject(), level: parseInt(level) });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching activity asdadad:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+
+// Update activity status for a student
 router.put('/:studentId/activities/:activityType/:activityName', async (req, res) => {
   const { studentId, activityType, activityName } = req.params;
   const { score, completed } = req.body;
@@ -174,17 +175,45 @@ router.put('/:studentId/activities/:activityType/:activityName', async (req, res
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
-// Route to fetch individual activity
-router.get('/activities/activity/:activityId/:studentId/:level', async (req, res) => {
-  const { activityId, studentId, level } = req.params;
-  try {
-    const activity = await Activity.findById(activityId);
-    if (!activity) return res.status(404).json({ message: 'Activity not found' });
+// Fetch Custom Activity for a student
+// Fetch all activities for a student
+router.get('/:studentId/activities/:activityType', async (req, res) => {
+  const { studentId, activityType } = req.params;
 
-    res.status(200).json({ ...activity.toObject(), level: parseInt(level) });
+  try {
+    const student = await Student.findById(studentId);
+    if (!student) return res.status(404).json({ message: 'Student not found' });
+
+    let activities = [];
+
+    // Check for word-image-match custom activities
+    if (activityType === 'word-image-match') {
+      activities = await CustomActivity.find(); // Fetch all custom activities from the database
+    } else {
+      // Fetch regular activities for other types (like word-shuffle)
+      activities = student.activities.filter(a => a.type === activityType);
+    }
+
+    if (activities.length === 0) {
+      return res.status(404).json({ message: `No activities of type ${activityType} found for this student.` });
+    }
+
+    // Ensure completed field is added for each activity
+    const activitiesWithStatus = activities.map(activity => {
+      // Check if activity is completed based on the student's activities
+      const isCompleted = student.activities.some(a => a.activityId.toString() === activity._id.toString() && a.completed);
+      return {
+        ...activity.toObject(),
+        completed: isCompleted, // Add completed status
+      };
+    });
+
+    res.status(200).json(activitiesWithStatus);
   } catch (err) {
-    console.error("Error fetching activity:", err);
+    console.error("Error fetching activities:", err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+
+
 module.exports = router;
