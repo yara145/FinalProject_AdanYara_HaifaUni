@@ -102,6 +102,7 @@ const CustomWordShuffle = () => {
       completeActivity();
     }
   };
+
   const completeActivity = async () => {
     setActivityComplete(true);
     console.log('Before saving activity result:');
@@ -115,7 +116,7 @@ const CustomWordShuffle = () => {
             studentId,
             level,
             score,
-            completed: currentWordIndex >= wordsWithPhotos.length - 1, // Change condition to check if all words are attempted
+            completed: currentWordIndex >= wordsWithPhotos.length - 1,
         });
 
         console.log('Activity result saved successfully:', response.data);
@@ -123,8 +124,6 @@ const CustomWordShuffle = () => {
         console.error('Error saving activity result:', error);
     }
 };
-
-
 
   const resetGame = () => {
     setSelectedLetters([]); // Clear selected letters for next attempt

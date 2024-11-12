@@ -18,12 +18,31 @@
   padding: 80px 20px 20px; /* Prevent overlap with top bar */
 }
 
-/* Image Options for the Game */
-.image-options {
-  display: flex;
-  gap: 10px;
+/* Button Styles */
+.upload-button {
+  background-color: #4c77af; /* Green color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 5px; /* Add space between button and file input */
 }
 
+.upload-button:hover {
+  background-color: #456fa0; /* Darker green on hover */
+}
+
+/* Activity Name Input */
+.activity-name-input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e3e6f0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  direction: rtl;
+}
 
 /* Top Bar Styling for Game Phase */
 .top-bar {
@@ -64,19 +83,13 @@
   border: none; /* No border */
   background: none; /* No background */
   padding: 0; /* No padding */
-
   display: block; /* Ensure the image behaves as a block element */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
 .nav-icon:hover {
   transform: scale(1.1); /* Slight hover effect */
-
 }
-
-
-
 
 /* Input Phase Header Styling */
 .teacher-header {
@@ -148,20 +161,6 @@
   border-radius: 10px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .scrollable-container {
-    max-height: 60vh; /* Adjust for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .scrollable-container {
-    max-height: 50vh; /* Further adjust for mobile screens */
-  }
-}
-
-
 /* Word Block Styling */
 .word-block {
   margin-bottom: 20px;
@@ -202,7 +201,7 @@
   width: 100%;
   max-width: 300px;
   padding: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border: 1px solid #e3e6f0;
   border-radius: 8px;
   font-size: 1rem;
@@ -249,10 +248,30 @@
 
 /* Button Group Styling */
 .button-group {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) !important; /* Three buttons per row */
+  gap: 10px;
+  width: 100%;
+  position: relative; /* Remove fixed positioning to keep it within the form */
   margin-top: 20px;
+  margin-bottom: 20px;
+  z-index: 10;
+}
+
+/* Button Styling */
+.button-group button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.button-group button:hover {
+  background-color: #45a049; /* Darker green on hover */
 }
 
 /* Start Game Button */
@@ -274,8 +293,8 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .image-uploads {
-    flex-direction: column;
+  .button-group {
+    grid-template-columns: repeat(2, 1fr); /* Two buttons per row on smaller screens */
   }
 
   .upload-container {
@@ -293,9 +312,8 @@
 }
 
 @media (max-width: 480px) {
-  .teacher-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .button-group {
+    grid-template-columns: 1fr; /* Stack buttons on top of each other for very small screens */
   }
 
   .nav-button {
@@ -306,10 +324,10 @@
   .custom-word-input-form input[type='text'] {
     max-width: 100%;
   }
-  
 }
-.feedback-message {
 
+/* Feedback message styling */
+.feedback-message {
   position: absolute; /* Position it relative to the nearest positioned ancestor */
   top: 510px; /* Adjust this value to control how high it appears */
   left: 50%; /* Center it horizontally */
@@ -345,20 +363,81 @@
 /* Incorrect Answer Styling */
 .feedback-message.incorrect {
   background-color: #f8d7da;
-  color:#000000;
+  color: #000000;
   border: 2px solid #ed8791; /* Red border */
 }
 
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* Activity Explanation Styling */
+.activity-explanation {
+  margin-top: 20px; /* Spacing from the game content */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.activity-explanation h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.activity-explanation p {
+  color: #666;
+}
+
+/* Image Upload Section */
+.image-uploads {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+  gap: 15px; /* Space between buttons */
+  justify-content: center; /* Center the buttons */
+}
+
+/* Upload Button Container */
+.upload-container {
+  width: calc(50% - 7.5px); /* Half width for two buttons in a row, minus spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Custom Upload Button */
+.custom-upload-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #206b97; /* Green background */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.custom-upload-button:hover {
+  background-color: #0a3153; /* Darker green on hover */
+}
+
+/* Preview Image Styling */
+.uploaded-image-preview {
+  margin-top: 5px; /* Space above the preview */
+  max-width: 100px; /* Set a max width for the preview */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* Save Button Styling */
+.save-activity-button {
+  background-color: #004895 !important; /* Blue color */ 
+  color: white!important;
+  border: none !important;
+  padding: 10px !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.save-activity-button:hover {
+  background-color: #0056b3 !important; /* Darker blue on hover */
+}
 
 /* Individual Game Image Styling */
 .game-image {

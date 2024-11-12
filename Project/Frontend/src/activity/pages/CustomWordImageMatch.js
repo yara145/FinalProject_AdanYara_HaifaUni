@@ -1,4 +1,3 @@
-// CustomWordImageMatch.js
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '../components/ProgressBar'; // Import ProgressBar
 import './CustomWordImageMatch.css';
@@ -12,9 +11,7 @@ import exitButtonImage from '../../assets/images/exit.png';
 import correctSound from '../../assets/sound/true.mp3';
 import incorrectSound from '../../assets/sound/false.mp3';
 import backSound from '../../assets/sound/backBT.wav';
-
-
-
+import axios from 'axios';
 
 const correctAudio = new Audio(correctSound);
 const incorrectAudio = new Audio(incorrectSound);
@@ -23,24 +20,31 @@ correctAudio.preload = 'auto'; // Preload correct answer sound
 incorrectAudio.preload = 'auto'; // Preload incorrect answer sound
 backAudio.preload = 'auto'; // Preload back button sound
 
-
-
-// UploadButton Component Definition
-const UploadButton = ({ label, onUpload }) => (
+const UploadButton = ({ label, onUpload, imageUrl }) => (
   <div className="upload-container">
     <label className="upload-label">{label}</label>
-    <input type="file" className="upload-input" onChange={onUpload} />
+    <input
+      type="file"
+      className="upload-input"
+      onChange={onUpload}
+      style={{ display: 'none' }} // Hide the default file input
+      id={`file-upload-${label}`} // Unique ID for the input
+    />
+    <label htmlFor={`file-upload-${label}`} className="custom-upload-button">
+      {imageUrl ? 'تغيير الصورة' : 'رفع صورة'}
+    </label>
+    {imageUrl && <img src={imageUrl} alt="Uploaded" className="uploaded-image-preview" />}
   </div>
 );
 
-
 const CustomWordImageMatch = () => {
-  const [words, setWords] = useState([
+  const [words, setWords] = useState([ 
     { word: '', correctImage: null, otherImages: [null, null, null] },
   ]);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isBgModalOpen, setIsBgModalOpen] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState(null);
+  const [activityName, setActivityName] = useState(""); // Added activity name field
   const [coins, setCoins] = useState(0);
   const [level, setLevel] = useState(1);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -53,38 +57,39 @@ const CustomWordImageMatch = () => {
 
   const navigate = useNavigate();
 
-const [isPlaying, setIsPlaying] = useState(false); // Track if audio is playing
-const playAudio = (audio) => {
-  if (isPlaying) return; // Prevent multiple triggers
-  setIsPlaying(true);
+  const [isPlaying, setIsPlaying] = useState(false); // Track if audio is playing
+  const playAudio = (audio) => {
+    if (isPlaying) return; // Prevent multiple triggers
+    setIsPlaying(true);
 
-  audio.pause();
-  audio.currentTime = 0;
-  audio.play()
-    .then(() => setIsPlaying(false)) // Reset the state after playing
-    .catch((error) => {
-      console.error('Audio playback failed:', error);
-      setIsPlaying(false);
-    });
-};
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play()
+      .then(() => setIsPlaying(false)) // Reset the state after playing
+      .catch((error) => {
+        console.error('Audio playback failed:', error);
+        setIsPlaying(false);
+      });
+  };
 
-useEffect(() => {
-  if (isGameStarted) {
-    const currentWord = words[currentWordIndex];
-    const combinedImages = shuffleArray([
-      currentWord.correctImage,
-      ...currentWord.otherImages,
-    ]);
-    setShuffledImages(combinedImages);
-  }
-}, [currentWordIndex, isGameStarted]);
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+  useEffect(() => {
+    if (isGameStarted) {
+      const currentWord = words[currentWordIndex];
+      const combinedImages = shuffleArray([
+        currentWord.correctImage,
+        ...currentWord.otherImages,
+      ]);
+      setShuffledImages(combinedImages);
+    }
+  }, [currentWordIndex, isGameStarted]);
 
   const handleAddWord = () => {
     setWords([...words, { word: '', correctImage: null, otherImages: [null, null, null] }]);
@@ -100,17 +105,47 @@ useEffect(() => {
     setWords(updatedWords);
   };
 
-  const handleImageUpload = (wordIndex, type, imageIndex, event) => {
+  // Frontend for uploading images for each word and background
+  const handleImageUpload = async (wordIndex, type, imageIndex, event) => {
     if (event.target.files && event.target.files[0]) {
-      const updatedWords = [...words];
-      const imageUrl = URL.createObjectURL(event.target.files[0]);
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
 
-      if (type === 'correct') {
-        updatedWords[wordIndex].correctImage = imageUrl;
-      } else {
-        updatedWords[wordIndex].otherImages[imageIndex] = imageUrl;
+      try {
+        const response = await axios.post('http://localhost:5000/api/upload/activities', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        const updatedWords = [...words];
+        const imageUrl = response.data.file;
+
+        if (type === 'correct') {
+          updatedWords[wordIndex].correctImage = imageUrl; // Correct image for the word
+        } else {
+          updatedWords[wordIndex].otherImages[imageIndex] = imageUrl; // Other images for the word
+        }
+        setWords(updatedWords); // Update the word's images
+      } catch (error) {
+        console.error('Failed to upload image:', error);
+        alert('Failed to upload image');
       }
-      setWords(updatedWords);
+    }
+  };
+
+  // Frontend for uploading background image
+  const handleBackgroundUpload = async (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
+
+      try {
+        const response = await axios.post('http://localhost:5000/api/upload/backgrounds', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        setSelectedBackground(response.data.file); // Save background URL
+      } catch (error) {
+        console.error('Failed to upload background:', error);
+        alert('Failed to upload background');
+      }
     }
   };
 
@@ -127,19 +162,19 @@ useEffect(() => {
 
   const handleImageSelect = (selectedImage) => {
     const currentWord = words[currentWordIndex];
-  
+
     if (selectedImage === currentWord.correctImage) {
       playAudio(correctAudio); // Play correct sound safely
       setCoins(coins + 10);
       const newCorrectAnswers = correctAnswers + 1;
       setCorrectAnswers(newCorrectAnswers);
-  
+
       const progressPercentage = (newCorrectAnswers / words.length) * 100;
       setProgress(progressPercentage);
-  
+
       setFeedbackMessage('🎉 أحسنت! إجابة صحيحة');
       setFeedbackType('correct');
-  
+
       setTimeout(() => {
         setFeedbackMessage('');
         if (currentWordIndex < words.length - 1) {
@@ -159,7 +194,7 @@ useEffect(() => {
       } else {
         setFeedbackMessage('❌ إجابة غير صحيحة!');
         setFeedbackType('incorrect');
-  
+
         setTimeout(() => {
           setFeedbackMessage('');
           if (currentWordIndex < words.length - 1) {
@@ -173,10 +208,6 @@ useEffect(() => {
       }
     }
   };
-  
-    
-   
-       
 
   const handleBackgroundSelect = (background) => {
     setSelectedBackground(background);
@@ -184,53 +215,98 @@ useEffect(() => {
   };
 
   const handleBackClick = () => {
-    backAudio.play().catch((error) => console.log('Back button sound playback failed:', error));
-    setTimeout(() => navigate('/activity-selection'), 0); // Immediate navigation
+    // Keep current activity information before going back
+    const activityInfo = {
+      words,
+      selectedBackground,
+      activityName,
+      level,
+    };
+    // Store it in localStorage to persist data across pages
+    localStorage.setItem('activityInfo', JSON.stringify(activityInfo));
+    navigate('/activity-selection'); // Redirect to activity selection
   };
-  
+
   const handleExitClick = () => {
     backAudio.play().catch((error) => console.log('Exit button sound playback failed:', error));
     setTimeout(() => navigate('/'), 0); // Immediate navigation
   };
-  
-  
-  
+
+  const handleSaveGame = async () => {
+    // Validate that all necessary info is filled in
+    if (activityName && words.every(entry => entry.word && entry.correctImage && entry.otherImages.every(img => img))) {
+      const activityData = {
+        name: activityName, // Name entered by teacher
+        type: 'word-image-match', // Type of activity
+        words: words.map(entry => ({
+          word: entry.word,
+          correctImage: entry.correctImage,
+          otherImages: entry.otherImages,
+        })),
+        background: selectedBackground,
+        level: 1, // Default to level 1
+      };
+
+      // Arabic confirmation message only if info is complete
+      const isConfirmed = window.confirm("هل أنت متأكد أنك تريد حفظ النشاط؟");
+
+      if (isConfirmed) {
+        try {
+          const response = await axios.post('http://localhost:5000/api/activities/create-custom-activity', activityData);
+
+          // Check the response and alert user
+          if (response.status === 201) {
+            alert('تم حفظ النشاط بنجاح!');
+          } else {
+            alert('فشل في حفظ النشاط');
+          }
+        } catch (error) {
+          console.error('Error saving activity:', error);
+          alert('فشل في حفظ النشاط');
+        }
+      }
+    } else {
+      alert('الرجاء ملء جميع الحقول');
+    }
+  };
 
   return (
     <div
       className="custom-word-image-match"
-      style={
-        isGameStarted && selectedBackground
-          ? { backgroundImage: `url(${selectedBackground})`, backgroundSize: 'cover' }
-          : {}
+      style={isGameStarted && selectedBackground
+        ? { backgroundImage: `url(${selectedBackground})`, backgroundSize: 'cover' }
+        : {}
       }
     >
-      {/* Render ProgressBar only during the game phase */}
       {isGameStarted && (
         <>
           <ProgressBar progress={progress} /> {/* Add ProgressBar */}
           <p className="instruction-text">
-            اختر الصورة الصحيحة لكل كلمة لتحقق تقدمًا في اللعبة!
+            اختر الصورة الصحيحة لكل كلمة لتحقق تقدماً في اللعبة!
           </p>
         </>
       )}
-  
+
       {!isGameStarted ? (
         <>
           <header className="teacher-header">
             <nav className="teacher-nav">
               <button className="nav-button" onClick={() => navigate('/')}>خروج</button>
               <button className="nav-button" onClick={() => navigate('/teacher')}>الصفحة الرئيسية</button>
-              <button className="nav-button" onClick={() => navigate('/activity-selection')}>خلف</button>
+              <button className="nav-button" onClick={handleBackClick}>خلف</button>
             </nav>
           </header>
-  
+
           <div className="custom-word-image-match-container">
             <div className="custom-word-input-form scrollable-container">
-         
-            <h2 style={{ color: '#4caf50' }}>أدخل كلمات وارفع صور</h2>
-
-
+              <h2 style={{ color: '#4caf50', marginBottom: '20px' }}>أدخل كلمات وارفع صور</h2>
+              <input
+                type="text"
+                className="activity-name-input"
+                placeholder="أدخل اسم النشاط"
+                value={activityName}
+                onChange={(e) => setActivityName(e.target.value)}
+              />
               {words.map((entry, wordIndex) => (
                 <div key={wordIndex} className="word-block">
                   <div className="word-header">
@@ -247,38 +323,39 @@ useEffect(() => {
                     <UploadButton
                       label="الصورة الصحيحة"
                       onUpload={(e) => handleImageUpload(wordIndex, 'correct', null, e)}
+                      imageUrl={entry.correctImage} // Show selected image
                     />
                     {entry.otherImages.map((_, imageIndex) => (
                       <UploadButton
                         key={imageIndex}
                         label={`صورة ${imageIndex + 1}`}
                         onUpload={(e) => handleImageUpload(wordIndex, 'other', imageIndex, e)}
+                        imageUrl={entry.otherImages[imageIndex]} // Show selected image
                       />
                     ))}
                   </div>
                   <hr className="divider" />
                 </div>
               ))}
-  
+
               <div className="button-group">
                 <button className="custom-add-word-button" onClick={handleAddWord}>+ أضف كلمة</button>
-                <button className="custom-background-button" onClick={() => setIsBgModalOpen(true)}>
-                  اختر خلفية
-                </button>
+                <button className="custom-background-button" onClick={() => setIsBgModalOpen(true)}>اختر خلفية</button>
+
+                <BackgroundModal isOpen={isBgModalOpen} onClose={() => setIsBgModalOpen(false)}>
+                  <CreateActivityForm onBackgroundSelect={handleBackgroundSelect} />
+                </BackgroundModal>
+
+                {selectedBackground && (
+                  <div className="selected-background-preview">
+                    <h4>الخلفية المختارة:</h4>
+                    <img src={selectedBackground} alt="Selected Background" className="preview-image" />
+                  </div>
+                )}
+
+                <button className="start-game-button" onClick={handleStartGame}>ابدأ اللعبة</button>
               </div>
-  
-              <BackgroundModal isOpen={isBgModalOpen} onClose={() => setIsBgModalOpen(false)}>
-                <CreateActivityForm onBackgroundSelect={handleBackgroundSelect} />
-              </BackgroundModal>
-  
-              {selectedBackground && (
-                <div className="selected-background-preview">
-                  <h4>الخلفية المختارة:</h4>
-                  <img src={selectedBackground} alt="Selected Background" className="preview-image" />
-                </div>
-              )}
-  
-              <button className="start-game-button" onClick={handleStartGame}>ابدأ اللعبة</button>
+              <button className="save-activity-button" onClick={handleSaveGame}>احفظ النشاط</button>
             </div>
           </div>
         </>
@@ -302,28 +379,25 @@ useEffect(() => {
                 className="nav-icon"
                 onClick={handleExitClick}
               />
+              <button className="save-game-button" onClick={handleSaveGame}>احفظ اللعبة</button>
             </div>
           </div>
-  
+
           <div className="game-play-container">
             <h2 className="game-word">{words[currentWordIndex]?.word}</h2>
-  
-    
-
-<div className="image-options-container">
-  {shuffledImages.map((img, index) => (
-    <img
-      key={index}
-      src={img}
-      alt={`Option ${index + 1}`}
-      className="game-image"
-      onClick={() => handleImageSelect(img)}
-    />
-  ))}
-</div>
-
+            <div className="image-options-container">
+              {shuffledImages.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Option ${index + 1}`}
+                  className="game-image"
+                  onClick={() => handleImageSelect(img)}
+                />
+              ))}
+            </div>
           </div>
-  
+
           {feedbackMessage && (
             <div className={`feedback-message ${feedbackType}`}>
               {feedbackMessage}
@@ -331,12 +405,17 @@ useEffect(() => {
           )}
         </div>
       )}
+
+      {/* Activity Explanation Section */}
+      <div className="activity-explanation">
+        <h3>شرح النشاط:</h3>
+        <p>
+          في هذه اللعبة، عليك مطابقة الكلمات مع الصور الصحيحة. قم بتحميل الكلمات والصور، ثم ابدأ اللعبة.
+          ستحصل على نقاط مقابل كل مطابقة صحيحة!
+        </p>
+      </div>
     </div>
   );
-  
- 
-
-
-
 };
+
 export default CustomWordImageMatch;
