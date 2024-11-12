@@ -64,6 +64,7 @@ const CustomWordShuffle = () => {
     setSelectedLetters(newSelectedLetters);
 
     const currentWord = wordsWithPhotos[currentWordIndex].word;
+    const failedItems = [];
 
     if (newSelectedLetters.length === currentWord.length) {
       if (newSelectedLetters.join('') === currentWord) {
@@ -78,15 +79,20 @@ const CustomWordShuffle = () => {
         incorrectAudio.play();
         if (wrongAttempts === 0) {
           setFeedback('خطأ! حاول مرة أخرى');
-          setWrongAttempts(1); // Allow only one retry
-          setSelectedLetters([]); // Clear selected letters for retry
+          setWrongAttempts(1);
+          setSelectedLetters([]);
         } else {
+          failedItems.push({ word: currentWord, image: 'incorrect' }); // Track failed attempt
           setFeedback('فشلت! الانتقال إلى الكلمة التالية');
           setTimeout(() => {
             moveToNextWord();
           }, 2000);
         }
       }
+    }
+
+    if (failedItems.length > 0) {
+      completeActivity(failedItems); // Send failed items
     }
   };
 
@@ -98,32 +104,26 @@ const CustomWordShuffle = () => {
       setLetters(getShuffledLetters(nextWord.split('')));
       resetGame();
     } else {
-      // Only save to backend when all words have been answered
-      completeActivity();
+      completeActivity([]); // Send an empty array if no failed items
     }
   };
 
-  const completeActivity = async () => {
+  const completeActivity = async (failedItems) => {
     setActivityComplete(true);
-    console.log('Before saving activity result:');
-    console.log('Current Score:', score);
-    console.log('Words Length:', wordsWithPhotos.length);
-    console.log('Current Word Index:', currentWordIndex);
-
     try {
-        const response = await axios.post('http://localhost:5000/api/activities/save-result', {
-            activityId,
-            studentId,
-            level,
-            score,
-            completed: currentWordIndex >= wordsWithPhotos.length - 1,
-        });
-
-        console.log('Activity result saved successfully:', response.data);
+      const response = await axios.post('http://localhost:5000/api/activities/save-result', {
+        activityId,
+        studentId,
+        level,
+        score,
+        completed: currentWordIndex >= wordsWithPhotos.length - 1,
+        failedItems, // Send failedItems to backend
+      });
+      console.log('Activity result saved successfully:', response.data);
     } catch (error) {
-        console.error('Error saving activity result:', error);
+      console.error('Error saving activity result:', error);
     }
-};
+  };
 
   const resetGame = () => {
     setSelectedLetters([]); // Clear selected letters for next attempt
@@ -159,9 +159,9 @@ const CustomWordShuffle = () => {
       ) : activityComplete ? (
         <div className="feedback-modal summary-modal">
           <div className="summary-content">
-            <div>{`لقد أجبت على جميع الأسئلة!`}</div>
-            <div>{`مجموع النقاط: ${score}/${wordsWithPhotos.length}`}</div>
-            <div>{`مستوى: ${level}`}</div>
+            <div>لقد أجبت على جميع الأسئلة!</div>
+            <div>مجموع النقاط: {score}/{wordsWithPhotos.length}</div>
+            <div>مستوى: {level}</div>
           </div>
           <div className="summary-buttons">
             <img 
@@ -189,7 +189,7 @@ const CustomWordShuffle = () => {
               <div
                 key={index}
                 onClick={() => handleLetterClick(letter)}
-                className={`custom-word-shuffle-letter-tile`}
+                className="custom-word-shuffle-letter-tile"
               >
                 {letter}
               </div>

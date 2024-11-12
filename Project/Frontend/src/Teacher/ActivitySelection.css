@@ -69,6 +69,7 @@
     cursor: pointer;
     transition: transform 0.2s;
     text-align: center;
+    
 }
 
 .activity-card:hover {

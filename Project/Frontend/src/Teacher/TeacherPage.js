@@ -1,18 +1,20 @@
-// src/Teacher/TeacherPage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddStudent from './AddStudent';
 import EditExerciseModal from './EditExerciseModal';
-import Modal from './Modal';
+import Modal from './Modal';  // Make sure Modal component is imported
+import ProgressModal from './ProgressModal';  // New modal for activity progress
 import logo from '../assets/logo.png';
 import './TeacherPage.css';
 import './Modal.css';
 
 const TeacherPage = () => {
   const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const [showAddStudentModal, setShowAddStudentModal] = useState(false);
   const [showEditExerciseModal, setShowEditExerciseModal] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [showProgressModal, setShowProgressModal] = useState(false);  // State to control ProgressModal visibility
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,11 +48,11 @@ const TeacherPage = () => {
         },
         body: JSON.stringify(student),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to add student');
       }
-  
+
       const newStudent = await response.json();
       setStudents([...students, newStudent]);
       setShowAddStudentModal(false);
@@ -73,11 +75,32 @@ const TeacherPage = () => {
   };
 
   const handleCloseModal = () => {
-    setSelectedExercise(null); // Ensures modal closes by clearing selected exercise
+    setSelectedStudent(null); // Ensures modal closes by clearing selected student
+    setShowProgressModal(false); // Close ProgressModal
+  };
+
+  const viewProgress = async (studentId) => {
+    console.log(`Fetching activities for student with ID: ${studentId}`);
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/${studentId}/activities`);
+      const data = await response.json();
+      console.log('API Response:', data);  // Log the response
+  
+      if (response.ok) {
+        setSelectedStudent(data);  // Update with the student's progress data
+        console.log("Selected student data set:", data);  // Check if the state is being updated
+        setShowProgressModal(true);  // Open the modal to show progress
+      } else {
+        console.error('Failed to fetch student activities:', data);  // Log error if the response is not OK
+      }
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
   };
 
   return (
-    <div className={`teacher-page rtl ${showAddStudentModal || showEditExerciseModal ? 'modal-open' : ''}`}>
+    <div className="teacher-page">
       <header className="teacher-header">
         <img src={logo} alt="Logo" className="teacher-logo" />
         <nav className="teacher-nav">
@@ -104,16 +127,15 @@ const TeacherPage = () => {
                 <tr key={index} className="student-item">
                   <td>{student.number}</td>
                   <td>
-  {student.difficulties.map((difficulty, i) => (
-    <div key={i}>
-      <strong>{difficulty}</strong>
-    </div>
-  ))}
-</td>
-
+                    {student.difficulties.map((difficulty, i) => (
+                      <div key={i}>
+                        <strong>{difficulty}</strong>
+                      </div>
+                    ))}
+                  </td>
                   <td>
-                    <button className="details-button" onClick={() => setSelectedExercise(student)}>
-                      عرض التفاصيل
+                    <button className="details-button" onClick={() => viewProgress(student._id)}>
+                      عرض التقدم
                     </button>
                   </td>
                 </tr>
@@ -127,33 +149,12 @@ const TeacherPage = () => {
         </Modal>
         {showEditExerciseModal && (
           <Modal isOpen={showEditExerciseModal} onClose={() => setShowEditExerciseModal(false)}>
-            <EditExerciseModal
-              onSave={saveEditedExercise}
-              onClose={() => setShowEditExerciseModal(false)}
-            />
+            <EditExerciseModal onSave={saveEditedExercise} onClose={() => setShowEditExerciseModal(false)} />
           </Modal>
         )}
-        {selectedExercise && (
-          <Modal isOpen={!!selectedExercise} onClose={handleCloseModal}>
-            <div className="student-details">
-              <h3>تفاصيل الطالب رقم {selectedExercise.number}</h3>
-              {selectedExercise.difficulties.map((difficulty, i) => (
-                <div key={i}>
-                  <h4>{difficulty.name}</h4>
-                  {difficulty.levels.length > 0 ? (
-                    difficulty.levels.map((level, j) => (
-                      <div key={j}>
-                        <span>المرحلة {level.level}: {level.status}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div>لم يتم تنفيذ أي مرحلة في هذه الصعوبة</div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Modal>
-        )}
+
+        {/* Modal for showing student activity progress */}
+        <ProgressModal isOpen={showProgressModal} onClose={handleCloseModal} activities={selectedStudent} />
       </main>
     </div>
   );

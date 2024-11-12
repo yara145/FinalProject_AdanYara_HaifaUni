@@ -28,6 +28,7 @@ import CustomLettersCard from './activity/pages/CustomLettersCard';
 import ReversedWordImageMatch from './activity/pages/ReversedWordImageMatch';
 import PhonemeMatchingGame from './activity/pages/PhonemeMatchingGame';
 import SoundPairMatchingGame from './activity/pages/SoundPairMatchingGame';
+import StudentProgress from './Teacher/StudentProgress';  // Ensure this is correct based on the actual file location
 
 const App = () => {
   return (
@@ -62,8 +63,7 @@ const App = () => {
           <Route path="/phoneme-matching-game" element={<PhonemeMatchingGame />} />
           <Route path="/sound-pair-matching-game" element={<SoundPairMatchingGame />} />
           <Route path="/custom-activity/:activityId/:studentId/:level" element={<WordImageMatch />} />
-
-
+          <Route path="/teacher" element={<TeacherPage />} />
         </Routes>
       </div>
     </Router>

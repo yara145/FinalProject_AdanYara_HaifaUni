@@ -10,6 +10,7 @@ const app = express();
 const port = 5000;
 const router = express.Router();
 
+app.use(express.json())
 // Import activity routes
 const activityRoutes = require('./routes/api/activities'); // Ensure correct path
 const studentRoutes = require('./routes/api/students'); // Ensure the path is correct

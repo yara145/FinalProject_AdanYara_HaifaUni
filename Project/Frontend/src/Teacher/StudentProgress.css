@@ -1,0 +1,30 @@
+/* src/Teacher/StudentProgress.css */
+.student-progress {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.student-progress ul {
+    list-style-type: none;
+}
+
+.student-progress li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.student-progress img {
+    width: 50px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.student-progress .failed-items {
+    color: red;
+}
+
+.student-progress .status {
+    color: green;
+}

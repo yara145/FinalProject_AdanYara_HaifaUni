@@ -35,15 +35,16 @@ const CustomWordImageMatch = () => {
   const [shuffledImages, setShuffledImages] = useState([]);
   const [activityComplete, setActivityComplete] = useState(false);
   const [score, setScore] = useState(0);
+  const [error, setError] = useState(null);
 
-  // Fetch activity data when component mounts
   useEffect(() => {
     const fetchActivityData = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/activities/custom-activity/${activityId}/${studentId}/${level}`);
-        setActivityData(response.data); // Set the activity data once fetched
+        setActivityData(response.data);
         setIsGameStarted(true);
       } catch (error) {
+        setError('Error fetching activity data');
         console.error('Error fetching activity data:', error);
       }
     };
@@ -51,16 +52,10 @@ const CustomWordImageMatch = () => {
     fetchActivityData();
   }, [activityId, studentId, level]);
 
-  // Update images once the activity data is available
   useEffect(() => {
     if (isGameStarted && activityData) {
       const currentWord = activityData.wordsWithPhotos[currentWordIndex];
-
-      // Shuffle images
-      const combinedImages = shuffleArray([
-        currentWord.correctImage, // Correct image
-        ...currentWord.otherImages, // Other images for that word
-      ]);
+      const combinedImages = shuffleArray([currentWord.correctImage, ...currentWord.otherImages]);
       setShuffledImages(combinedImages);
     }
   }, [isGameStarted, currentWordIndex, activityData]);
@@ -81,17 +76,16 @@ const CustomWordImageMatch = () => {
 
   const handleImageSelect = async (selectedImage) => {
     const currentWord = activityData.wordsWithPhotos[currentWordIndex];
+    const failedItems = [];
 
     if (selectedImage === currentWord.correctImage) {
       playAudio(correctAudio);
-      setCoins(coins + 1); // Increment coins by 1
+      setCoins(coins + 1);
       const newCorrectAnswers = correctAnswers + 1;
       setCorrectAnswers(newCorrectAnswers);
-
-      // Increment the score by 1
       setScore((prevScore) => prevScore + 1);
 
-      const progressPercentage = (newCorrectAnswers / activityData.wordsWithPhotos.length) * 100;
+      const progressPercentage = activityData.wordsWithPhotos.length > 0 ? (newCorrectAnswers / activityData.wordsWithPhotos.length) * 100 : 0;
       setProgress(progressPercentage);
 
       setFeedbackMessage('🎉 أحسنت! إجابة صحيحة');
@@ -101,7 +95,7 @@ const CustomWordImageMatch = () => {
         setCurrentWordIndex(currentWordIndex + 1);
         setAttempts(2);
       } else {
-        completeActivity(); // End game and save results when all words are completed
+        completeActivity(failedItems);
       }
     } else {
       playAudio(incorrectAudio);
@@ -110,33 +104,47 @@ const CustomWordImageMatch = () => {
         setFeedbackMessage('❌ حاول مرة أخرى!');
         setFeedbackType('try-again');
       } else {
+        failedItems.push({ word: currentWord.word, image: selectedImage });
         setFeedbackMessage('❌ إجابة غير صحيحة!');
         setFeedbackType('incorrect');
-
         if (currentWordIndex < activityData.wordsWithPhotos.length - 1) {
           setCurrentWordIndex(currentWordIndex + 1);
           setAttempts(2);
         } else {
-          completeActivity(); // End game if no more attempts
+          completeActivity(failedItems);
         }
       }
     }
   };
 
-  const completeActivity = async () => {
+  const completeActivity = async (failedItems) => {
     setActivityComplete(true);
     try {
-        const response = await axios.post('http://localhost:5000/api/activities/save-result', {
-            activityId,
-            studentId,
-            level,
-            score, // Correct score to be sent
-            completed: currentWordIndex >= activityData.wordsWithPhotos.length - 1,
-        });
-        console.log('Activity result saved successfully:', response.data);
+      const response = await axios.post('http://localhost:5000/api/activities/save-result', {
+        activityId,
+        studentId,
+        level,
+        score,
+        completed: currentWordIndex >= activityData.wordsWithPhotos.length - 1,
+        played: true,
+        failedItems,
+      });
+      console.log('Activity result saved successfully:', response.data);
     } catch (error) {
-        console.error('Error saving activity result:', error);
+      console.error('Error saving activity result:', error);
     }
+  };
+
+  const resetGame = () => {
+    setCurrentWordIndex(0);
+    setAttempts(2);
+    setFeedbackMessage('');
+    setFeedbackType('');
+    setCoins(0);
+    setScore(0);
+    setProgress(0);
+    setCorrectAnswers(0);
+    setShuffledImages([]);
   };
 
   const handleBackToMenu = () => {
@@ -145,23 +153,17 @@ const CustomWordImageMatch = () => {
 
   const handleExitClick = () => {
     backAudio.play().catch((error) => console.log('Exit button sound playback failed:', error));
-    setTimeout(() => navigate('/'), 0); // Immediate navigation
+    setTimeout(() => navigate('/'), 0);
   };
 
   return (
-    <div
-      className="custom-word-image-match"
-      style={isGameStarted && activityData?.selectedBackground
-        ? { backgroundImage: `url(${activityData.selectedBackground})`, backgroundSize: 'cover' }
-        : {}
-      }
-    >
+    <div className="custom-word-image-match" style={isGameStarted && activityData?.selectedBackground ? { backgroundImage: `url(${activityData.selectedBackground})`, backgroundSize: 'cover' } : {}}>
+      {error && <div className="error-message">{error}</div>}
+
       {isGameStarted && (
         <>
-          <ProgressBar progress={progress} /> {/* Add ProgressBar */}
-          <p className="instruction-text">
-            اختر الصورة الصحيحة لكل كلمة لتحقق تقدماً في اللعبة!
-          </p>
+          <ProgressBar progress={progress} />
+          <p className="instruction-text">اختر الصورة الصحيحة لكل كلمة لتحقق تقدماً في اللعبة!</p>
         </>
       )}
 
@@ -178,49 +180,33 @@ const CustomWordImageMatch = () => {
         </div>
 
         <div className="game-play-container">
-          {/* Display the current word */}
           <h2 className="game-word">{activityData?.wordsWithPhotos[currentWordIndex]?.word}</h2>
 
-          {/* Display the shuffled image options */}
           <div className="image-options-container">
             {shuffledImages.map((img, index) => (
               <img
                 key={index}
-                src={img} // Use full image URL here
+                src={img}
                 alt={`Option ${index + 1}`}
                 className="game-image"
-                onClick={() => handleImageSelect(img)} // Handle image selection
+                onClick={() => handleImageSelect(img)}
               />
             ))}
           </div>
         </div>
 
-        {/* Feedback message */}
-        {feedbackMessage && (
-          <div className={`feedback-message ${feedbackType}`}>
-            {feedbackMessage}
-          </div>
-        )}
+        {feedbackMessage && <div className={`feedback-message ${feedbackType}`}>{feedbackMessage}</div>}
 
-        {/* Final Result Modal */}
         {activityComplete && (
           <div className="feedback-modal summary-modal">
             <div className="summary-content">
-              <div>{`لقد أجبت على جميع الأسئلة!`}</div>
-              <div>{`مجموع النقاط: ${score}/${activityData.wordsWithPhotos.length}`}</div>
-              <div>{`مستوى: ${level}`}</div>
+              <div>لقد أجبت على جميع الأسئلة!</div>
+              <div>مجموع النقاط: {score}/{activityData.wordsWithPhotos.length}</div>
+              <div>مستوى: {level}</div>
             </div>
             <div className="summary-buttons">
-              <img 
-                src={restartButtonImage} 
-                alt="Restart" 
-                onClick={() => window.location.reload()} 
-              />
-              <img 
-                src={exitButtonImage} 
-                alt="Exit" 
-                onClick={handleBackToMenu} 
-              />
+              <img src={restartButtonImage} alt="Restart" onClick={resetGame} />
+              <img src={exitButtonImage} alt="Exit" onClick={handleBackToMenu} />
             </div>
           </div>
         )}

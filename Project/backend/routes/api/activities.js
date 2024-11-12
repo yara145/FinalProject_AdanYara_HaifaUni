@@ -1,8 +1,11 @@
 const express = require('express');
+const mongoose = require('mongoose');  // Add this line
+
 const router = express.Router();
 const Activity = require('../../Models/Activity');
 const Student = require('../../Models/Student'); // Make sure the path is correct
 const CustomActivity = require('../../Models/CustomActivity'); // For custom activities
+
 // Create an Activity
 router.post('/create-activity', async (req, res) => {
   try {
@@ -30,6 +33,8 @@ router.get('/fetch-activities', async (req, res) => {
     res.status(500).json({ message: 'Error fetching activities', error: error.message });
   }
 });
+
+// Fetch specific activity for a student
 router.get('/activity/:id/:studentId/:level', async (req, res) => {
   const { id: activityId, studentId, level } = req.params;
   console.log("Route hit - activity with ID, studentId, level");
@@ -38,15 +43,18 @@ router.get('/activity/:id/:studentId/:level', async (req, res) => {
   console.log("Level:", level);
 
   try {
-      const activity = await Activity.findById(mongoose.Types.ObjectId(activityId));
-      if (!activity) return res.status(404).json({ message: 'Activity not found' });
+    const activity = student.activities.find(a => a.activityId.equals(new mongoose.Types.ObjectId(activityId)) && a.level === level);
 
-      res.status(200).json(activity);
+    if (!activity) return res.status(404).json({ message: 'Activity not found' });
+
+    res.status(200).json(activity);
   } catch (error) {
-      console.error('Error fetching activity:', error);
-      res.status(500).json({ message: 'Server error', error: error.message });
+    console.error('Error fetching activity:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+// Fetch specific custom activity for a student
 router.get('/custom-activity/:activityId/:studentId/:level', async (req, res) => {
   const { activityId, studentId, level } = req.params;
   
@@ -61,42 +69,74 @@ router.get('/custom-activity/:activityId/:studentId/:level', async (req, res) =>
     console.error('Error fetching custom activity:', err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
-});
+});// Endpoint to save activity result
 // Endpoint to save activity result
 router.post('/save-result', async (req, res) => {
-  const { activityId, studentId, level, score, completed } = req.body;
-  console.log("Saving activity result:", { activityId, studentId, level, score, completed });
+  const { activityId, studentId, level, score, completed, played, failedItems } = req.body;
+
+  // Log the received studentId, activityId, and level
+  console.log('Received studentId:', studentId);
+  console.log('Received activityId:', activityId);
+  console.log('Received level:', level);
 
   try {
-      const student = await Student.findById(studentId);
-      if (!student) {
-          console.error('Student not found:', studentId);
-          return res.status(404).json({ message: 'Student not found' });
-      }
+    // Fetch the student from the database
+    const student = await Student.findById(studentId);
+    
+    if (!student) {
+      console.log('Student not found with studentId:', studentId);
+      return res.status(404).json({ message: `Student with ID ${studentId} not found` });
+    }
 
-      // Find the activity associated with this student
-      const activity = student.activities.find(a => a.activityId.equals(activityId));
-      if (!activity) {
-          console.error('Activity not found for student:', activityId);
-          return res.status(404).json({ message: 'Activity not found' });
-      }
+    // Log the entire student document to verify their activities
+    console.log('Full student document:', student);
+    console.log('Student activities:', student.activities);
 
-      // Update activity details
-      activity.score = score;
-      activity.completed = completed;
+    // Log each activityId in the student's activities for comparison
+    const activity = student.activities.find(a => {
+      // Convert both activityId from student and request to strings for comparison
+      const studentActivityIdStr = a.activityId.toString();  // Convert student activityId to string
+      const requestActivityIdStr = activityId.toString();    // Convert request activityId to string
 
-      await student.save(); // Save the updated student document
-      console.log('Activity result saved successfully:', activity);
-      
-      res.status(200).json({ message: 'Activity result saved successfully', activity });
-  } catch (error) {
-      console.error('Error saving activity result:', error);
-      res.status(500).json({ message: 'Server error' });
+      // Print the comparison for each activityId
+      console.log("Comparing activityId:", studentActivityIdStr);  // Log the student activityId (as string)
+      console.log("Activity ID from request:", requestActivityIdStr); // Log the activityId from the request (as string)
+
+      // Convert both levels to strings for comparison
+      const studentLevelStr = a.level.toString();  // Convert student level to string
+      const requestLevelStr = level.toString();    // Convert request level to string
+
+      console.log("level 1:", studentLevelStr); 
+      console.log("level 2:", requestLevelStr); 
+
+      // Compare the activityIds and levels
+      console.log("Comparison result:", studentActivityIdStr === requestActivityIdStr && studentLevelStr === requestLevelStr); // Log result of comparison
+      return studentActivityIdStr === requestActivityIdStr && studentLevelStr === requestLevelStr;
+    });
+
+    console.log('Found activity:', activity); // Log the found activity
+
+    if (!activity) {
+      console.log('Activity not found for student with ID:', studentId);
+      return res.status(404).json({ message: 'Activity not found for student' });
+    }
+
+    // Update the activity with the result
+    activity.score = score;
+    activity.completed = completed;
+    activity.played = played;  // Save the played field
+    activity.failedItems = failedItems; // Save the failed items
+
+    // Save the updated student document
+    await student.save();
+    res.status(200).json({ message: 'Activity result saved successfully', activity });
+  } catch (err) {
+    console.error('Error saving activity result:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
-// Create a Custom Activity
-// routes/api/activities.js
 
+// Create a Custom Activity
 router.post('/create-custom-activity', async (req, res) => {
   try {
     // Log the received data for debugging
@@ -137,4 +177,3 @@ router.get('/fetch-custom-activities', async (req, res) => {
 });
 
 module.exports = router;
-

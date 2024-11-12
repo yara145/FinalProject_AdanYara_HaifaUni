@@ -1,4 +1,3 @@
-// backend/routes/api/students.js
 const express = require('express');
 const router = express.Router();
 const Student = require('../../Models/Student');
@@ -131,8 +130,6 @@ router.get('/students/:studentId/activities/:activityType', async (req, res) => 
 });
 
 // Fetch individual custom activity for the student
-// Fetch individual custom activity for the student
-// backend/routes/api/activities.js
 router.get('/activities/activity/:activityId/:studentId/:level', async (req, res) => {
   const { activityId, studentId, level } = req.params;
 
@@ -149,7 +146,7 @@ router.get('/activities/activity/:activityId/:studentId/:level', async (req, res
 
     res.status(200).json({ ...activity.toObject(), level: parseInt(level) });
   } catch (err) {
-    console.error('Error fetching activity asdadad:', err);
+    console.error('Error fetching activity:', err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
@@ -175,8 +172,8 @@ router.put('/:studentId/activities/:activityType/:activityName', async (req, res
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+
 // Fetch Custom Activity for a student
-// Fetch all activities for a student
 router.get('/:studentId/activities/:activityType', async (req, res) => {
   const { studentId, activityType } = req.params;
 
@@ -214,6 +211,26 @@ router.get('/:studentId/activities/:activityType', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+// Fetch all activities for a specific student
+router.get('/:studentId/activities', async (req, res) => {
+  const { studentId } = req.params;
+  console.log(`Incoming request for student ID: ${studentId}`);
+
+  try {
+    const student = await Student.findById(studentId);
+    if (!student) {
+      console.log(`Student not found with ID: ${studentId}`);
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    console.log(`Found student: ${student.number}`);
+    res.status(200).json(student.activities);
+  } catch (err) {
+    console.error('Error fetching activities for student:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
 
 
 module.exports = router;
