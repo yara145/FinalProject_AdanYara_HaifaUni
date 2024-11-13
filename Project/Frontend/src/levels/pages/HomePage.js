@@ -71,14 +71,18 @@ const HomePage = () => {
     if (type === 'island') {
       navigate(`/student-island/${studentId}`); // Include studentId in the URL
     }
+    if (type === 'mountain') {
+      navigate(`/student-mountain/${studentId}`); // Navigate to the mountain page with studentId
+    }
   };
   
 
   return (
     <div className="home-page">
-      <button className="back-button" onClick={() => navigate('/login')}>
-        رجوع
-      </button>
+      <button className="back-button" onClick={() => navigate(-1)}>
+  رجوع
+</button>
+
       <div className="clouds">
         <div className="cloud cloud1" ref={cloudRefs[0]}>
           <img src={cloudImage} alt="Cloud 1" />

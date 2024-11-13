@@ -36,10 +36,7 @@ const LandingPage = () => {
             <img src={studentIcon} alt="Student Icon" className="button-icon" />
             <button className="landing-button" onClick={handleStudentLogin}>أنا طالب</button>
           </div>
-          <div className="landing-button-wrapper">
-            <img src={guestIcon} alt="Guest Icon" className="button-icon" />
-            <button className="landing-button" onClick={handleGuestLogin}>دخول كضيف</button>
-          </div>
+         
         </div>
       </div>
     </div>

@@ -1,18 +1,54 @@
-.student-activities {
-  text-align: center;
-  padding: 20px;
-  direction: rtl;
-  font-family: Arial, sans-serif;
+/* Style for the button container */
+.header {
+  display: flex;
+  justify-content: flex-start; /* Align the buttons to the left */
+  padding: 15px;
+  position: absolute; /* Position at the top left */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
 }
 
+/* Back and Logout buttons container */
+.header button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 15px; /* Space between buttons */
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* Remove hover effect for back button */
+.header button.back-button {
+  transform: none;
+  opacity: 1; /* No hover effect */
+}
+
+/* Button image styles */
+.button-image {
+  width: 35px;  /* Adjusted width for better button visuals */
+  height: 35px; /* Adjusted height for the button */
+}
+
+/* Hover effect for logout button */
+.header button.logout-button:hover {
+  transform: scale(1.1); /* Slightly grow on hover for the logout button */
+  opacity: 0.8;
+}
+
+/* Activity buttons container */
 .activities-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
   justify-items: center;
-  margin-top: 20px;
+  margin-top: 80px; /* Adjusted to make space for the top header */
 }
 
+/* Activity button */
 .activity {
   padding: 15px;
   font-size: 18px;
@@ -30,12 +66,13 @@
   align-items: center;
 }
 
+/* Hover effect on activities */
 .activity:hover {
   transform: scale(1.05); /* Slightly grow on hover */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Completed, Locked, and Available background colors */
+/* Activity status (completed, locked, available) colors */
 .activity.completed {
   background-color: #4caf50; /* Green for completed */
 }
@@ -50,14 +87,14 @@
   color: #000;
 }
 
-/* Icon styles */
+/* Icon styling */
 .icon {
   font-size: 24px;
   margin-bottom: 8px;
 }
 
 .completed-icon {
-  color: #ffffff; /* White for readability */
+  color: #ffffff;
 }
 
 .locked-icon {
@@ -68,21 +105,21 @@
   color: #000000;
 }
 
-/* Text for level */
+/* Level text style inside the button */
 .level-text {
   font-size: 16px;
   font-weight: bold;
   margin-top: 5px;
 }
 
-/* Status and level text inside the button */
+/* Text for activity level */
 .activity p {
   font-size: 14px;
   margin-top: 4px;
   color: inherit;
 }
 
-/* Responsive styling */
+/* Responsive styling for small screens */
 @media (max-width: 768px) {
   .activities-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));

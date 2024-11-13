@@ -47,16 +47,18 @@
 
 .activity-selection-container {
     text-align: center;
-    margin-top: 80px; /* Push down to avoid header overlap */
+    margin-top: 80px; /* Adjusted to ensure no overlap with header */
     width: 90%; /* Adjusted width for centering */
     max-width: 900px;
 }
 
 .activities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Increased min-width for better card spacing */
+    gap: 20px; /* Added gap between cards */
     justify-items: center;
+    padding: 20px; /* Padding for grid */
+    grid-gap: 15px; /* Ensure proper gap between the grid items */
 }
 
 .activity-card {
@@ -64,16 +66,18 @@
     max-width: 200px;
     border: 1px solid #ccc;
     background-color: white;
-    padding: 8px;
+    padding: 15px; /* Increased padding */
     border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s; /* Adding box-shadow transition */
     text-align: center;
-    
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow for better effect */
+    margin-bottom: 20px; /* Ensure spacing at the bottom of each card */
 }
 
 .activity-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Slightly enlarge card on hover */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 }
 
 .activity-image {
@@ -83,7 +87,19 @@
 }
 
 h3 {
-    margin-top: 8px;
+    margin-top: 10px;
     font-size: 1rem;
     color: #333;
+    font-weight: bold;
+}
+
+/* Ensure cards are responsive and adapt based on screen size */
+@media (max-width: 768px) {
+    .activities-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjusted for smaller screens */
+    }
+
+    .activity-card {
+        padding: 10px; /* Smaller padding on small screens */
+    }
 }

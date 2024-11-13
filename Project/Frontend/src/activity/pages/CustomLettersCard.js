@@ -11,7 +11,7 @@ import CreateActivityForm from '../../Teacher/ChooseBg';
 import BackgroundModal from '../../Teacher/Modal';
 import backButtonImage from '../../assets/images/back.png';
 import exitButtonImage from '../../assets/images/exit.png';
-
+import axios from 'axios'; // Import axios for API calls
 const CustomLettersCard = () => {
   const [isBgModalOpen, setIsBgModalOpen] = useState(false);
   const [letters, setLetters] = useState(['']);
@@ -24,6 +24,8 @@ const CustomLettersCard = () => {
   const [progress, setProgress] = useState(0); // Progress state
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState(null);
+  const [activityName, setActivityName] = useState('');  // Define activityName state
+  const [showConfirmModal, setShowConfirmModal] = useState(false);  // For confirmation dialog
 
   const navigate = useNavigate();
   const correctAudio = new Audio(correctSound);
@@ -100,7 +102,47 @@ const CustomLettersCard = () => {
       }, 1000);
     }
   };
-
+  const handleConfirmSave = () => {
+    if (activityName.trim() === '' || letters.some(letter => letter.trim() === '')) {
+      setFeedbackMessage('❌ يجب عليك ملء جميع الحقول!');
+      setFeedbackType('incorrect');
+      return;
+    }
+    
+    setShowConfirmModal(true);  // Show confirmation modal only when fields are filled
+  };
+  const handleSaveActivity = async () => {
+    if (activityName.trim() === '' || letters.some(letter => letter.trim() === '')) {
+      setFeedbackMessage('❌ يجب عليك ملء جميع الحقول!');
+      setFeedbackType('incorrect');
+      return;
+    }
+  
+    // Allow the activity to be saved even if no background is selected
+    const activityData = {
+      name: activityName,
+      type: 'CustomLettersCard',
+      wordsWithPhotos: letters.filter(letter => letter.trim() !== '').map(letter => ({
+        word: letter,
+        photo: " ",  // Assuming you will handle photos later
+      })),
+      
+      background: selectedBackground || '',  // Allow empty string for background
+      level: 1,
+    };
+  
+    console.log("Activity Data to Save: ", activityData); // For debugging
+  
+    try {
+      const response = await axios.post('http://localhost:5000/api/activities/create-activity-three', activityData);
+      alert('تم حفظ النشاط بنجاح!');
+    
+    } catch (error) {
+      alert('فشل في حفظ النشاط');
+      console.error('Error saving activity:', error);
+    }
+  };
+  
   const moveToNextLetter = () => {
     setAttempts(0);
     if (currentLetterIndex < letters.length - 1) {
@@ -141,7 +183,15 @@ const CustomLettersCard = () => {
     
     {/* Add the header instruction */}
     <h2 className="input-phase-header" style={{ color: '#4caf50' }}>أدخل الحروف التي سيقوم الطفل بقراءتها</h2>
-    
+    {/* Activity Name Input */}
+<input
+  type="text"
+  placeholder="أدخل اسم النشاط"
+  value={activityName}
+  onChange={(e) => setActivityName(e.target.value)}
+  style={{ marginBottom: '20px' }}
+  className="activity-name-input"
+/>
     <p>قم بإدخال الحروف التي سيقوم الطفل بقراءتها:</p>
     <div className="scrollable-inputs">
       {letters.map((letter, index) => (
@@ -181,6 +231,17 @@ const CustomLettersCard = () => {
     <button className="custom-letters-card-start-game-button" onClick={handleStartGame}>
       بدء اللعبة
     </button>
+    <button className="save-activity-button" onClick={handleConfirmSave}>
+  حفظ النشاط
+</button>
+{showConfirmModal && (
+  <div className="confirmation-modal">
+    <p>هل أنت متأكد من حفظ هذا النشاط؟</p>
+    <button onClick={handleSaveActivity}>نعم</button>
+    <button onClick={() => setShowConfirmModal(false)}>إلغاء</button>
+  </div>
+)}
+
   </div>
 ) : (
         <>

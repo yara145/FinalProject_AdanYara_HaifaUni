@@ -1,17 +1,15 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../Teacher/ActivitySelection.css';
-import wordShuffleImage from '../../assets/images/letter-arrange.png';
-import wordImageMatchImage from '../../assets/images/word-image-match.png'; // Add an image for this new activity type
-import backButtonImage from '../../assets/images/back.png'; // Back button image
-import exitButtonImage from '../../assets/images/exit.png'; // Exit button image
+import cardLetterImage from '../../assets/images/letters-card.png';
+import backButtonImage from '../../assets/images/back.png';  // Back button image
+import exitButtonImage from '../../assets/images/exit.png';  // Exit button image
 
 const activities = [
-  { name: 'ترتيب الحروف', type: 'word-shuffle', image: wordShuffleImage },
-  { name: 'مطابقة الكلمة بالصورة', type: 'word-image-match', image: wordImageMatchImage }, // New activity type
+  { name: ' بطاقات الحروف', type: 'CustomLettersCard', image: cardLetterImage }, // New card-letter activity
 ];
 
-const StudentIsland = () => {
+const StudentMountain = () => {
   const { studentId } = useParams(); // Retrieve studentId from URL params
   const navigate = useNavigate();
 
@@ -24,14 +22,14 @@ const StudentIsland = () => {
     }
   };
 
-  // Update the handleBackClick function to go to /home
   const handleBackClick = () => {
-    navigate('/home'); // Navigate to the home page
+    navigate('/home'); // Go back to home
   };
 
-  const handleExitClick = () => {
-    localStorage.removeItem('studentId'); // Remove saved student data
-    navigate('/'); // Redirect to home or login page
+  const handleExit = () => {
+    // Assuming you're using localStorage or similar for user authentication
+    localStorage.removeItem('studentId'); // Remove any saved data
+    navigate('/'); // Redirect to the login or home page
   };
 
   return (
@@ -42,13 +40,13 @@ const StudentIsland = () => {
           <img src={backButtonImage} alt="Back" className="button-image" />
         </button>
 
-        {/* Exit Button with Image */}
-        <button className="exit-button" onClick={handleExitClick}>
+        {/* Logout/Exit Button with Image */}
+        <button className="exit-button" onClick={handleExit}>
           <img src={exitButtonImage} alt="Exit" className="button-image" />
         </button>
       </div>
 
-      <h2>اختر نوع النشاط</h2>
+      <h2>اختر نوع النشاط في تلة الوعي الصوتي</h2>
       <div className="activities-grid">
         {activities.map((activity, index) => (
           <div
@@ -65,4 +63,4 @@ const StudentIsland = () => {
   );
 };
 
-export default StudentIsland;
+export default StudentMountain;

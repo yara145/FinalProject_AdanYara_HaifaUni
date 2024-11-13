@@ -283,13 +283,48 @@
     margin-right: 15px;
   
 }
-
+/* Confirmation Modal styling */
+.confirmation-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 1001;
+  }
+  
+  .confirmation-modal button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .confirmation-modal button:hover {
+    background-color: #2980b9;
+  }
+  
 .nav-button-image:hover {
   transform: scale(1.1);
 }
 
 /* Reuse existing styles for the container and form */
-
+.save-activity-button {
+    background-color: #004895 !important; /* Blue color */ 
+    color: white!important;
+    border: none !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+  }
 .custom-letters-card-container {
   display: flex;
   flex-direction: column;

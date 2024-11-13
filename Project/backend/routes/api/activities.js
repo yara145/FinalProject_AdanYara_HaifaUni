@@ -9,6 +9,9 @@ const CustomActivity = require('../../Models/CustomActivity'); // For custom act
 // Create an Activity
 router.post('/create-activity', async (req, res) => {
   try {
+    // Log the incoming request body
+    console.log("Received Data:", req.body);
+
     const newActivity = new Activity({
       name: req.body.name,
       type: req.body.type,
@@ -23,6 +26,7 @@ router.post('/create-activity', async (req, res) => {
     res.status(400).json({ message: 'Error creating activity', error: error.message });
   }
 });
+
 
 // Fetch all Activities
 router.get('/fetch-activities', async (req, res) => {
@@ -53,6 +57,29 @@ router.get('/activity/:id/:studentId/:level', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+router.get('/letteractivity/:id/:studentId/:level', async (req, res) => {
+  const { id: activityId, studentId, level } = req.params;
+  console.log("Route hit - activity with ID, studentId, level");
+  console.log("Activity ID:", activityId);
+  console.log("Student ID:", studentId);
+  console.log("Level:", level);
+
+  try {
+    // Fetch the activity using the activityId from the Activity collection (not student-specific)
+    const activity = await Activity.findById(activityId); // Fetch the Activity by ID from the Activity collection
+    
+    if (!activity) {
+      return res.status(404).json({ message: 'Activity not found' });
+    }
+
+    // Return the activity data along with the level
+    res.status(200).json({ ...activity.toObject(), level: parseInt(level) });
+  } catch (err) {
+    console.error('Error fetching activity:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
 
 // Fetch specific custom activity for a student
 router.get('/custom-activity/:activityId/:studentId/:level', async (req, res) => {
@@ -173,6 +200,27 @@ router.get('/fetch-custom-activities', async (req, res) => {
     res.status(200).json(customActivities);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching custom activities', error: error.message });
+  }
+});
+router.post('/create-activity-three', async (req, res) => {
+  try {
+    // Log the incoming request body
+    console.log("Received Data:", req.body);
+
+    const newActivity = new Activity({
+      name: req.body.name,
+      type: req.body.type,
+      wordsWithPhotos: req.body.wordsWithPhotos,  // Ensure the wordsWithPhotos is correctly populated
+      background: req.body.background,
+      level: req.body.level
+    });
+
+    // Save the new activity to MongoDB
+    await newActivity.save();
+
+    res.status(201).json(newActivity);  // Respond with the saved activity
+  } catch (error) {
+    res.status(400).json({ message: 'Error creating activity', error: error.message });
   }
 });
 
