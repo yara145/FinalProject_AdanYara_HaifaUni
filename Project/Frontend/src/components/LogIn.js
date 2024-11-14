@@ -23,7 +23,6 @@ const Login = () => {
 
     return () => anim.destroy();
   }, []);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -41,7 +40,7 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("An error occurred. Please try again.");
+      setError(err.response?.data?.message || "An error occurred. Please try again."); // Show the error message from backend
     }
   };
   

@@ -16,6 +16,7 @@ import TeacherPage from './Teacher/TeacherPage';
 import IdentifyImageActivity from './activity/pages/IdentifyImageActivity';
 import Shuffle from './activity/pages/WordShuffle';
 import './LetterCheck.css';
+import TeacherActivitiesPage from './Teacher/TeacherActivitiesPage';
 import LetterIdentification from './activity/pages/LetterIdentification';
 import CustomWordShuffle from './activity/pages/CustomInputWordShuffle';
 import ActivitySelection from './Teacher/ActivitySelection';
@@ -69,7 +70,7 @@ const App = () => {
           <Route path="/student/activities/:studentId/card-letter" element={<CardLetterActivity />} />
           <Route path="/student-mountain/:studentId" element={<StudentMountain />} />
           <Route path="/letteractivity/:activityId/:studentId/:level" element={<LetterCard />} />
-
+          <Route path="/teacher/activities" element={<TeacherActivitiesPage />} /> {/* Route to activities page */}
         </Routes>
       </div>
     </Router>

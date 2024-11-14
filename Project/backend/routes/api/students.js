@@ -19,26 +19,29 @@ router.post('/set-avatar', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
-// Student Login endpoint
 router.post('/student-login', async (req, res) => {
-  const { number } = req.body;
+  const { number } = req.body;  // Get the student number from the request body
+  
   try {
-    let student = await Student.findOne({ number });
+    // Check if the student exists in the database
+    const student = await Student.findOne({ number });
 
+    // If the student does not exist, return an error message
     if (!student) {
-      student = new Student({ number });
-      await student.save();
+      return res.status(404).json({ message: 'رقم الطالب غير موجود في قاعدة البيانات' });  // "Student number not found in the database"
     }
 
-    // Initialize activities for the student if needed
+    // If the student exists, initialize their activities if needed
     await initializeActivity(student);
 
     // Respond with studentId and firstLogin
-    res.json({ studentId: student._id, firstLogin: !student.avatar });
+    res.json({
+      studentId: student._id, 
+      firstLogin: !student.avatar  // Assuming firstLogin logic based on avatar
+    });
   } catch (err) {
     console.error("Error during login:", err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'حدث خطأ أثناء تسجيل الدخول، يرجى المحاولة لاحقاً' });  // "An error occurred. Please try again."
   }
 });
 

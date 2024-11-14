@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import './ProgressModal.css';  // Make sure to include the updated styles
+import './ProgressModal.css';  // Ensure the CSS file is updated
 
 const ProgressModal = ({ isOpen, onClose, activities }) => {
-  // Always call useState unconditionally before any return statement
   const [showFailedItems, setShowFailedItems] = useState({});
 
   // Early return if the modal is closed
@@ -38,7 +37,8 @@ const ProgressModal = ({ isOpen, onClose, activities }) => {
                 {groupedActivities[type].map((activity, index) => (
                   <div key={index} className="activity-card">
                     <div className="activity-header">
-                      <img src={activity.image} alt={activity.name} className="activity-image" />
+                      {/* Only show image if available */}
+                      {activity.image && <img src={activity.image} alt={activity.name} className="activity-image" />}
                       <div className="activity-info">
                         <h4>{activity.name}</h4>
                         <div><strong>النوع:</strong> {type === 'word-shuffle' ? 'ترتيب الحروف' : 'مطابقة الكلمة بالصورة'}</div>
@@ -47,7 +47,11 @@ const ProgressModal = ({ isOpen, onClose, activities }) => {
                     </div>
 
                     <div className="activity-status">
-                      <div><strong>الدرجة:</strong> {activity.score}/{activity.level}</div>
+                      {/* Show the score only if the activity failed */}
+                      {activity.failed && (
+                        <div><strong>الدرجة:</strong> {activity.score}/{activity.level}</div>
+                      )}
+                      {/* Display status: Played or Not Played */}
                       <div className={`status ${activity.played ? (activity.completed ? 'completed' : 'failed') : 'not-played'}`}>
                         {activity.played 
                           ? (activity.completed ? '✔ تم اللعب - مكتمل' : '✘ فشل')
@@ -56,7 +60,7 @@ const ProgressModal = ({ isOpen, onClose, activities }) => {
                     </div>
 
                     {/* Show failed items */}
-                    {activity.failedItems.length > 0 && (
+                    {activity.failedItems && activity.failedItems.length > 0 && (
                       <div className="failed-items">
                         <button className="show-failures" onClick={() => toggleFailedItems(index)}>
                           {showFailedItems[index] ? 'إخفاء الأخطاء' : 'عرض الأخطاء'}
@@ -65,8 +69,9 @@ const ProgressModal = ({ isOpen, onClose, activities }) => {
                           <div className="failed-items-list">
                             {activity.failedItems.map((item, idx) => (
                               <div key={idx} className="failed-item">
-                                <strong>الكلمة:</strong> {item.word}, <strong>الصورة:</strong>
-                                <img src={item.image} alt={item.word} className="failed-item-image" />
+                                <strong>الكلمة:</strong> {item.word}, <strong>:</strong>
+                                {/* Only display image if available */}
+                                {item.image && <img src={item.image} alt={item.word} className="failed-item-image" />}
                               </div>
                             ))}
                           </div>
@@ -78,6 +83,16 @@ const ProgressModal = ({ isOpen, onClose, activities }) => {
               </div>
             </div>
           ))}
+          
+          {/* Display a message if no activity was played */}
+          {groupedActivities && Object.values(groupedActivities).flat().every(activity => !activity.played) && (
+            <p>لم يتم لعب أي نشاط من الأنشطة</p>
+          )}
+
+          {/* Display a message if no activity was not played */}
+          {groupedActivities && Object.values(groupedActivities).flat().every(activity => activity.played) && (
+            <p>جميع الأنشطة قد تم لعبها</p>
+          )}
         </div>
       </div>
     </div>

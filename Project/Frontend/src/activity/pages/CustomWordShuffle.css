@@ -21,6 +21,8 @@
   max-width: 600px;
   width: 100%;
   margin: auto;
+  overflow-y: auto;
+  max-height: 500px;  /* You can adjust this value */
 }
 
 .custom-word-input-form h2 {
@@ -402,6 +404,15 @@ border: none !important;
 border-radius: 5px !important;
 cursor: pointer !important;
 transition: background-color 0.3s !important;
+}
+/* Image Preview Styling */
+.image-thumbnail {
+  max-width: 100px; 
+  max-height: 100px; 
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
 }
 
 

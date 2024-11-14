@@ -223,5 +223,30 @@ router.post('/create-activity-three', async (req, res) => {
     res.status(400).json({ message: 'Error creating activity', error: error.message });
   }
 });
+router.put('/api/activities/:activityId', async (req, res) => {
+  const { activityId } = req.params;
+  const { level, wordsWithPhotos } = req.body;  // You can also include words with photos if needed
+
+  try {
+    // Find the activity by its ID and update the level (and optionally wordsWithPhotos)
+    const updatedActivity = await Activity.findByIdAndUpdate(
+      activityId,
+      {
+        $set: { level, wordsWithPhotos },  // Set the level and wordsWithPhotos if they are provided
+      },
+      { new: true }  // Return the updated document
+    );
+
+    if (!updatedActivity) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+
+    // Return the updated activity
+    res.status(200).json(updatedActivity);
+  } catch (error) {
+    console.error('Error updating activity:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 module.exports = router;

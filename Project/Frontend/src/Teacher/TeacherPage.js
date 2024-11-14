@@ -99,12 +99,17 @@ const TeacherPage = () => {
     }
   };
 
+  const handleManageActivities = () => {
+    navigate('/teacher/activities');  // Navigate to the TeacherActivitiesPage
+  };
+
   return (
     <div className="teacher-page">
       <header className="teacher-header">
         <img src={logo} alt="Logo" className="teacher-logo" />
         <nav className="teacher-nav">
-          <button className="nav-button" onClick={handleEditExerciseClick}>تعديل التمارين</button>
+          
+          <button className="nav-button" onClick={handleManageActivities}>إدارة الأنشطة</button> {/* New button */}
           <button className="nav-button create-activity-button" onClick={handleCreateActivityClick}>إنشاء نشاط</button>
           <button className="nav-button btn" onClick={() => navigate('/')}>خروج</button>
         </nav>

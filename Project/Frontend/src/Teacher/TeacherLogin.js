@@ -13,8 +13,8 @@ const TeacherLogin = () => {
         e.preventDefault();
 
         // Hard-coded teacher credentials
-        const teacherUsername = 'teacher';
-        const teacherPassword = 'password123';
+        const teacherUsername = 'adan';
+        const teacherPassword = 'adan2000';
 
         if (username === teacherUsername && password === teacherPassword) {
             navigate('/teacher'); // Navigate to the teacher's home page

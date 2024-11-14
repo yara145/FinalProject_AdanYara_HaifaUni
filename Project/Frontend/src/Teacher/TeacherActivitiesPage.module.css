@@ -1,0 +1,212 @@
+/* TeacherActivitiesPage.module.css */
+
+.activities-page {
+  background-color: #f0f8ff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 100vh; /* Allow the page to scroll */
+  overflow-y: auto;
+}
+
+/* Header section */
+.activities-header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Align the logo to the left, buttons to the right */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f0f8ff; /* Match the background color of the page */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.activities-logo {
+  width: 120px;
+  margin-bottom: 10px;
+  margin-left: auto; /* Push logo to the right extreme */
+}
+
+.activities-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.nav-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 40px; /* Add margin to push the button more to the right */
+}
+
+.nav-button:hover {
+  background-color: #45a049;
+}
+
+/* Main content area */
+.activities-main {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.activities-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.activities-section {
+  margin-top: 20px;
+}
+
+/* Activities list */
+.activities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  max-height: 500px; /* Set max height for the list */
+  overflow-y: auto;  /* Allow scrolling if content overflows */
+}
+
+.activity-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(33% - 20px); /* 3 cards per row */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.activity-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.activity-card h4 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.activity-card p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Input fields */
+input[type="number"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 50px;
+  margin-right: 10px;
+}
+
+/* Update level button */
+.update-level-button {
+  background-color: #37c42a;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-level-button:hover {
+  background-color: #2c9d22;
+}
+
+/* Edit button */
+.edit-button {
+  background-color: #ff9800;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #f57c00;
+}
+
+/* Scrollbar style */
+.activities-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.activities-list::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 10px;
+}
+
+.activities-list::-webkit-scrollbar-thumb:hover {
+  background-color: #ccc;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .activities-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .activity-card {
+    width: 90%; /* Full width on smaller screens */
+  }
+
+  .nav-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-right: 400px;
+  }
+}
+/* TeacherActivitiesPage.module.css */
+
+.edit-input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.edit-feedback {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.save-edit-button,
+.cancel-edit-button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-edit-button:hover,
+.cancel-edit-button:hover {
+  background-color: #45a049;
+}
