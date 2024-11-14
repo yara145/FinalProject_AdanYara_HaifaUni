@@ -15,7 +15,16 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
     background: #c8e6c9; /* Slightly darker green on hover */
 }
-
+.savebtn{
+    
+    background-color: #004895 !important; /* Blue color */ 
+    color: white!important;
+    border: none !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+  }
 .sound-pair-matching-game .game-container .word-box.matched {
     background: #d9f5ff; /* Light blue to signify a match */
     border: 2px solid #03a9f4; /* Blue border */

@@ -27,7 +27,7 @@ import WordImageMatch from './user/pages/WordImageMatch';
 import CustomWordImageMatch from './activity/pages/CustomWordImageMatch';
 import CustomLettersCard from './activity/pages/CustomLettersCard';
 import ReversedWordImageMatch from './activity/pages/ReversedWordImageMatch';
-import PhonemeMatchingGame from './activity/pages/PhonemeMatchingGame';
+import PhonemeMatchingGame from './activity/pages/PhotoWordDragMatch';
 import SoundPairMatchingGame from './activity/pages/SoundPairMatchingGame';
 import StudentMountain from './user/pages/StudentMountain';
 import CardLetterActivity from './activity/pages/CustomLettersCard'; // Import CardLetterActivity
@@ -62,7 +62,7 @@ const App = () => {
           <Route path="/custom-word-image-match" element={<CustomWordImageMatch />} />
           <Route path="/custom-letters-card" element={<CustomLettersCard />} />
           <Route path="/reversed-word-image-match" element={<ReversedWordImageMatch />} />
-          <Route path="/phoneme-matching-game" element={<PhonemeMatchingGame />} />
+          <Route path="/photo-word-drag-game" element={<PhonemeMatchingGame />} />
           <Route path="/sound-pair-matching-game" element={<SoundPairMatchingGame />} />
           <Route path="/custom-activity/:activityId/:studentId/:level" element={<WordImageMatch />} />
           <Route path="/teacher" element={<TeacherPage />} />

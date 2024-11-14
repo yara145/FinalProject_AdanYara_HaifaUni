@@ -224,7 +224,7 @@ return (
                         <div className="button-group">
                             <button className="custom-add-word-button" onClick={handleAddPair}>+ إضافة زوج</button>
                             <button className="custom-background-button" onClick={() => setIsBgModalOpen(true)}>اختر خلفية</button>
-                        </div>
+                        
                         <BackgroundModal isOpen={isBgModalOpen} onClose={() => setIsBgModalOpen(false)}>
                             <CreateActivityForm onBackgroundSelect={handleBackgroundSelect} />
                         </BackgroundModal>
@@ -235,6 +235,8 @@ return (
                             </div>
                         )}
                         <button className="start-game-button" onClick={handleStartGame}>بدء اللعبة</button>
+                        <button className="start-game-button savebtn" >حفظ النشاط</button>
+                        </div>
                     </div>
                 </div>
             )}

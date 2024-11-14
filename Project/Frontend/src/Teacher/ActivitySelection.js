@@ -14,7 +14,7 @@ const activities = [
   { name: 'مطابقة الصورة بالكلمة', image: wordImageMatch, route: '/custom-word-image-match' },
   { name: 'مطابقة الحروف', image: lettersCardImage, route: '/custom-letters-card' },
   { name: 'مطابقة الكلمة المعكوسة بالصورة', image: reversedWordImageMatch, route: '/reversed-word-image-match' },
-  { name: 'مطابقة الأصوات', image: phonemeMatchingImage, route: '/phoneme-matching-game' },
+  { name: 'مطابقة الأصوات', image: phonemeMatchingImage, route: '/photo-word-drag-game' },
   { name: 'مطابقة الصوت', image: soundPairMatchingImage, route: '/sound-pair-matching-game' },
 ];
 

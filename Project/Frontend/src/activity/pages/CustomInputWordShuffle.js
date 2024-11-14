@@ -281,15 +281,18 @@ const CustomWordShuffle = () => {
             <BackgroundModal isOpen={isBgModalOpen} onClose={handleCloseBgModal}>
               <CreateActivityForm onBackgroundSelect={handleBackgroundSelect} />
             </BackgroundModal>
-          </div>
+         
           {selectedBackground && (
             <div className="selected-background-preview">
               <h4>الخلفية المختارة:</h4>
               <img src={selectedBackground} alt="Selected Background" />
             </div>
           )}
-          <button className="start-game-button" onClick={handleCreateActivity}>حفظ النشاط</button>
-          <button className="start-game-button" onClick={handleStartGame}>بدء اللعبة</button>
+          <button className="" onClick={handleStartGame}>بدء اللعبة</button>
+          <button className="savebtn" onClick={handleCreateActivity}>حفظ النشاط</button>
+     
+          </div>
+          
         </div>
       ) : isLoading ? (
         <div className="custom-word-shuffle-loading-container">

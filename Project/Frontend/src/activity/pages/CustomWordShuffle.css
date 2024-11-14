@@ -485,3 +485,13 @@ margin-top: 10px; /* Space between action buttons and the start button */
 .activity-name-input:focus {
   border-color: #3498db;
 }
+.savebtn{
+    
+  background-color: #004895 !important; /* Blue color */ 
+  color: white!important;
+  border: none !important;
+  padding: 10px !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}

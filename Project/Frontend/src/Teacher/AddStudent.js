@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './AddStudent.css';
 
 const learningDifficulties = [
-  'الوعي الصوتي ومعرفة صوت الحرف',
+  'قراءة مقاطع ',
   'قراءة مقاطع وكلمات',
-  'فهم مقروء وفهم مسموع'
+  'فهم مقروء'
 ];
 
 const AddStudent = ({ onAddStudent }) => {

@@ -14,8 +14,43 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 100; /* Ensure it stays above other content */
   }
-  
+  .savebtn{
+    
+    background-color: #004895 !important; /* Blue color */ 
+    color: white!important;
+    border: none !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+  }
 
+/* Image Upload Section */
+.image-uploads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  /* Upload Button Container */
+  .upload-container {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .upload-label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #495057;
+  }
+  
+  .upload-input {
+    cursor: pointer;
+  }
+  
 
 /* Main Container Styling */
 .reversed-word-image-match {

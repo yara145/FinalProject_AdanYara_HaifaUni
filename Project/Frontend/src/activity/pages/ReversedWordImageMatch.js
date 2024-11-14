@@ -330,11 +330,12 @@ const shuffleArray = (array) => {
               ✖
             </button>
           </div>
-          <label className="reversed-upload-label">{`صورة ${index + 1}`}</label>
+          <label className="reversed-upload-label ">{`صورة ${index + 1}`}</label>
           <input
             type="file"
             onChange={(e) => handleImageUpload(index, e)}
-            className="reversed-upload-input"
+            className="reversed-upload-input image-uploads"
+           
           />
           <div className="reversed-answers-container">
             <div className="reversed-answer-grid">
@@ -373,10 +374,12 @@ const shuffleArray = (array) => {
           >
             اختر خلفية
           </button>
-        </div>
-        <button className="start-game-button" onClick={handleStartGame}>
+        
+        <button onClick={handleStartGame}>
           ابدأ اللعبة
         </button>
+        <button className="savebtn">احفظ اللعبة</button>
+        </div>
       </div>
       <BackgroundModal isOpen={isBgModalOpen} onClose={() => setIsBgModalOpen(false)}>
         <CreateActivityForm onBackgroundSelect={handleBackgroundSelect} />
